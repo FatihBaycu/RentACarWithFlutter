@@ -1,0 +1,418 @@
+{
+    "colors": [
+        {
+            "colorId": 1,
+            "colorName": "Kırmızı",
+            "colorCode": "#FF0000"
+        },
+        {
+            "colorId": 2,
+            "colorName": "Beyaz",
+            "colorCode": "#FFFFFF"
+        },
+        {
+            "colorId": 3,
+            "colorName": "Siyah",
+            "colorCode": "#000000"
+        },
+        {
+            "colorId": 5,
+            "colorName": "Gri",
+            "colorCode": "#808080"
+        },
+        {
+            "colorId": 6,
+            "colorName": "Yeşil",
+            "colorCode": "#008000"
+        },
+        {
+            "colorId": 10,
+            "colorName": "Mavi",
+            "colorCode": "#0000ff"
+        },
+        {
+            "colorId": 11,
+            "colorName": "Turuncu",
+            "colorCode": "#FF7F00"
+        }
+    ],
+    "brands": [
+        {
+            "brandId": 1,
+            "brandName": "Audi"
+        },
+        {
+            "brandId": 2,
+            "brandName": "Wolksvagen"
+        },
+        {
+            "brandId": 3,
+            "brandName": "Renault"
+        },
+        {
+            "brandId": 4,
+            "brandName": "Kia"
+        },
+        {
+            "brandId": 5,
+            "brandName": "Ford"
+        },
+        {
+            "brandId": 7,
+            "brandName": "Tesla"
+        },
+        {
+            "brandId": 8,
+            "brandName": "Seat"
+        },
+        {
+            "brandId": 9,
+            "brandName": "Honda"
+        },
+        {
+            "brandId": 10,
+            "brandName": "Fiat"
+        }
+    ],
+    "customers": [
+        {
+            "customerId": 1,
+            "userId": 10,
+            "companyName": "Tüzel Kişi",
+            "customerFindexPoint": 10
+        },
+        {
+            "customerId": 2,
+            "userId": 11,
+            "companyName": "Tüzel Kişi",
+            "customerFindexPoint": 1313
+        },
+        {
+            "customerId": 3,
+            "userId": 14,
+            "companyName": "Tüzel Kişi",
+            "customerFindexPoint": 1795
+        },
+        {
+            "customerId": 4,
+            "userId": 15,
+            "companyName": "Tüzel Kişi",
+            "customerFindexPoint": 50
+        }
+    ],
+    "carDetails": [
+        {
+            "description": "Sedan",
+            "carId": 4,
+            "carName": "A8",
+            "brandName": "Audi",
+            "modelYear": 2021,
+            "colorName": "Kırmızı",
+            "dailyPrice": 500,
+            "imagePath": "Uploads/Images/CarImages/audiA8Kirmizi.jpg",
+            "brandId": 1,
+            "colorId": 1,
+            "carFindexPoint": 10
+        },
+        {
+            "description": "Sedan",
+            "carId": 5,
+            "carName": "Passat",
+            "brandName": "Wolksvagen",
+            "modelYear": 2019,
+            "colorName": "Beyaz",
+            "dailyPrice": 120,
+            "imagePath": "Uploads/Images/CarImages/passatBeyaz.jpg",
+            "brandId": 2,
+            "colorId": 2,
+            "carFindexPoint": 20
+        },
+        {
+            "description": "Hatchback",
+            "carId": 6,
+            "carName": "Clio",
+            "brandName": "Renault",
+            "modelYear": 2021,
+            "colorName": "Siyah",
+            "dailyPrice": 130,
+            "imagePath": "Uploads/Images/CarImages/clioSiyah.png",
+            "brandId": 3,
+            "colorId": 3,
+            "carFindexPoint": 0
+        },
+        {
+            "description": "Suv",
+            "carId": 8,
+            "carName": "Sportage",
+            "brandName": "Kia",
+            "modelYear": 2019,
+            "colorName": "Gri",
+            "dailyPrice": 205,
+            "imagePath": "Uploads/Images/CarImages/kiaGri.jpg",
+            "brandId": 4,
+            "colorId": 5,
+            "carFindexPoint": 50
+        },
+        {
+            "description": "Sedan",
+            "carId": 11,
+            "carName": "Jetta",
+            "brandName": "Wolksvagen",
+            "modelYear": 2019,
+            "colorName": "Yeşil",
+            "dailyPrice": 300,
+            "imagePath": "Uploads/Images/CarImages/jettaYesil.jpg",
+            "brandId": 2,
+            "colorId": 6,
+            "carFindexPoint": 60
+        },
+        {
+            "description": "Sedan",
+            "carId": 12,
+            "carName": "Egea",
+            "brandName": "Fiat",
+            "modelYear": 2021,
+            "colorName": "Kırmızı",
+            "dailyPrice": 300,
+            "imagePath": "Uploads/Images/CarImages/egeaKirmizi.jpg",
+            "brandId": 10,
+            "colorId": 1,
+            "carFindexPoint": 70
+        },
+        {
+            "description": "Sedan Araç",
+            "carId": 14,
+            "carName": "Egea",
+            "brandName": "Fiat",
+            "modelYear": 2019,
+            "colorName": "Beyaz",
+            "dailyPrice": 120,
+            "imagePath": "Uploads/Images/CarImages/egeaBeyaz.jpg",
+            "brandId": 10,
+            "colorId": 2,
+            "carFindexPoint": 80
+        },
+        {
+            "description": "Spor-Sedan",
+            "carId": 15,
+            "carName": "Mustang",
+            "brandName": "Ford",
+            "modelYear": 2020,
+            "colorName": "Siyah",
+            "dailyPrice": 450,
+            "imagePath": "Uploads/Images/CarImages/mustangSiyah.jpg",
+            "brandId": 5,
+            "colorId": 3,
+            "carFindexPoint": 90
+        },
+        {
+            "description": "Sedan",
+            "carId": 17,
+            "carName": "A3",
+            "brandName": "Audi",
+            "modelYear": 1,
+            "colorName": "Kırmızı",
+            "dailyPrice": 200,
+            "imagePath": "Uploads/Images/CarImages/audiA3Kirmizi.jpg",
+            "brandId": 1,
+            "colorId": 1,
+            "carFindexPoint": 110
+        },
+        {
+            "description": "Sedan",
+            "carId": 18,
+            "carName": "A7",
+            "brandName": "Audi",
+            "modelYear": 2021,
+            "colorName": "Kırmızı",
+            "dailyPrice": 100,
+            "imagePath": "Uploads/Images/CarImages/defaultImage.png",
+            "brandId": 1,
+            "colorId": 1,
+            "carFindexPoint": 100
+        },
+        {
+            "description": "Sedan",
+            "carId": 19,
+            "carName": "a1",
+            "brandName": "Audi",
+            "modelYear": 2012,
+            "colorName": "Kırmızı",
+            "dailyPrice": 100,
+            "imagePath": "Uploads/Images/CarImages/defaultImage.png",
+            "brandId": 1,
+            "colorId": 1,
+            "carFindexPoint": 200
+        },
+        {
+            "description": "Sedan",
+            "carId": 20,
+            "carName": "saa",
+            "brandName": "Wolksvagen",
+            "modelYear": 2021,
+            "colorName": "Beyaz",
+            "dailyPrice": 100,
+            "imagePath": "Uploads/Images/CarImages/defaultImage.png",
+            "brandId": 2,
+            "colorId": 2,
+            "carFindexPoint": 100
+        },
+        {
+            "description": "AAa",
+            "carId": 21,
+            "carName": "AA",
+            "brandName": "Audi",
+            "modelYear": 2021,
+            "colorName": "Kırmızı",
+            "dailyPrice": 100,
+            "imagePath": "Uploads/Images/CarImages/defaultImage.png",
+            "brandId": 1,
+            "colorId": 1,
+            "carFindexPoint": 100
+        }
+    ],
+    
+
+        "cars":[
+        {
+        "id": 5,
+        "brandId": 2,
+        "colorId": 2,
+        "carName": "Passat",
+        "modelYear": 2019,
+        "dailyPrice": 120,
+        "description": "Sedan",
+        "carFindexPoint": 20
+        },
+        {
+        "id": 6,
+        "brandId": 3,
+        "colorId": 3,
+        "carName": "Clio",
+        "modelYear": 2021,
+        "dailyPrice": 130,
+        "description": "Hatchback",
+        "carFindexPoint": 0
+        },
+        {
+        "id": 7,
+        "brandId": 4,
+        "colorId": 4,
+        "carName": "Sportage",
+        "modelYear": 2019,
+        "dailyPrice": 115,
+        "description": "Suv",
+        "carFindexPoint": 40
+        },
+        {
+        "id": 8,
+        "brandId": 4,
+        "colorId": 5,
+        "carName": "Sportage",
+        "modelYear": 2019,
+        "dailyPrice": 205,
+        "description": "Suv",
+        "carFindexPoint": 50
+        },
+        {
+        "id": 11,
+        "brandId": 2,
+        "colorId": 6,
+        "carName": "Jetta",
+        "modelYear": 2019,
+        "dailyPrice": 300,
+        "description": "Sedan",
+        "carFindexPoint": 60
+        },
+        {
+        "id": 12,
+        "brandId": 10,
+        "colorId": 1,
+        "carName": "Egea",
+        "modelYear": 2021,
+        "dailyPrice": 300,
+        "description": "Sedan",
+        "carFindexPoint": 70
+        },
+        {
+        "id": 14,
+        "brandId": 10,
+        "colorId": 2,
+        "carName": "Egea",
+        "modelYear": 2019,
+        "dailyPrice": 120,
+        "description": "Sedan Araç",
+        "carFindexPoint": 80
+        },
+        {
+        "id": 15,
+        "brandId": 5,
+        "colorId": 3,
+        "carName": "Mustang",
+        "modelYear": 2020,
+        "dailyPrice": 450,
+        "description": "Spor-Sedan",
+        "carFindexPoint": 90
+        },
+        {
+        "id": 16,
+        "brandId": 8,
+        "colorId": 8,
+        "carName": "A5",
+        "modelYear": 2021,
+        "dailyPrice": 200,
+        "description": "Spor-Sedan",
+        "carFindexPoint": 100
+        },
+        {
+        "id": 17,
+        "brandId": 1,
+        "colorId": 1,
+        "carName": "A3",
+        "modelYear": 1,
+        "dailyPrice": 200,
+        "description": "Sedan",
+        "carFindexPoint": 110
+        },
+        {
+        "id": 18,
+        "brandId": 1,
+        "colorId": 1,
+        "carName": "A7",
+        "modelYear": 2021,
+        "dailyPrice": 100,
+        "description": "Sedan",
+        "carFindexPoint": 100
+        },
+        {
+        "id": 19,
+        "brandId": 1,
+        "colorId": 1,
+        "carName": "a1",
+        "modelYear": 2012,
+        "dailyPrice": 100,
+        "description": "Sedan",
+        "carFindexPoint": 200
+        },
+        {
+        "id": 20,
+        "brandId": 2,
+        "colorId": 2,
+        "carName": "saa",
+        "modelYear": 2021,
+        "dailyPrice": 100,
+        "description": "Sedan",
+        "carFindexPoint": 100
+        },
+        {
+        "id": 21,
+        "brandId": 1,
+        "colorId": 1,
+        "carName": "AA",
+        "modelYear": 2021,
+        "dailyPrice": 100,
+        "description": "AAa",
+        "carFindexPoint": 100
+        }
+        ]
+}
