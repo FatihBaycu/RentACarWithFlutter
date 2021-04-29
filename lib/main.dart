@@ -107,9 +107,9 @@ class _ApiDemoState extends State<ApiDemo> {
   void getCarDetailsFromApi() {
     CarService.getCarDetails().then((response) {
       setState(() {
-        Iterable list = json.decode(response.body)['data'];
-        print(response.body);
-        this.carDetails = list.map((carDetail) => CarDetails.fromJson(carDetail)).toList();
+        Iterable list = json.decode(response.body)["data"];
+        print(list);
+       this.carDetails = list.map((carDetail) => CarDetails.fromJson(carDetail)).toList();
       });
     });
   }
@@ -124,10 +124,9 @@ Widget buildCard(){
     child: Card(
       child: Column(
         children: [
-          Image.network(
-            "https://www.ford.com.tr/getmedia/fa7efa78-8944-4ce6-8e35-ae765b27663a/yeni-ford-mondeo.png?width=295"
-              ,width:250
-              ,height: 250,
+          Image.network("https://10.0.2.2:5001/"+
+            carDetails[index].imagePath
+          
               ),
           ListTile(
             title: Text(carDetails[index].carName, style: TextStyle(fontWeight: FontWeight.w500)),
