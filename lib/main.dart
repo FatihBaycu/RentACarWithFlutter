@@ -130,7 +130,7 @@ class _ApiDemoState extends State<ApiDemo> {
                     title: Text(carDetails[index].modelYear.toString()),
                     leading: Icon(Icons.date_range, color:Colors.blue,),
                     trailing: TextButton(
-                      child: Text("Detay"),
+                      child: Text("Detail"),
                       onPressed: (){
                     Navigator.push(
                       context,
