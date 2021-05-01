@@ -4,8 +4,9 @@ A new Flutter application.
     Frontend Side of project Rent a Car on Flutter
 
 
-![image1](https://github.com/FatihBaycu/RentACarWithFlutter/blob/main/scrennshots/work4.PNG)
-![image2](https://github.com/FatihBaycu/RentACarWithFlutter/blob/main/scrennshots/work5.PNG)
+![image1](https://github.com/FatihBaycu/RentACarWithFlutter/blob/main/scrennshots/s1.PNG)
+![image2](https://github.com/FatihBaycu/RentACarWithFlutter/blob/main/scrennshots/s2.PNG)
+![image3](https://github.com/FatihBaycu/RentACarWithFlutter/blob/main/scrennshots/s3.PNG)
 
 
 ## Getting Started
