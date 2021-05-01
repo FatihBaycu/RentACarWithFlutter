@@ -39,6 +39,8 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
       @override
       Widget build(BuildContext context) {
         return MaterialApp(
+                  debugShowCheckedModeBanner: false,
+
           home: Scaffold(
             appBar: AppBar(title: Text("Araba detay"),),
             body:buildBody(),
@@ -61,7 +63,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
               children: [
                 Expanded(
                    child: SizedBox(
-                    height: 250,width: double.infinity,
+                    height: 350,width: double.infinity,
                     child: Carousel(
                       dotSize: 4,
                       dotSpacing: 25,
@@ -96,6 +98,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
       //             ),
               
     Widget buildCardView() {
+      double fontSize=20;
     return  ListView.builder(
       itemCount: 1,
     itemBuilder: (BuildContext context,index) {
@@ -103,37 +106,38 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
         child:Column(children: [
 
           ListTile(
-          leading: Icon(Icons.branding_watermark,color: Colors.blue,),
+          leading: Icon(Icons.branding_watermark_sharp,color: Colors.blue,),
           title: Text('Brand Name'),
-          trailing: Text(selectedCar.brandName),
-
+          trailing: Text(selectedCar.brandName,style:TextStyle(fontSize: fontSize,fontWeight: FontWeight.bold)),
         ),
 
         ListTile(
           leading: Icon(Icons.car_repair,color: Colors.blue,),
           title: Text('Model Name'),
-          trailing: Text(selectedCar.carName)),
-
+          trailing: Text(selectedCar.carName,style:TextStyle(fontSize: fontSize,fontWeight: FontWeight.bold)),
+          ),
+        
           ListTile(
           leading: Icon(Icons.card_giftcard,color: Colors.blue,),
           title: Text('Type'),
-          trailing: Text(selectedCar.description),
-        ),
+          trailing: Text(selectedCar.description,style:TextStyle(fontSize: fontSize,fontWeight: FontWeight.bold)),
+          ),
+      
         
         ListTile(
           leading: Icon(Icons.date_range,color: Colors.blue,),
           title: Text('Daily Price'),
-          trailing: Text(selectedCar.dailyPrice.toString()+r""" $"""),
+          trailing: Text(selectedCar.dailyPrice.toString()+r""" $""",style:TextStyle(fontSize: fontSize,fontWeight: FontWeight.bold)),
         ),
         ListTile(
           leading: Icon(Icons.color_lens,color: Colors.blue,),
           title: Text('Color'),
-          trailing: Text(selectedCar.colorName),
+          trailing: Text(selectedCar.colorName,style:TextStyle(fontSize: fontSize,fontWeight: FontWeight.bold)),
         ),
          ListTile(
-          leading: Icon(Icons.date_range,color: Colors.blue,),
+          leading: Icon(Icons.point_of_sale_sharp,color: Colors.blue,),
           title: Text('Findex Point'),
-          trailing: Text(selectedCar.carFindexPoint.toString()),
+          trailing: Text(selectedCar.carFindexPoint.toString(),style:TextStyle(fontSize: fontSize,fontWeight: FontWeight.bold)),
         ),
 
         ],),
