@@ -27,7 +27,7 @@ class CarDetails {
       );
 
      CarDetails.fromJson(Map json){
-      this.carId=json["id"];
+      this.carId=int.tryParse(json["carId"].toString());
       this.brandId=json["brandId"];
       this.colorId=json["colorId"];
       this.colorName=json["colorName"];

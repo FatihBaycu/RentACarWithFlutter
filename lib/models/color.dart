@@ -1,14 +1,14 @@
-class User{
+class Color{
   int colorId;
   String colorName;
   String colorCode;
 
-    User(this.colorId,this.colorName,this.colorCode);
+    Color(this.colorId,this.colorName,this.colorCode);
     
-    User.fromJson(Map json){
+    Color.fromJson(Map json){
       this.colorId=json["colorId"];
       this.colorName=json["colorName"];
-      this.colorCode=json["last_name"];
+      this.colorCode=json["colorCode"];
     }
 
     Map toJson(){

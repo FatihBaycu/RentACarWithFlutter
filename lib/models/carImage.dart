@@ -2,7 +2,7 @@ class CarImage{
   int id;
   int carId;
   String imagePath;
-  DateTime date;
+  String date;
 
     CarImage(this.id,this.carId,this.imagePath,this.date);
 
