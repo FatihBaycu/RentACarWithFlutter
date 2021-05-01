@@ -1,16 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_http_demo2/models/brand.dart';
 import 'package:flutter_http_demo2/models/car.dart';
 import 'package:flutter_http_demo2/models/carDetails.dart';
 import 'package:flutter_http_demo2/models/user.dart';
 import 'package:flutter_http_demo2/models/color.dart';
 import 'package:flutter_http_demo2/screens/car_detail.dart';
+import 'package:flutter_http_demo2/services/brand_service.dart';
 import 'package:flutter_http_demo2/services/car_service.dart';
 import 'package:flutter_http_demo2/services/color_service.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -39,18 +38,19 @@ class _ApiDemoState extends State<ApiDemo> {
   var carDetails = <CarDetails>[];
   var userWidget = <Widget>[];
   var colors = <Color>[];
-
-
-
+  var brands = <Brand>[];
+  var _myBrandSelection;
+  var _myColorSelection;
 
   @override
   void initState() {
-    //getColorsFromApi();
+    getColorsFromApi();
+    getBrandsFromApi();
     getCarDetailsFromApi();
     super.initState();
   }
 
-      @override
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -61,28 +61,131 @@ class _ApiDemoState extends State<ApiDemo> {
   }
 
   Widget buildBody() {
-    return buildCard();
+    return Column(
+      children: [
+        SizedBox(
+            width: double.infinity,
+            height: 100,
+            child: Row(
+              children: [
+                Expanded(child: buildColorsDropdownList()),
+                Expanded(child: buildBrandsDropdownList()),
+                Expanded(
+                    child: IconButton(
+                  icon: Icon(Icons.search_sharp,color:Colors.blue),
+                  onPressed: () {
+                    setState(() {
+                      if (_myBrandSelection != null &&
+                          _myColorSelection != null) {
+                        getCarsByBrandAndColorId(
+                            int.tryParse(this._myBrandSelection),
+                            int.tryParse(this._myColorSelection));
+                      } else if (_myBrandSelection != null &&
+                          _myColorSelection == null) {
+                        getCarsByBrandId(int.tryParse(this._myBrandSelection));
+                      } else {
+                        getCarsByColorId(int.tryParse(this._myColorSelection));
+                      }
+                    });
+                  },
+                )),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Expanded(
+                      child: IconButton(
+                    icon: Icon(Icons.delete,color: Colors.red,),
+                    onPressed: () {
+                      setState(() {
+                        _myBrandSelection=null;
+                        _myColorSelection=null;
+
+                      getCarDetailsFromApi();
+                      });
+                    },
+                  )),
+                ),
+              ],
+            )),
+        Expanded(child: buildCard()),
+      ],
+    );
   }
 
+  buildColorsDropdownList() {
+    return new Center(
+      child: new DropdownButton(
+        items: colors.map((item) {
+          return new DropdownMenuItem(
+            child: new Text(item.colorName),
+            value: item.colorId.toString(),
+          );
+        }).toList(),
+        onChanged: (newVal) {
+          setState(() {
+            _myColorSelection = newVal;
+            //getCarsByColorId(int.tryParse(newVal));
+          });
+        },
+        value: _myColorSelection,
+      ),
+    );
+  }
 
-  //     Widget buildCarDetailsListWidget() {
-  //   return ListView.builder(
-  //       itemCount: carDetails.length,
-  //       itemBuilder: (BuildContext context, index) {
-  //         return ListTile(
-  //           title:    Text(carDetails[index].description),
-  //           subtitle: Text(carDetails[index].carName),
-  //           leading:  Text("car"),
-  //           trailing:  Text(carDetails[index].colorName),
-  //         );
-  //       });
-  // }
+  buildBrandsDropdownList() {
+    return new Center(
+      child: new DropdownButton(
+        items: brands.map((item) {
+          return new DropdownMenuItem(
+            child: new Text(item.brandName),
+            value: item.brandId.toString(),
+          );
+        }).toList(),
+        onChanged: (newVal) {
+          setState(() {
+            _myBrandSelection = newVal;
+            //getCarsByBrandId(int.tryParse(newVal));
+          });
+        },
+        value: _myBrandSelection,
+      ),
+    );
+  }
+
+  void getCarsByColorId(int colorId) {
+    CarService.getCarDetailsByColorId(colorId).then((response) {
+      setState(() {
+        Iterable list = json.decode(response.body)["data"];
+        this.carDetails =
+            list.map((carDetail) => CarDetails.fromJson(carDetail)).toList();
+      });
+    });
+  }
+
+  void getCarsByBrandId(int brandId) {
+    CarService.getCarDetailsByBrandId(brandId).then((response) {
+      setState(() {
+        Iterable list = json.decode(response.body)["data"];
+        this.carDetails =
+            list.map((carDetail) => CarDetails.fromJson(carDetail)).toList();
+      });
+    });
+  }
+
+  void getCarsByBrandAndColorId(int brandId, int colorId) {
+    CarService.getCarDetailsByBrandAndColorId(brandId, colorId)
+        .then((response) {
+      setState(() {
+        Iterable list = json.decode(response.body)["data"];
+        this.carDetails =
+            list.map((carDetail) => CarDetails.fromJson(carDetail)).toList();
+      });
+    });
+  }
 
   void getCarDetailsFromApi() {
     CarService.getCarDetails().then((response) {
       setState(() {
         Iterable list = json.decode(response.body)["data"];
-        print(list);
         this.carDetails =
             list.map((carDetail) => CarDetails.fromJson(carDetail)).toList();
       });
@@ -93,9 +196,17 @@ class _ApiDemoState extends State<ApiDemo> {
     ColorService.getAll().then((response) {
       setState(() {
         Iterable list = json.decode(response.body)["data"];
-        print(list);
         this.colors = list.map((color) => Color.fromJson(color)).toList();
-        });
+      });
+    });
+  }
+
+  void getBrandsFromApi() {
+    BrandService.getAll().then((response) {
+      setState(() {
+        Iterable list = json.decode(response.body)["data"];
+        this.brands = list.map((brand) => Brand.fromJson(brand)).toList();
+      });
     });
   }
 
@@ -127,48 +238,26 @@ class _ApiDemoState extends State<ApiDemo> {
                     ),
                   ),
                   ListTile(
-                    title: Text(carDetails[index].modelYear.toString()),
-                    leading: Icon(Icons.date_range, color:Colors.blue,),
-                    trailing: TextButton(
-                      child: Text("Detail"),
-                      onPressed: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) 
-                        =>CarDetailScreen(carDetails[index])),).then((value)  =>setState((){}));
-
-                      },
-                    )
-                  )
-                   ,
+                      title: Text(carDetails[index].modelYear.toString()),
+                      leading: Icon(
+                        Icons.date_range,
+                        color: Colors.blue,
+                      ),
+                      trailing: TextButton(
+                        child: Text("Detail"),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    CarDetailScreen(carDetails[index])),
+                          ).then((value) => setState(() {}));
+                        },
+                      )),
                 ],
               ),
             ),
           );
         });
   }
-
-
-// buildCardView(){
-//   return GridView.count(
-//   primary: false,
-//   padding: const EdgeInsets.all(10),
-//   crossAxisSpacing: 5,
-//   mainAxisSpacing: 5,
-//   crossAxisCount: 2,
-//   children: <Widget>[
-
-//       ListView.builder(
-//         itemCount: carDetails.length,
-//         itemBuilder: (BuildContext context,index){
-//           return Card(
-//           child: Text(carDetails[index].carName),
-//           );
-//         })
-
-//   ],
-// );
-// }
-//
 }

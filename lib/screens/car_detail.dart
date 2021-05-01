@@ -6,6 +6,7 @@ import 'package:flutter_http_demo2/models/carDetails.dart';
 import 'package:flutter_http_demo2/models/carImage.dart';
 import 'package:flutter_http_demo2/services/car_service.dart';
 
+// ignore: must_be_immutable
 class CarDetailScreen extends StatefulWidget {
 
       CarDetails selectedCar;
@@ -42,7 +43,9 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                   debugShowCheckedModeBanner: false,
 
           home: Scaffold(
-            appBar: AppBar(title: Text("Araba detay"),),
+            appBar: AppBar(leading:BackButton(onPressed:(){
+              Navigator.pop(context);
+            },),title: Text("Araba detay"),),
             body:buildBody(),
           )
         );
@@ -59,7 +62,6 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
     
            Widget buildSlider (){
             return ListView(
-              
               children: [
                 Expanded(
                    child: SizedBox(
@@ -75,7 +77,11 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                       images: [
                           ListView.builder(
                           itemCount: carImages.length,
-                          itemBuilder: (BuildContext context,index)=>Image.network(this.baseUrl+carImages[index].imagePath),
+                          itemBuilder: (BuildContext context,index){
+                            return Row(children: [
+                            Expanded(child:Image.network(this.baseUrl+carImages[index].imagePath),)
+                            ],); 
+                            }
                           ),
                       ],
                     ),
@@ -122,12 +128,16 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
           title: Text('Type'),
           trailing: Text(selectedCar.description,style:TextStyle(fontSize: fontSize,fontWeight: FontWeight.bold)),
           ),
-      
-        
+         ListTile(
+          leading: Icon(Icons.point_of_sale_sharp,color: Colors.blue,),
+          title: Text('Model Year'),
+          trailing: Text(selectedCar.modelYear.toString(),style:TextStyle(fontSize: fontSize,fontWeight: FontWeight.bold)),
+        ),
+
         ListTile(
           leading: Icon(Icons.date_range,color: Colors.blue,),
           title: Text('Daily Price'),
-          trailing: Text(selectedCar.dailyPrice.toString()+r""" $""",style:TextStyle(fontSize: fontSize,fontWeight: FontWeight.bold)),
+          trailing: Text(selectedCar.dailyPrice.toString()+r" $",style:TextStyle(fontSize: fontSize,fontWeight: FontWeight.bold)),
         ),
         ListTile(
           leading: Icon(Icons.color_lens,color: Colors.blue,),

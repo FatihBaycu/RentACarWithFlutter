@@ -6,7 +6,7 @@ class Color{
     Color(this.colorId,this.colorName,this.colorCode);
     
     Color.fromJson(Map json){
-      this.colorId=json["colorId"];
+      this.colorId=int.tryParse(json["colorId"].toString());
       this.colorName=json["colorName"];
       this.colorCode=json["colorCode"];
     }
