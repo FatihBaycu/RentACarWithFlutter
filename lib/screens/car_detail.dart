@@ -39,16 +39,11 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
     
       @override
       Widget build(BuildContext context) {
-        return MaterialApp(
-                  debugShowCheckedModeBanner: false,
-
-          home: Scaffold(
-            appBar: AppBar(leading:BackButton(onPressed:(){
-              Navigator.pop(context);
-            },),title: Text("Araba detay"),),
+          return Scaffold(
+            appBar: AppBar(
+              title: Text("Araba detay"),),
             body:buildBody(),
-          )
-        );
+          );
           }
           
           buildBody() {
@@ -60,7 +55,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
             );
             }
     
-           Widget buildSlider (){
+           Widget buildSlider2 (){
             return ListView(
               children: [
                 Expanded(
@@ -88,6 +83,31 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                   ),
                 ),
               ],
+            );
+          }
+
+
+          buildSlider1(){
+           return SizedBox(
+                height: 200.0,
+                width: 350.0,
+                child: Carousel(
+
+                  images: [
+                    //NetworkImage('https://cdn-images-1.medium.com/max/2000/1*GqdzzfB_BHorv7V2NV7Jgg.jpeg'),
+                    for(int i=0; i<this.carImages.length; i++){
+                      NetworkImage(baseUrl+carImages[i].imagePath),
+                    }
+                  ],
+                  dotSize: 4.0,
+                  dotSpacing: 15.0,
+                  dotColor: Colors.lightGreenAccent,
+                  indicatorBgPadding: 5.0,
+                  dotBgColor: Colors.purple.withOpacity(0.5),
+                  borderRadius: true,
+                  moveIndicatorFromBottom: 180.0,
+                  noRadiusForIndicator: true,
+                )
             );
           }
               

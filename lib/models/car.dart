@@ -1,8 +1,3 @@
-
-
-
-
-
 class Car{
   int id;
   int brandId;
@@ -13,7 +8,13 @@ class Car{
   String description;
   int carFindexPoint;
 
-    Car(
+  Car.empty();
+
+
+  Car.required({this.brandId, this.colorId, this.carName, this.modelYear,
+      this.dailyPrice, this.description, this.carFindexPoint});
+
+  Car(
     this.id,
     this.brandId,
     this.colorId,
@@ -37,17 +38,36 @@ class Car{
       this.carFindexPoint=json["carFindexPoint"];
     }
 
-    Map toJson(){
-    Map carJsonFormat={
-      "id":this.id,
-      "brandId":this.brandId,
-      "colorId":this.colorId,
-      "carName":this.carName,
-      "modelYear":this.modelYear,
-      "dailyPrice":this.dailyPrice,
-      "description":this.description,
+    Map<String,dynamic>  toJson() {
+      return {
+        "id": this.id,
+        "brandId": this.brandId,
+        "colorId": this.colorId,
+        "carName": this.carName,
+        "modelYear": this.modelYear,
+        "dailyPrice": dailyPrice,
+        "description": this.description,
+        "carFindexPoint":this.carFindexPoint
+      };
+    }
+
+
+  Map<String,dynamic>  toJsonForAdd() {
+    return {
+      "brandId": this.brandId,
+      "colorId": this.colorId,
+      "carName": this.carName,
+      "modelYear": this.modelYear,
+      "dailyPrice": dailyPrice,
+      "description": this.description,
       "carFindexPoint":this.carFindexPoint
     };
-      return carJsonFormat;
-    }
+  }
+
+
+  Map<String,dynamic>  toJsonForDelete() {
+    return {
+      "id": this.id
+    };
+  }
 }
