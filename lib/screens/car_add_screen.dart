@@ -35,80 +35,82 @@ children: <Widget>[
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-      // TextFormField(decoration: const InputDecoration(hintText: "Enter color id",),
-      //         validator: (String value) {
-      //           if (value == null || value.isEmpty) {
-      //             return 'Please enter some text';
-      //           }
-      //           return null;
-      //         },
-      //         onSaved: (String value){
-      //           car.colorId=int.tryParse(value);
-      //         },
-      //       ),
+            //DROPDOWN LIST RENK İÇİN
+      TextFormField(decoration: const InputDecoration(hintText: "Enter color id",),
+              validator: (String value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+              onSaved: (String value){
+                car.colorId=int.tryParse(value);
+              },
+            ),
+            //DROPDOWN LIST BRAND İÇİN
 
-      // TextFormField(decoration: const InputDecoration(hintText: "Enter brand id",),
-      //         validator: (String value) {
-      //           if (value == null || value.isEmpty) {
-      //             return 'Please enter some text';
-      //           }
-      //           return null;
-      //         },
-      //         onSaved: (String value){
-      //           car.brandId=int.tryParse(value);
-      //         },
-      //       ),
-      //
-      //             TextFormField(decoration: const InputDecoration(hintText: "Enter car name",),
-      //         validator: (String value) {
-      //           if (value == null || value.isEmpty) {
-      //             return 'Please enter some text';
-      //           }
-      //           return null;
-      //         },
-      //         onSaved: (String value){
-      //           car.carName=value;
-      //         },
-      //       ),
-      //
-      //
-      //             TextFormField(decoration: const InputDecoration(hintText: "Enter car model year",),
-      //         validator: (String value) {
-      //           if (value == null || value.isEmpty) {
-      //             return 'Please enter some text';
-      //           }
-      //           return null;
-      //         },
-      //         onSaved: (String value){
-      //           car.modelYear=int.tryParse(value);
-      //         },
-      //       ),
-      //
-      //             TextFormField(decoration: const InputDecoration(hintText: "Enter car daily price",),
-      //         validator: (String value) {
-      //           if (value == null || value.isEmpty) {
-      //             return 'Please enter some text';
-      //           }
-      //           return null;
-      //         },
-      //         onSaved: (String value){
-      //           car.dailyPrice=double.tryParse(value);
-      //         },
-      //       ),
-      //
-      //
-      //              TextFormField(decoration: const InputDecoration(hintText: "Enter car findex point",),
-      //         validator: (String value) {
-      //           if (value == null || value.isEmpty) {
-      //             return 'Please enter some text';
-      //           }
-      //           return null;
-      //         },
-      //         onSaved: (String value){
-      //           car.carFindexPoint=int.tryParse(value);
-      //         },
-      //       ),
-      //
+      TextFormField(decoration: const InputDecoration(hintText: "Enter brand id",),
+              validator: (String value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+              onSaved: (String value){
+                car.brandId=int.tryParse(value);
+              },
+            ),
+
+                  TextFormField(decoration: const InputDecoration(hintText: "Enter car name",),
+              validator: (String value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+              onSaved: (String value){
+                car.carName=value;
+              },
+            ),
+
+
+                  TextFormField(decoration: const InputDecoration(hintText: "Enter car model year",),
+              validator: (String value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+              onSaved: (String value){
+                car.modelYear=int.tryParse(value);
+              },
+            ),
+
+                  TextFormField(decoration: const InputDecoration(hintText: "Enter car daily price",),
+              validator: (String value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+              onSaved: (String value){
+                car.dailyPrice=double.tryParse(value);
+              },
+            ),
+
+
+                   TextFormField(decoration: const InputDecoration(hintText: "Enter car findex point",),
+              validator: (String value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+              onSaved: (String value){
+                car.carFindexPoint=int.tryParse(value);
+              },
+            ),
+
                    TextFormField(
                      decoration: const InputDecoration(
                        hintText: "Enter car description"),
@@ -129,7 +131,13 @@ children: <Widget>[
                     // car.dailyPrice=10;
                     // car.carFindexPoint=1;
                     // car.modelYear=1;
-                    CarService.addCar(this.car).then((value) => print(json.decode(value.body)));
+                    CarService.addCar(this.car).then((value){
+                      setState(() {
+
+                        Navigator.pushNamed(context,"/car-list");
+
+                      });
+                    });
                   }
                
                 },

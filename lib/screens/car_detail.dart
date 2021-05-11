@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:carousel_pro/carousel_pro.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_http_demo2/models/carDetails.dart';
 import 'package:flutter_http_demo2/models/carImage.dart';
@@ -55,7 +56,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
             );
             }
     
-           Widget buildSlider2 (){
+           Widget buildSlider (){
             return ListView(
               children: [
                 Expanded(
@@ -75,7 +76,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                           itemBuilder: (BuildContext context,index){
                             return Row(children: [
                             Expanded(child:Image.network(this.baseUrl+carImages[index].imagePath),)
-                            ],); 
+                            ],);
                             }
                           ),
                       ],
@@ -87,29 +88,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
           }
 
 
-          buildSlider1(){
-           return SizedBox(
-                height: 200.0,
-                width: 350.0,
-                child: Carousel(
 
-                  images: [
-                    //NetworkImage('https://cdn-images-1.medium.com/max/2000/1*GqdzzfB_BHorv7V2NV7Jgg.jpeg'),
-                    for(int i=0; i<this.carImages.length; i++){
-                      NetworkImage(baseUrl+carImages[i].imagePath),
-                    }
-                  ],
-                  dotSize: 4.0,
-                  dotSpacing: 15.0,
-                  dotColor: Colors.lightGreenAccent,
-                  indicatorBgPadding: 5.0,
-                  dotBgColor: Colors.purple.withOpacity(0.5),
-                  borderRadius: true,
-                  moveIndicatorFromBottom: 180.0,
-                  noRadiusForIndicator: true,
-                )
-            );
-          }
               
     Widget buildCardView() {
       double fontSize=20;

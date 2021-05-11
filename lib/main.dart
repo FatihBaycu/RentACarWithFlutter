@@ -42,6 +42,7 @@ class _ApiDemoState extends State<ApiDemo> {
     return MaterialApp(
        routes: {
             "/":(BuildContext context)=>CarListScreen(),
+            "/car-list":(BuildContext context)=>CarListScreen(),
             "/car-add":(BuildContext context)=>CarAddScreen(),
           },
       initialRoute: "/",
