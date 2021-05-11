@@ -90,18 +90,6 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
               ],
             );
           }
-          // const ListTile(
-          //       leading: Icon(Icons.car_rental),
-          //       title: Text('Model Adı: Focus'),
-          //       subtitle: Text('Marka Adı: Ford'),
-          //     ),
-      //  Row(
-      //           mainAxisAlignment: MainAxisAlignment.end,
-      //           children: <Widget>[
-      //             TextButton(
-      //               child: const Text('RENT'),
-      //               onPressed: () { /* ... */ },
-      //             ),
               
     Widget buildCardView() {
       double fontSize=20;
