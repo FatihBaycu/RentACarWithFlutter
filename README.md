@@ -3,7 +3,7 @@
 A new Flutter application.
     Frontend Side of project Rent a Car on Flutter
 
-![carAdd](https://github.com/FatihBaycu/RentACarWithFlutter/blob/main/scrennshots/carAdd.png)
+![carAdd](https://github.com/FatihBaycu/RentACarWithFlutter/blob/main/scrennshots/carAdd.PNG)
 ![image1](https://github.com/FatihBaycu/RentACarWithFlutter/blob/main/scrennshots/s1.png)
 ![image2](https://github.com/FatihBaycu/RentACarWithFlutter/blob/main/scrennshots/s2.png)
 ![image3](https://github.com/FatihBaycu/RentACarWithFlutter/blob/main/scrennshots/s3.png)
