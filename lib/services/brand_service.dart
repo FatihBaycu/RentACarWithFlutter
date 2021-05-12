@@ -1,4 +1,8 @@
+import 'package:flutter_http_demo2/globalVariables.dart';
 import 'package:http/http.dart' as http;
+
+
+String apiUrl=GlobalVariables.apiUrl;
 class BrandService{
-    static Future getAll() => http.get(Uri.parse("https://10.0.2.2:5001/api/brands/getall"));
+    static Future getAll() => http.get(Uri.parse(apiUrl+"brands/getall"));
 }

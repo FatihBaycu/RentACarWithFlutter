@@ -18,6 +18,7 @@ class CarListScreen extends StatefulWidget {
 }
 
 class _CarListScreenState extends State<CarListScreen> {
+
   var users = <User>[];
   var cars = <Car>[];
   var carDetails = <CarDetails>[];
@@ -42,15 +43,11 @@ class _CarListScreenState extends State<CarListScreen> {
       floatingActionButton:FloatingActionButton(
         child: Icon(Icons.add),
        onPressed: ()=>Navigator.pushNamed(context, "/car-add"),
-
-
       ),
-
       appBar: AppBar(title: Text("Araba Listesi"),),
       body: buildBody(),
     );
   }
-
 
   Widget buildBody() {
     return Column(
@@ -143,6 +140,60 @@ class _CarListScreenState extends State<CarListScreen> {
     );
   }
 
+
+
+  Widget buildCard() {
+    return ListView.builder(
+        itemCount: carDetails.length,
+        itemBuilder: (BuildContext context, index) {
+          return SizedBox(
+            child: Card(
+              child: Column(
+                children: [
+                  Image.network(
+                      "https://10.0.2.2:5001/" + carDetails[index].imagePath),
+                  ListTile(
+                    title: Text(carDetails[index].carName,
+                        style: TextStyle(fontWeight: FontWeight.w500)),
+                    subtitle: Text(carDetails[index].brandName),
+                    leading: Icon(
+                      Icons.car_rental,
+                      color: Colors.blue[500],
+                    ),
+                  ),
+                  ListTile(
+                    title: Text(carDetails[index].dailyPrice.toString(),
+                        style: TextStyle(fontWeight: FontWeight.w500)),
+                    leading: Icon(
+                      Icons.attach_money,
+                      color: Colors.blue[500],
+                    ),
+                  ),
+                  ListTile(
+                      title: Text(carDetails[index].modelYear.toString()),
+                      leading: Icon(
+                        Icons.date_range,
+                        color: Colors.blue,
+                      ),
+                      trailing: TextButton(
+                        child: Text("Detail"),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    CarDetailScreen(carDetails[index])),
+                          ).then((value) => setState(() {}));
+                        },
+                      )),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+
   void getCarsByColorId(int colorId) {
     CarService.getCarDetailsByColorId(colorId).then((response) {
       setState(() {
@@ -202,55 +253,5 @@ class _CarListScreenState extends State<CarListScreen> {
     });
   }
 
-  Widget buildCard() {
-    return ListView.builder(
-        itemCount: carDetails.length,
-        itemBuilder: (BuildContext context, index) {
-          return SizedBox(
-            child: Card(
-              child: Column(
-                children: [
-                  Image.network(
-                      "https://10.0.2.2:5001/" + carDetails[index].imagePath),
-                  ListTile(
-                    title: Text(carDetails[index].carName,
-                        style: TextStyle(fontWeight: FontWeight.w500)),
-                    subtitle: Text(carDetails[index].brandName),
-                    leading: Icon(
-                      Icons.car_rental,
-                      color: Colors.blue[500],
-                    ),
-                  ),
-                  ListTile(
-                    title: Text(carDetails[index].dailyPrice.toString(),
-                        style: TextStyle(fontWeight: FontWeight.w500)),
-                    leading: Icon(
-                      Icons.attach_money,
-                      color: Colors.blue[500],
-                    ),
-                  ),
-                  ListTile(
-                      title: Text(carDetails[index].modelYear.toString()),
-                      leading: Icon(
-                        Icons.date_range,
-                        color: Colors.blue,
-                      ),
-                      trailing: TextButton(
-                        child: Text("Detail"),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    CarDetailScreen(carDetails[index])),
-                          ).then((value) => setState(() {}));
-                        },
-                      )),
-                ],
-              ),
-            ),
-          );
-        });
-  }
 }
 
