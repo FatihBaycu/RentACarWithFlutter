@@ -43,7 +43,7 @@ class _CarAddScreenState extends State<CarAddScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Araba Ekle"),
+        title: Text("Car Add"),
       ),
       body: buildForm(),
     );

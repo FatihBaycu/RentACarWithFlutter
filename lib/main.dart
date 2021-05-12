@@ -1,17 +1,10 @@
-import 'dart:convert';
 import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_http_demo2/models/brand.dart';
-import 'package:flutter_http_demo2/models/car.dart';
-import 'package:flutter_http_demo2/models/carDetails.dart';
-import 'package:flutter_http_demo2/models/user.dart';
-import 'package:flutter_http_demo2/models/color.dart';
 import 'package:flutter_http_demo2/screens/car_add_screen.dart';
-import 'package:flutter_http_demo2/screens/car_detail.dart';
 import 'package:flutter_http_demo2/screens/car_list_screen.dart';
-import 'package:flutter_http_demo2/services/brand_service.dart';
-import 'package:flutter_http_demo2/services/car_service.dart';
-import 'package:flutter_http_demo2/services/color_service.dart';
+import 'package:flutter_http_demo2/screens/color_screen.dart';
+
 
 class MyHttpOverrides extends HttpOverrides {
 
@@ -44,6 +37,7 @@ class _ApiDemoState extends State<ApiDemo> {
             "/":(BuildContext context)=>CarListScreen(),
             "/car-list":(BuildContext context)=>CarListScreen(),
             "/car-add":(BuildContext context)=>CarAddScreen(),
+            "/color":(BuildContext context)=>CarAddScreen(),
           },
       initialRoute: "/",
     );

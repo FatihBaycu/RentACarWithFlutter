@@ -19,4 +19,15 @@ class Color{
     };
       return colorJsonFormat;
     }
+
+
+  Map toJsonForAdd(){
+    Map colorJsonFormat={
+      "colorName":this.colorName,
+      "colorCode":this.colorCode,
+    };
+    return colorJsonFormat;
+  }
+
+
 }

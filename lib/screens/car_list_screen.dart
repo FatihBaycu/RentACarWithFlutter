@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_http_demo2/models/brand.dart';
 import 'package:flutter_http_demo2/models/car.dart';
 import 'package:flutter_http_demo2/models/carDetails.dart';
+import 'package:flutter_http_demo2/models/carImage.dart';
 import 'package:flutter_http_demo2/models/user.dart';
 import 'package:flutter_http_demo2/models/color.dart';
 import 'package:flutter_http_demo2/screens/car_add_screen.dart';
@@ -25,6 +26,10 @@ class _CarListScreenState extends State<CarListScreen> {
   var userWidget = <Widget>[];
   var colors = <Color>[];
   var brands = <Brand>[];
+
+  var carImages=<CarImage>[];
+
+
   var _myBrandSelection;
   var _myColorSelection;
 
@@ -44,7 +49,7 @@ class _CarListScreenState extends State<CarListScreen> {
         child: Icon(Icons.add),
        onPressed: ()=>Navigator.pushNamed(context, "/car-add"),
       ),
-      appBar: AppBar(title: Text("Araba Listesi"),),
+      appBar: AppBar(title: Text("Car List"),),
       body: buildBody(),
     );
   }
@@ -181,8 +186,11 @@ class _CarListScreenState extends State<CarListScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    CarDetailScreen(carDetails[index])),
+                                builder: (context){
+
+                                  return CarDetailScreen(carDetails[index]);
+                                }
+                                    ),
                           ).then((value) => setState(() {}));
                         },
                       )),
@@ -249,6 +257,17 @@ class _CarListScreenState extends State<CarListScreen> {
       setState(() {
         Iterable list = json.decode(response.body)["data"];
         this.brands = list.map((brand) => Brand.fromJson(brand)).toList();
+      });
+    });
+  }
+
+  void getCarImagesFromApi(int id) {
+    CarService.getCarImagesByCarId(id).then((response) {
+      setState(() {
+        Iterable list = json.decode(response.body)["data"];
+        print(list);
+        this.carImages =
+            list.map((carImage) => CarImage.fromJson(carImage)).toList();
       });
     });
   }
