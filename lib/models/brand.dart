@@ -3,6 +3,7 @@ class Brand{
   String brandName;
 
     Brand(this.brandId,this.brandName);
+    Brand.required({this.brandName});
     
     Brand.fromJson(Map json){
       this.brandId=int.tryParse(json["brandId"].toString());
@@ -17,4 +18,12 @@ class Brand{
     };
       return brandJsonFormat;
     }
+
+
+
+  Map<String,dynamic> toJsonForAdd(){
+    return{
+      "brandName":this.brandName,
+    };
+  }
 }

@@ -10,9 +10,9 @@ class ColorService{
     static Future getAll() => http.get(Uri.parse(apiUrl+"colors/getall"));
 
     static Future colorAdd(Color color){
-        debugPrint(color.toJson().toString());
         return http.post(Uri.parse(apiUrl+"colors/addcolor"),
-                headers:<String, String>{
+                headers:
+                <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',},
                 body:jsonEncode(color.toJsonForAdd()));
     }

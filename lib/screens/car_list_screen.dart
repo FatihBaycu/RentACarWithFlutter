@@ -12,6 +12,7 @@ import 'package:flutter_http_demo2/screens/car_detail.dart';
 import 'package:flutter_http_demo2/services/brand_service.dart';
 import 'package:flutter_http_demo2/services/car_service.dart';
 import 'package:flutter_http_demo2/services/color_service.dart';
+import 'package:flutter_http_demo2/widgets/DrawerWidget.dart';
 
 class CarListScreen extends StatefulWidget {
   @override
@@ -19,7 +20,6 @@ class CarListScreen extends StatefulWidget {
 }
 
 class _CarListScreenState extends State<CarListScreen> {
-
   var users = <User>[];
   var cars = <Car>[];
   var carDetails = <CarDetails>[];
@@ -27,8 +27,7 @@ class _CarListScreenState extends State<CarListScreen> {
   var colors = <Color>[];
   var brands = <Brand>[];
 
-  var carImages=<CarImage>[];
-
+  var carImages = <CarImage>[];
 
   var _myBrandSelection;
   var _myColorSelection;
@@ -41,16 +40,16 @@ class _CarListScreenState extends State<CarListScreen> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton:FloatingActionButton(
+      floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-       onPressed: ()=>Navigator.pushNamed(context, "/car-add"),
+        onPressed: () => Navigator.pushNamed(context, "/car-add"),
       ),
       appBar: AppBar(title: Text("Car List"),),
       body: buildBody(),
+      drawer: DrawerWidget(),
     );
   }
 
@@ -62,42 +61,10 @@ class _CarListScreenState extends State<CarListScreen> {
             height: 100,
             child: Row(
               children: [
-                Expanded(child: buildColorsDropdownList()),
-                Expanded(child: buildBrandsDropdownList()),
-                Expanded(
-                    child: IconButton(
-                      icon: Icon(Icons.search_sharp,color:Colors.blue),
-                      onPressed: () {
-                        setState(() {
-                          if (_myBrandSelection != null &&
-                              _myColorSelection != null) {
-                            getCarsByBrandAndColorId(
-                                int.tryParse(this._myBrandSelection),
-                                int.tryParse(this._myColorSelection));
-                          } else if (_myBrandSelection != null &&
-                              _myColorSelection == null) {
-                            getCarsByBrandId(int.tryParse(this._myBrandSelection));
-                          } else {
-                            getCarsByColorId(int.tryParse(this._myColorSelection));
-                          }
-                        });
-                      },
-                    )),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Expanded(
-                      child: IconButton(
-                        icon: Icon(Icons.delete,color: Colors.red,),
-                        onPressed: () {
-                          setState(() {
-                            _myBrandSelection=null;
-                            _myColorSelection=null;
-
-                            getCarDetailsFromApi();
-                          });
-                        },
-                      )),
-                ),
+                Expanded(flex: 2, child: buildColorsDropdownList()),
+                Expanded(flex: 2, child: buildBrandsDropdownList()),
+                Expanded(flex:1,child:buildSelectFilterButton()),
+                Expanded(flex: 1,child:buildClearFilterButton()),
               ],
             )),
         Expanded(child: buildCard()),
@@ -108,6 +75,7 @@ class _CarListScreenState extends State<CarListScreen> {
   buildColorsDropdownList() {
     return new Center(
       child: new DropdownButton(
+        hint: Text("Colors"),
         items: colors.map((item) {
           return new DropdownMenuItem(
             child: new Text(item.colorName),
@@ -128,6 +96,7 @@ class _CarListScreenState extends State<CarListScreen> {
   buildBrandsDropdownList() {
     return new Center(
       child: new DropdownButton(
+        hint: Text("Brands"),
         items: brands.map((item) {
           return new DropdownMenuItem(
             child: new Text(item.brandName),
@@ -144,8 +113,6 @@ class _CarListScreenState extends State<CarListScreen> {
       ),
     );
   }
-
-
 
   Widget buildCard() {
     return ListView.builder(
@@ -183,15 +150,9 @@ class _CarListScreenState extends State<CarListScreen> {
                       trailing: TextButton(
                         child: Text("Detail"),
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context){
-
-                                  return CarDetailScreen(carDetails[index]);
-                                }
-                                    ),
-                          ).then((value) => setState(() {}));
+                          setState(() {
+                            getCarImagesFromApi(carDetails[index]);
+                          });
                         },
                       )),
                 ],
@@ -200,7 +161,6 @@ class _CarListScreenState extends State<CarListScreen> {
           );
         });
   }
-
 
   void getCarsByColorId(int colorId) {
     CarService.getCarDetailsByColorId(colorId).then((response) {
@@ -243,6 +203,9 @@ class _CarListScreenState extends State<CarListScreen> {
     });
   }
 
+
+
+
   void getColorsFromApi() {
     ColorService.getAll().then((response) {
       setState(() {
@@ -261,16 +224,59 @@ class _CarListScreenState extends State<CarListScreen> {
     });
   }
 
-  void getCarImagesFromApi(int id) {
-    CarService.getCarImagesByCarId(id).then((response) {
+  void getCarImagesFromApi(CarDetails carDetails) {
+    CarService.getCarImagesByCarId(carDetails.carId).then((response) {
       setState(() {
         Iterable list = json.decode(response.body)["data"];
-        print(list);
         this.carImages =
             list.map((carImage) => CarImage.fromJson(carImage)).toList();
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) {
+            return CarDetailScreen(carDetails, this.carImages);
+          }),
+        );
       });
     });
   }
 
-}
+  buildSelectFilterButton() {
+    return IconButton(
+      icon: Icon(Icons.search_sharp, color: Colors.blue),
+      onPressed: () {
+        setState(() {
+          if (_myBrandSelection != null &&
+              _myColorSelection != null) {
+            getCarsByBrandAndColorId(
+                int.tryParse(this._myBrandSelection),
+                int.tryParse(this._myColorSelection));
+          } else if (_myBrandSelection != null &&
+              _myColorSelection == null) {
+            getCarsByBrandId(
+                int.tryParse(this._myBrandSelection));
+          } else {
+            getCarsByColorId(
+                int.tryParse(this._myColorSelection));
+          }
+        });
+      },
+    );
+  }
 
+  buildClearFilterButton() {
+    return IconButton(
+      icon: Icon(
+        Icons.delete,
+        color: Colors.red,
+      ),
+      onPressed: () {
+        setState(() {
+          _myBrandSelection = null;
+          _myColorSelection = null;
+
+          getCarDetailsFromApi();
+        });
+      },
+    );
+  }
+}

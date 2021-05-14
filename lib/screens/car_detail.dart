@@ -10,26 +10,25 @@ import 'package:flutter_http_demo2/services/car_service.dart';
 // ignore: must_be_immutable
 class CarDetailScreen extends StatefulWidget {
   CarDetails selectedCar;
-  CarDetailScreen(CarDetails selectedCar) {
-    this.selectedCar = selectedCar;
-  }
+  List<CarImage> carImages;
+
+
+  CarDetailScreen(this.selectedCar, this.carImages);
 
   @override
-  _CarDetailScreenState createState() => _CarDetailScreenState(selectedCar);
+  _CarDetailScreenState createState() => _CarDetailScreenState();
 }
 
 class _CarDetailScreenState extends State<CarDetailScreen> {
-  CarDetails selectedCar;
 
-  _CarDetailScreenState(CarDetails selectedCar) {
-    this.selectedCar = selectedCar;
-  }
 
-  var carImages = <CarImage>[];
+
+
+  //var carImages = <CarImage>[];
   var baseUrl = "https://10.0.2.2:5001/";
   @override
   void initState() {
-    getCarImagesFromApi(selectedCar.carId);
+    //getCarImagesFromApi(widget.selectedCar.carId);
     super.initState();
   }
 
@@ -46,23 +45,23 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
   buildBody() {
     return Column(
       children: [
-        Expanded(child: buildSlider()),
-        Expanded(child: buildCardView()),
+        Expanded(flex: 2,child: buildSlider()),
+        Expanded(flex: 3,child: buildCardView()),
       ],
     );
   }
 
-  buildSlider() {
-    return Padding(
+   buildSlider() {
+     return  Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: ListView(
         children: [
           CarouselSlider.builder(
-            itemCount: carImages.length,
+            itemCount: widget.carImages.length,
             itemBuilder: (context, index, realIdx) {
-              var carImage = carImages[index];
-              return Container(
-                height: 1000,
+              var carImage = widget.carImages[index];
+              return
+                Container(
                 margin: EdgeInsets.all(6.0),
                 decoration: BoxDecoration(
                   color: Colors.grey,
@@ -85,42 +84,6 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
     );
   }
 
-  Widget buildSlider2() {
-    return ListView(
-      children: [
-        Expanded(
-          child: SizedBox(
-            height: 350,
-            width: double.infinity,
-            child: Carousel(
-              dotSize: 4,
-              dotSpacing: 25,
-              dotColor: Colors.lightGreen,
-              indicatorBgPadding: 5,
-              dotBgColor: Colors.transparent,
-              dotVerticalPadding: 5,
-              dotPosition: DotPosition.bottomRight,
-              images: [
-                ListView.builder(
-                    itemCount: carImages.length,
-                    itemBuilder: (BuildContext context, index) {
-                      return Row(
-                        children: [
-                          Expanded(
-                            child: Image.network(
-                                this.baseUrl + carImages[index].imagePath),
-                          )
-                        ],
-                      );
-                    }),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget buildCardView() {
     double fontSize = 20;
     return ListView.builder(
@@ -135,7 +98,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                   color: Colors.blue,
                 ),
                 title: Text('Brand Name'),
-                trailing: Text(selectedCar.brandName,
+                trailing: Text(widget.selectedCar.brandName,
                     style: TextStyle(
                         fontSize: fontSize, fontWeight: FontWeight.bold)),
               ),
@@ -145,7 +108,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                   color: Colors.blue,
                 ),
                 title: Text('Model Name'),
-                trailing: Text(selectedCar.carName,
+                trailing: Text(widget.selectedCar.carName,
                     style: TextStyle(
                         fontSize: fontSize, fontWeight: FontWeight.bold)),
               ),
@@ -155,7 +118,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                   color: Colors.blue,
                 ),
                 title: Text('Type'),
-                trailing: Text(selectedCar.description,
+                trailing: Text(widget.selectedCar.description,
                     style: TextStyle(
                         fontSize: fontSize, fontWeight: FontWeight.bold)),
               ),
@@ -165,7 +128,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                   color: Colors.blue,
                 ),
                 title: Text('Model Year'),
-                trailing: Text(selectedCar.modelYear.toString(),
+                trailing: Text(widget.selectedCar.modelYear.toString(),
                     style: TextStyle(
                         fontSize: fontSize, fontWeight: FontWeight.bold)),
               ),
@@ -175,7 +138,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                   color: Colors.blue,
                 ),
                 title: Text('Daily Price'),
-                trailing: Text(selectedCar.dailyPrice.toString() + r" $",
+                trailing: Text(widget.selectedCar.dailyPrice.toString() + r" $",
                     style: TextStyle(
                         fontSize: fontSize, fontWeight: FontWeight.bold)),
               ),
@@ -185,7 +148,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                   color: Colors.blue,
                 ),
                 title: Text('Color'),
-                trailing: Text(selectedCar.colorName,
+                trailing: Text(widget.selectedCar.colorName,
                     style: TextStyle(
                         fontSize: fontSize, fontWeight: FontWeight.bold)),
               ),
@@ -195,7 +158,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                   color: Colors.blue,
                 ),
                 title: Text('Findex Point'),
-                trailing: Text(selectedCar.carFindexPoint.toString(),
+                trailing: Text(widget.selectedCar.carFindexPoint.toString(),
                     style: TextStyle(
                         fontSize: fontSize, fontWeight: FontWeight.bold)),
               ),
@@ -204,16 +167,5 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
         );
       },
     );
-  }
-
-  void getCarImagesFromApi(int id) {
-    CarService.getCarImagesByCarId(id).then((response) {
-      setState(() {
-        Iterable list = json.decode(response.body)["data"];
-        print(list);
-        this.carImages =
-            list.map((carImage) => CarImage.fromJson(carImage)).toList();
-      });
-    });
   }
 }

@@ -4,7 +4,7 @@ class Color{
   String colorCode;
 
     Color(this.colorId,this.colorName,this.colorCode);
-    
+    Color.required({this.colorName,this.colorCode});
     Color.fromJson(Map json){
       this.colorId=int.tryParse(json["colorId"].toString());
       this.colorName=json["colorName"];
@@ -21,12 +21,11 @@ class Color{
     }
 
 
-  Map toJsonForAdd(){
-    Map colorJsonFormat={
+  Map<String,dynamic> toJsonForAdd(){
+    return{
       "colorName":this.colorName,
       "colorCode":this.colorCode,
     };
-    return colorJsonFormat;
   }
 
 

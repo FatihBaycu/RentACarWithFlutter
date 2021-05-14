@@ -51,6 +51,7 @@ class _CarAddScreenState extends State<CarAddScreen> {
 
   buildForm() {
     return Container(
+      padding: EdgeInsets.all(20),
         child: ListView(
             shrinkWrap: true,
             padding: EdgeInsets.only(left: 15, right: 15, top: 10),
@@ -182,9 +183,10 @@ class _CarAddScreenState extends State<CarAddScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text("Select car brand",style: TextStyle(fontSize: 15),),
+        Text("Select car brand",style: TextStyle(fontSize: 16),),
         new Center(
           child: new DropdownButton(
+            hint: Text("Brand"),
             items: brands.map((item) {
               return new DropdownMenuItem(
                 child: new Text(item.brandName),
@@ -209,9 +211,10 @@ class _CarAddScreenState extends State<CarAddScreen> {
     return Row(
       mainAxisAlignment:  MainAxisAlignment.spaceBetween,
       children: [
-        Text("Select car color",style: TextStyle(fontSize: 15,),),
+        Text("Select car color",style: TextStyle(fontSize: 16,),),
         new Center(
           child: new DropdownButton(
+            hint: Text("Color"),
             items: colors.map((item) {
               return new DropdownMenuItem(
                 child: new Text(item.colorName),
