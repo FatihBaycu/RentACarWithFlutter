@@ -7,7 +7,6 @@ import 'package:flutter_http_demo2/models/carDetails.dart';
 import 'package:flutter_http_demo2/models/carImage.dart';
 import 'package:flutter_http_demo2/models/user.dart';
 import 'package:flutter_http_demo2/models/color.dart';
-import 'package:flutter_http_demo2/screens/car_add_screen.dart';
 import 'package:flutter_http_demo2/screens/car_detail.dart';
 import 'package:flutter_http_demo2/services/brand_service.dart';
 import 'package:flutter_http_demo2/services/car_service.dart';
@@ -229,7 +228,7 @@ class _CarListScreenState extends State<CarListScreen> {
   Future<void> getCarImagesFromApi(CarDetails carDetails)async {
     await CarService.getCarImagesByCarId(carDetails.carId!).then((response) {
       setState(() {
-        Iterable list = json.decode(response.body)["data"];
+        Iterable list = json.decode(response.body);
         this.carImages =
             list.map((carImage) => CarImage.fromJson(carImage)).toList();
         Navigator.push(
