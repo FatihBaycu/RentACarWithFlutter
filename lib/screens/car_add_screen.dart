@@ -80,14 +80,14 @@ class _CarAddScreenState extends State<CarAddScreen> {
       decoration: const InputDecoration(
         hintText: "Enter car name year",
       ),
-      validator: (String value) {
+      validator: (String? value) {
         if (value == null || value.isEmpty) {
           return 'Please enter some text';
         }
         return null;
       },
-      onSaved: (String value) {
-        car.carName = value;
+      onSaved: (String? value) {
+        car.carName = value!;
       },
     );
   }
@@ -97,14 +97,14 @@ class _CarAddScreenState extends State<CarAddScreen> {
       decoration: const InputDecoration(
         hintText: "Enter car daily price",
       ),
-      validator: (String value) {
+      validator: (String? value) {
         if (value == null || value.isEmpty) {
           return 'Please enter some text';
         }
         return null;
       },
-      onSaved: (String value) {
-        car.dailyPrice = double.tryParse(value);
+      onSaved: (String ?value) {
+        car.dailyPrice = double.parse(value!);
       },
     );
   }
@@ -114,14 +114,14 @@ class _CarAddScreenState extends State<CarAddScreen> {
       decoration: const InputDecoration(
         hintText: "Enter car findex point",
       ),
-      validator: (String value) {
+      validator: (String? value) {
         if (value == null || value.isEmpty) {
           return 'Please enter some text';
         }
         return null;
       },
-      onSaved: (String value) {
-        car.carFindexPoint = int.tryParse(value);
+      onSaved: (String? value) {
+        car.carFindexPoint = int.parse(value!);
       },
     );
   }
@@ -129,19 +129,19 @@ class _CarAddScreenState extends State<CarAddScreen> {
   buildCarDescriptionField() {
     return TextFormField(
       decoration: const InputDecoration(hintText: "Enter car description"),
-      onSaved: (String value) {
-        car.description = value;
+      onSaved: (String? value) {
+        car.description = value!;
       },
     );
   }
 
   buildCarSaveButton() {
-    return Padding(
+     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: ElevatedButton(
         onPressed: () {
-          if (formKey.currentState.validate()) {
-            formKey.currentState.save();
+          if (formKey.currentState!.validate()) {
+            formKey.currentState!.save();
             // car.carName="a";
             // car.brandId=1;
             // car.colorId=1;
@@ -161,8 +161,8 @@ class _CarAddScreenState extends State<CarAddScreen> {
     );
   }
 
-  void getColorsFromApi() {
-    ColorService.getAll().then((response) {
+  Future<void> getColorsFromApi()async {
+   await ColorService.getAll().then((response) {
       setState(() {
         Iterable list = json.decode(response.body)["data"];
         this.colors = list.map((color) => Color.fromJson(color)).toList();
@@ -170,8 +170,8 @@ class _CarAddScreenState extends State<CarAddScreen> {
     });
   }
 
-  void getBrandsFromApi() {
-    BrandService.getAll().then((response) {
+  Future<void> getBrandsFromApi() async{
+    await BrandService.getAll().then((response) {
       setState(() {
         Iterable list = json.decode(response.body)["data"];
         this.brands = list.map((brand) => Brand.fromJson(brand)).toList();
@@ -189,13 +189,13 @@ class _CarAddScreenState extends State<CarAddScreen> {
             hint: Text("Brand"),
             items: brands.map((item) {
               return new DropdownMenuItem(
-                child: new Text(item.brandName),
+                child: new Text(item.brandName!),
                 value: item.brandId.toString(),
               );
             }).toList(),
             onChanged: (newVal) {
               setState(() {
-                this.car.brandId=int.tryParse(newVal);
+                this.car.brandId=int.parse(newVal.toString());
                 _myBrandSelection = newVal;
               });
             },
@@ -217,13 +217,13 @@ class _CarAddScreenState extends State<CarAddScreen> {
             hint: Text("Color"),
             items: colors.map((item) {
               return new DropdownMenuItem(
-                child: new Text(item.colorName),
+                child: new Text(item.colorName.toString()),
                 value: item.colorId.toString(),
               );
             }).toList(),
             onChanged: (newVal) {
               setState(() {
-                this.car.colorId=int.tryParse(newVal);
+                this.car.colorId=int.parse(newVal.toString());
                 _myColorSelection = newVal;
               });
             },
@@ -239,14 +239,14 @@ class _CarAddScreenState extends State<CarAddScreen> {
       decoration: const InputDecoration(
         hintText: "Enter car model year",
       ),
-      validator: (String value) {
+      validator: (String? value) {
         if (value == null || value.isEmpty) {
           return 'Please enter some text';
         }
         return null;
       },
-      onSaved: (String value) {
-        car.modelYear = int.tryParse(value);
+      onSaved: (String? value) {
+        car.modelYear = int.parse(value!);
       },
     );
   }

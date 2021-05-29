@@ -1,4 +1,16 @@
-class CarDetails {
+/// description : "Sedan"
+/// carId : 4
+/// carName : "A8"
+/// brandName : "Audi"
+/// modelYear : 2021
+/// colorName : "Kırmızı"
+/// dailyPrice : 500
+/// imagePath : "Uploads/Images/CarImages/audiA8Kirmizi.jpg"
+/// brandId : 1
+/// colorId : 1
+/// carFindexPoint : 10
+
+class CarDetails2 {
   String? _description;
   int? _carId;
   String? _carName;
@@ -23,18 +35,18 @@ class CarDetails {
   int? get colorId => _colorId;
   int? get carFindexPoint => _carFindexPoint;
 
-  CarDetails({
-    String? description,
-    int? carId,
-    String? carName,
-    String? brandName,
-    int? modelYear,
-    String? colorName,
-    int? dailyPrice,
-    String? imagePath,
-    int? brandId,
-    int? colorId,
-    int? carFindexPoint})
+  CarDetails2({
+      String? description, 
+      int? carId, 
+      String? carName, 
+      String? brandName, 
+      int? modelYear, 
+      String? colorName, 
+      int? dailyPrice, 
+      String? imagePath, 
+      int? brandId, 
+      int? colorId, 
+      int? carFindexPoint})
   {
     _description = description;
     _carId = carId;
@@ -47,9 +59,9 @@ class CarDetails {
     _brandId = brandId;
     _colorId = colorId;
     _carFindexPoint = carFindexPoint;
-  }
+}
 
-  CarDetails.fromJson(dynamic json) {
+  CarDetails2.fromJson(dynamic json) {
     _description = json["description"];
     _carId = json["carId"];
     _carName = json["carName"];

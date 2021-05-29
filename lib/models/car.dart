@@ -1,12 +1,12 @@
 class Car{
-  int id;
-  int brandId;
-  int colorId;
-  String carName;
-  int modelYear;
-  double dailyPrice;
-  String description;
-  int carFindexPoint;
+  int? id;
+  int? brandId;
+  int? colorId;
+  String? carName;
+  int? modelYear;
+  double? dailyPrice;
+  String? description;
+  int? carFindexPoint;
 
   Car.empty();
 
@@ -27,8 +27,8 @@ class Car{
 
   
     
-    Car.fromJson(Map json){
-      this.id=json["id"];
+    Car.fromJson(dynamic json){
+      this.id=int.parse(json["id"].toString());
       this.brandId=json["brandId"];
       this.colorId=json["colorId"];
       this.carName=json["carName"];
@@ -39,16 +39,16 @@ class Car{
     }
 
     Map<String,dynamic>  toJson() {
-      return {
-        "id": this.id,
-        "brandId": this.brandId,
-        "colorId": this.colorId,
-        "carName": this.carName,
-        "modelYear": this.modelYear,
-        "dailyPrice": dailyPrice,
-        "description": this.description,
-        "carFindexPoint":this.carFindexPoint
-      };
+      var map=<String,dynamic>{};
+      map["id"] = this.id;
+      map["brandId"] = this.brandId;
+      map["colorId"] = this.colorId;
+      map["carName"] = this.carName;
+      map["modelYear"] = this.modelYear;
+      map["dailyPrice"] = this.dailyPrice;
+      map["description"] = this.description;
+      map["carFindexPoint"] = this.carFindexPoint;
+      return map;
     }
 
 

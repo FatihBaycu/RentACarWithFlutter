@@ -50,7 +50,7 @@ class _BrandScreenState extends State<BrandScreen> {
         itemCount: brands.length,
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text(brands[index].brandName),
+            title: Text(brands[index].brandName.toString()),
             onTap: () {
               //_showMyDialog();
             },
@@ -59,8 +59,8 @@ class _BrandScreenState extends State<BrandScreen> {
         });
   }
 
-  getBrandsFromApi() {
-    BrandService.getAll().then((response) {
+  Future<void>getBrandsFromApi()async {
+   await BrandService.getAll().then((response) {
       setState(() {
         Iterable list = jsonDecode(response.body)["data"];
         this.brands = list.map((brand) => Brand.fromJson(brand)).toList();
@@ -165,7 +165,7 @@ class _BrandScreenState extends State<BrandScreen> {
       decoration: const InputDecoration(
           hintText: "Enter brand name"
       ),
-      onSaved:(String value){brand.brandName=value;},
+      onSaved:(String? value){brand.brandName=value!;},
     );
   }
 
@@ -177,8 +177,8 @@ class _BrandScreenState extends State<BrandScreen> {
       child: ElevatedButton(
         child:Text("Ekle"),
         onPressed: (){
-          if(formKey.currentState.validate()){
-            formKey.currentState.save();
+          if(formKey.currentState!.validate()){
+            formKey.currentState!.save();
             BrandService.brandAdd(this.brand);
           }
         },

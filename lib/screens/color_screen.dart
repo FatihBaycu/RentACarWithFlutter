@@ -45,7 +45,7 @@ class _ColorScreenState extends State<ColorScreen> {
         itemCount:colors.length,
         itemBuilder: (context,index){
           return ListTile(
-            title: Text(colors[index].colorName),
+            title: Text(colors[index].colorName.toString()),
             trailing: buildPopupMenu(colors[index]),
           );
         });
@@ -87,7 +87,7 @@ class _ColorScreenState extends State<ColorScreen> {
 
         hintText: "Enter color name"
       ),
-      onSaved:(String value){color.colorName=value;},
+      onSaved:(String? value){color.colorName=value!;},
     );
   }
 
@@ -96,7 +96,7 @@ class _ColorScreenState extends State<ColorScreen> {
       decoration: const InputDecoration(
           hintText: "Enter color code"
       ),
-      onSaved:(String value){color.colorCode=value;},
+      onSaved:(String? value){color.colorCode=value!;},
     );
   }
 
@@ -106,8 +106,8 @@ class _ColorScreenState extends State<ColorScreen> {
           child: ElevatedButton(
              child:Text("Ekle"),
             onPressed: (){
-              if(formKey.currentState.validate()){
-                formKey.currentState.save();
+              if(formKey.currentState!.validate()){
+                formKey.currentState!.save();
                 ColorService.colorAdd(this.color);
               }
             },

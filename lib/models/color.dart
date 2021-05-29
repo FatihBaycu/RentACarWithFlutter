@@ -1,7 +1,7 @@
 class Color{
-  int colorId;
-  String colorName;
-  String colorCode;
+  int? colorId;
+  String? colorName;
+  String? colorCode;
 
     Color(this.colorId,this.colorName,this.colorCode);
     Color.required({this.colorName,this.colorCode});

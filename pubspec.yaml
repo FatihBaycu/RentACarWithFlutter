@@ -18,14 +18,13 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.10.0 <3.0.0'
+  sdk: '>=2.13.0 <3.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
-  adobe_xd: ^1.0.0
-  carousel_slider: ^3.0.0
-  carousel_pro:
+  carousel_slider: ^4.0.0-nullsafety.0
+  #carousel_pro:
 
 
   # The following adds the Cupertino Icons font to your application.

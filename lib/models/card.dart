@@ -1,11 +1,11 @@
 class Card{
-  int id;
-  String cardNumber;
-  String cardOnNumber;
-  String cardValidDate;
-  String cardCvv;
-  int customerId;
-  String cardType;
+  int? id;
+  String? cardNumber;
+  String? cardOnNumber;
+  String? cardValidDate;
+  String? cardCvv;
+  int? customerId;
+  String? cardType;
 
     Card(this.id,this.cardNumber,this.cardOnNumber,this.cardValidDate,this.cardCvv,this.customerId,this.cardType);
 

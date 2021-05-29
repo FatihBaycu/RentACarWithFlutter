@@ -13,7 +13,7 @@ import 'package:flutter_http_demo2/screens/color_update_screen.dart';
 class MyHttpOverrides extends HttpOverrides {
 
   @override
-  HttpClient createHttpClient(SecurityContext context) {
+  HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)
       ..badCertificateCallback =
           (X509Certificate cert, String host, int port) => true;
@@ -33,7 +33,7 @@ class ApiDemo extends StatefulWidget {
 }
 
 class _ApiDemoState extends State<ApiDemo> {
-  Color color;
+  Color? color;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

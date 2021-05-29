@@ -1,25 +1,25 @@
 class CarImage{
-  int id;
-  int carId;
-  String imagePath;
-  String date;
+  int? id;
+  int? carId;
+  String? imagePath;
+  String? date;
 
     CarImage(this.id,this.carId,this.imagePath,this.date);
 
-      CarImage.fromJson(Map json){
-      this.id=json["id"];
+      CarImage.fromJson(dynamic json){
+      this.id=int.parse(json["id"].toString());
       this.carId=json["carId"];
       this.imagePath=json["imagePath"];
       this.date=json["date"];
     }
 
-    Map toJson(){
-    Map carImagesJsonFormat={
+    Map<String,dynamic> toJson(){
+    var map=<String,dynamic>{
       "id":this.id,
       "carId":this.carId,
       "imagePath":this.imagePath,
       "date":this.date
     };
-      return carImagesJsonFormat;
+      return map;
   }
 }

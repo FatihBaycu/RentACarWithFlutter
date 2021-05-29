@@ -78,7 +78,7 @@ class _CarListScreenState extends State<CarListScreen> {
         hint: Text("Colors"),
         items: colors.map((item) {
           return new DropdownMenuItem(
-            child: new Text(item.colorName),
+            child: new Text(item.colorName!),
             value: item.colorId.toString(),
           );
         }).toList(),
@@ -99,7 +99,7 @@ class _CarListScreenState extends State<CarListScreen> {
         hint: Text("Brands"),
         items: brands.map((item) {
           return new DropdownMenuItem(
-            child: new Text(item.brandName),
+            child: new Text(item.brandName!),
             value: item.brandId.toString(),
           );
         }).toList(),
@@ -123,11 +123,11 @@ class _CarListScreenState extends State<CarListScreen> {
               child: Column(
                 children: [
                   Image.network(
-                      "https://10.0.2.2:5001/" + carDetails[index].imagePath),
+                      "https://10.0.2.2:5001/" + carDetails[index].imagePath!),
                   ListTile(
-                    title: Text(carDetails[index].carName,
+                    title: Text(carDetails[index].carName!,
                         style: TextStyle(fontWeight: FontWeight.w500)),
-                    subtitle: Text(carDetails[index].brandName),
+                    subtitle: Text(carDetails[index].brandName!),
                     leading: Icon(
                       Icons.car_rental,
                       color: Colors.blue[500],
@@ -162,8 +162,8 @@ class _CarListScreenState extends State<CarListScreen> {
         });
   }
 
-  void getCarsByColorId(int colorId) {
-    CarService.getCarDetailsByColorId(colorId).then((response) {
+  Future<void> getCarsByColorId(int colorId)async {
+    await CarService.getCarDetailsByColorId(colorId).then((response) {
       setState(() {
         Iterable list = json.decode(response.body)["data"];
         this.carDetails =
@@ -172,8 +172,8 @@ class _CarListScreenState extends State<CarListScreen> {
     });
   }
 
-  void getCarsByBrandId(int brandId) {
-    CarService.getCarDetailsByBrandId(brandId).then((response) {
+  Future<void>  getCarsByBrandId(int brandId) async{
+    await CarService.getCarDetailsByBrandId(brandId).then((response) {
       setState(() {
         Iterable list = json.decode(response.body)["data"];
         this.carDetails =
@@ -182,8 +182,8 @@ class _CarListScreenState extends State<CarListScreen> {
     });
   }
 
-  void getCarsByBrandAndColorId(int brandId, int colorId) {
-    CarService.getCarDetailsByBrandAndColorId(brandId, colorId)
+  Future<void>  getCarsByBrandAndColorId(int brandId, int colorId)async {
+    await CarService.getCarDetailsByBrandAndColorId(brandId, colorId)
         .then((response) {
       setState(() {
         Iterable list = json.decode(response.body)["data"];
@@ -193,8 +193,8 @@ class _CarListScreenState extends State<CarListScreen> {
     });
   }
 
-  void getCarDetailsFromApi() {
-    CarService.getCarDetails().then((response) {
+  Future<void> getCarDetailsFromApi() async{
+   await CarService.getCarDetails().then((response) {
       setState(() {
         Iterable list = json.decode(response.body)["data"];
         this.carDetails =
@@ -206,8 +206,8 @@ class _CarListScreenState extends State<CarListScreen> {
 
 
 
-  void getColorsFromApi() {
-    ColorService.getAll().then((response) {
+  Future<void>  getColorsFromApi()async {
+    await ColorService.getAll().then((response) {
       setState(() {
         Iterable list = json.decode(response.body)["data"];
         this.colors = list.map((color) => Color.fromJson(color)).toList();
@@ -215,8 +215,8 @@ class _CarListScreenState extends State<CarListScreen> {
     });
   }
 
-  void getBrandsFromApi() {
-    BrandService.getAll().then((response) {
+  Future<void> getBrandsFromApi() async{
+    await BrandService.getAll().then((response) {
       setState(() {
         Iterable list = json.decode(response.body)["data"];
         this.brands = list.map((brand) => Brand.fromJson(brand)).toList();
@@ -224,8 +224,8 @@ class _CarListScreenState extends State<CarListScreen> {
     });
   }
 
-  void getCarImagesFromApi(CarDetails carDetails) {
-    CarService.getCarImagesByCarId(carDetails.carId).then((response) {
+  Future<void> getCarImagesFromApi(CarDetails carDetails)async {
+    await CarService.getCarImagesByCarId(carDetails.carId!).then((response) {
       setState(() {
         Iterable list = json.decode(response.body)["data"];
         this.carImages =
@@ -248,15 +248,15 @@ class _CarListScreenState extends State<CarListScreen> {
           if (_myBrandSelection != null &&
               _myColorSelection != null) {
             getCarsByBrandAndColorId(
-                int.tryParse(this._myBrandSelection),
-                int.tryParse(this._myColorSelection));
+                int.parse(this._myBrandSelection),
+                int.parse(this._myColorSelection));
           } else if (_myBrandSelection != null &&
               _myColorSelection == null) {
             getCarsByBrandId(
-                int.tryParse(this._myBrandSelection));
+                int.parse(this._myBrandSelection));
           } else {
             getCarsByColorId(
-                int.tryParse(this._myColorSelection));
+                int.parse(this._myColorSelection));
           }
         });
       },
@@ -273,7 +273,6 @@ class _CarListScreenState extends State<CarListScreen> {
         setState(() {
           _myBrandSelection = null;
           _myColorSelection = null;
-
           getCarDetailsFromApi();
         });
       },

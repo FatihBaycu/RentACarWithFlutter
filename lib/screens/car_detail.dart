@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:carousel_pro/carousel_pro.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_http_demo2/models/carDetails.dart';
@@ -9,8 +8,8 @@ import 'package:flutter_http_demo2/services/car_service.dart';
 
 // ignore: must_be_immutable
 class CarDetailScreen extends StatefulWidget {
-  CarDetails selectedCar;
-  List<CarImage> carImages;
+  CarDetails? selectedCar;
+  List<CarImage>? carImages;
 
 
   CarDetailScreen(this.selectedCar, this.carImages);
@@ -57,9 +56,9 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
       child: ListView(
         children: [
           CarouselSlider.builder(
-            itemCount: widget.carImages.length,
+            itemCount: widget.carImages!.length,
             itemBuilder: (context, index, realIdx) {
-              var carImage = widget.carImages[index];
+              var carImage = widget.carImages![index];
               return
                 Container(
                 margin: EdgeInsets.all(6.0),
@@ -67,7 +66,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                   color: Colors.grey,
                   borderRadius: BorderRadius.circular(8.0),
                   image: DecorationImage(
-                      image: NetworkImage(baseUrl + carImage.imagePath),
+                      image: NetworkImage(baseUrl + carImage.imagePath!),
                       fit: BoxFit.cover),
                 ),
               );
@@ -98,7 +97,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                   color: Colors.blue,
                 ),
                 title: Text('Brand Name'),
-                trailing: Text(widget.selectedCar.brandName,
+                trailing: Text(widget.selectedCar!.brandName!,
                     style: TextStyle(
                         fontSize: fontSize, fontWeight: FontWeight.bold)),
               ),
@@ -108,7 +107,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                   color: Colors.blue,
                 ),
                 title: Text('Model Name'),
-                trailing: Text(widget.selectedCar.carName,
+                trailing: Text(widget.selectedCar!.carName!,
                     style: TextStyle(
                         fontSize: fontSize, fontWeight: FontWeight.bold)),
               ),
@@ -118,7 +117,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                   color: Colors.blue,
                 ),
                 title: Text('Type'),
-                trailing: Text(widget.selectedCar.description,
+                trailing: Text(widget.selectedCar!.description!,
                     style: TextStyle(
                         fontSize: fontSize, fontWeight: FontWeight.bold)),
               ),
@@ -128,7 +127,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                   color: Colors.blue,
                 ),
                 title: Text('Model Year'),
-                trailing: Text(widget.selectedCar.modelYear.toString(),
+                trailing: Text(widget.selectedCar!.modelYear!.toString(),
                     style: TextStyle(
                         fontSize: fontSize, fontWeight: FontWeight.bold)),
               ),
@@ -138,7 +137,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                   color: Colors.blue,
                 ),
                 title: Text('Daily Price'),
-                trailing: Text(widget.selectedCar.dailyPrice.toString() + r" $",
+                trailing: Text(widget.selectedCar!.dailyPrice!.toString() + r" $",
                     style: TextStyle(
                         fontSize: fontSize, fontWeight: FontWeight.bold)),
               ),
@@ -148,7 +147,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                   color: Colors.blue,
                 ),
                 title: Text('Color'),
-                trailing: Text(widget.selectedCar.colorName,
+                trailing: Text(widget.selectedCar!.colorName!,
                     style: TextStyle(
                         fontSize: fontSize, fontWeight: FontWeight.bold)),
               ),
@@ -158,7 +157,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
                   color: Colors.blue,
                 ),
                 title: Text('Findex Point'),
-                trailing: Text(widget.selectedCar.carFindexPoint.toString(),
+                trailing: Text(widget.selectedCar!.carFindexPoint!.toString(),
                     style: TextStyle(
                         fontSize: fontSize, fontWeight: FontWeight.bold)),
               ),

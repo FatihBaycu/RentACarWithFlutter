@@ -1,11 +1,11 @@
 class User{
-  int id;
-  String firstName;
-  String lastName;
-  String email;
-  String passwordHash;
-  String passwordSalt;
-  bool status;
+  int? id;
+  String? firstName;
+  String? lastName;
+  String? email;
+  String? passwordHash;
+  String? passwordSalt;
+  bool? status;
   
     User(this.id,this.firstName,this.lastName,this.email,this.passwordHash,this.passwordSalt,this.status);
     

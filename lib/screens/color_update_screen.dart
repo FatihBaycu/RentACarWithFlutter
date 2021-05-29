@@ -11,6 +11,6 @@ ColorUpdateScreen(this.color);
 class _ColorUpdateScreenState extends State<ColorUpdateScreen> {
   @override
   Widget build(BuildContext context) {
-    return Text(widget.color.colorName);
+    return Text(widget.color.colorName.toString());
   }
 }

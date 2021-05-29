@@ -1,10 +1,10 @@
 class User{
 
-  int    id;
-  int carId;
-  int customerId;
-  DateTime rentDate;
-  DateTime returnDate;
+  int? id;
+  int? carId;
+  int? customerId;
+  DateTime? rentDate;
+  DateTime? returnDate;
 
 
     User(this.id,this.carId,this.customerId,this.rentDate,this.returnDate);

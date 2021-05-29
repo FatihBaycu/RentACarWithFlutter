@@ -7,10 +7,10 @@ import 'dart:convert';
 String apiUrl=GlobalVariables.apiUrl;
 
 class ColorService{
-    static Future getAll() => http.get(Uri.parse(apiUrl+"colors/getall"));
+    static Future getAll()async => await http.get(Uri.parse(apiUrl+"colors/getall"));
 
-    static Future colorAdd(Color color){
-        return http.post(Uri.parse(apiUrl+"colors/addcolor"),
+    static Future colorAdd(Color color)async{
+        return await http.post(Uri.parse(apiUrl+"colors/addcolor"),
                 headers:
                 <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',},

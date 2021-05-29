@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_http_demo2/models/brand.dart';
 
 class BrandUpdateScreen extends StatefulWidget {
-  Brand brand;
+  Brand? brand;
   @override
   _BrandUpdateScreenState createState() => _BrandUpdateScreenState();
 }

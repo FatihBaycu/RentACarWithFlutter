@@ -1,8 +1,8 @@
 class User{
-  int    customerId;
-  int userId;
-  String companyName;
-  int customerFindexPoint;
+  int?    customerId;
+  int? userId;
+  String? companyName;
+  int? customerFindexPoint;
 
     User(this.customerId,this.userId,this.companyName,this.customerFindexPoint);
     
