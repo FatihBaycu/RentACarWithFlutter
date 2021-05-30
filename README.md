@@ -2,6 +2,7 @@
 
 A new Flutter application.
     Frontend Side of project Rent a Car on Flutter
+    Updgaded Flutter 2 and Activated Null Safety.
 
 ![carAdd](https://github.com/FatihBaycu/RentACarWithFlutter/blob/main/scrennshots/1.PNG)
 ![image1](https://github.com/FatihBaycu/RentACarWithFlutter/blob/main/scrennshots/2.PNG)
