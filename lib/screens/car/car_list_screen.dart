@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_http_demo2/controllers/brand_controller.dart';
 import 'package:flutter_http_demo2/models/brand.dart';
 import 'package:flutter_http_demo2/models/car.dart';
 import 'package:flutter_http_demo2/models/carDetails.dart';
@@ -12,6 +13,8 @@ import 'package:flutter_http_demo2/services/brand_service.dart';
 import 'package:flutter_http_demo2/services/car_service.dart';
 import 'package:flutter_http_demo2/services/color_service.dart';
 import 'package:flutter_http_demo2/widgets/DrawerWidget.dart';
+import 'package:get/get.dart';
+
 
 class CarListScreen extends StatefulWidget {
   @override
@@ -19,6 +22,11 @@ class CarListScreen extends StatefulWidget {
 }
 
 class _CarListScreenState extends State<CarListScreen> {
+
+  BrandController brandController=Get.put(BrandController());
+
+
+
   var users = <User>[];
   var cars = <Car>[];
   List carDetails = <CarDetails>[];
@@ -34,8 +42,8 @@ class _CarListScreenState extends State<CarListScreen> {
 
   @override
   void initState() {
+      brands=brandController.brandList;
     getColorsFromApi();
-    getBrandsFromApi();
     getCarDetailsFromApi();
     super.initState();
   }
@@ -70,6 +78,7 @@ class _CarListScreenState extends State<CarListScreen> {
       ],
     );
   }
+
 
   buildColorsDropdownList() {
     return new Center(
@@ -113,44 +122,48 @@ class _CarListScreenState extends State<CarListScreen> {
     );
   }
 
+  Widget buildListTile(Icon leading, String subTitle,String title){
+    subTitle="";
+    return ListTile(
+      leading: leading,
+      title: Text(title,style: TextStyle(fontWeight: FontWeight.w500)),
+      subtitle: Text(subTitle),
+    );
+  }
+
+  Widget buildListTile2(Icon leading,String title){
+    return ListTile(
+      leading: leading,
+      title: Text(title,style: TextStyle(fontWeight: FontWeight.w500)),
+    );
+  }
+
+  Widget buildListTile3(Icon leading,String title,IconButton tralling){
+    return ListTile(
+      leading: leading,
+      title: Text(title,style: TextStyle(fontWeight: FontWeight.w500)),
+      trailing: tralling,
+    );
+  }
+
   Widget buildCard() {
     return ListView.builder(
         itemCount: carDetails.length,
         itemBuilder: (BuildContext context, index) {
+          var car=carDetails[index];
           return SizedBox(
             child: Card(
               child: Column(
                 children: [
                   Image.network(
-                      "https://10.0.2.2:5001/" + carDetails[index].imagePath!),
-                  ListTile(
-                    title: Text(carDetails[index].carName!,
-                        style: TextStyle(fontWeight: FontWeight.w500)),
-                    subtitle: Text(carDetails[index].brandName!),
-                    leading: Icon(
-                      Icons.car_rental,
-                      color: Colors.blue[500],
-                    ),
-                  ),
-                  ListTile(
-                    title: Text(carDetails[index].dailyPrice.toString(),
-                        style: TextStyle(fontWeight: FontWeight.w500)),
-                    leading: Icon(
-                      Icons.attach_money,
-                      color: Colors.blue[500],
-                    ),
-                  ),
-                  ListTile(
-                      title: Text(carDetails[index].modelYear.toString()),
-                      leading: Icon(
-                        Icons.date_range,
-                        color: Colors.blue,
-                      ),
-                      trailing: TextButton(
-                        child: Text("Detail"),
-                        onPressed: () {
-                          setState(() {
-                            getCarImagesFromApi(carDetails[index]);
+                      "https://10.0.2.2:5001/" + car.imagePath!),
+
+                  buildListTile(Icon(Icons.car_rental,color: Colors.blue[500],),car.carName!,car.brandName!,),
+                  buildListTile2(Icon(Icons.attach_money,color: Colors.blue[500],),car.dailyPrice!.toString(),),
+                  ListTile(title: Text(carDetails[index].modelYear.toString()),
+                      leading: Icon(Icons.date_range,color: Colors.blue,),
+                      trailing: TextButton(child: Text("Detail"),
+                        onPressed: () {setState(() {getCarImagesFromApi(carDetails[index]);
                           });
                         },
                       )),
@@ -211,14 +224,6 @@ class _CarListScreenState extends State<CarListScreen> {
     });
   }
 
-  Future<void> getBrandsFromApi() async {
-    await BrandService.getAll().then((response) {
-      setState(() {
-        Iterable list = json.decode(response.body)["data"];
-        this.brands = list.map((brand) => Brand.fromJson(brand)).toList();
-      });
-    });
-  }
 
   Future<void> getCarImagesFromApi(CarDetails carDetails) async {
     await CarService.getCarImagesByCarId(carDetails.carId!).then((response) {

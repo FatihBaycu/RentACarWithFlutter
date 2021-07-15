@@ -1,17 +1,18 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_http_demo2/controllers/brand_controller.dart';
 import 'package:flutter_http_demo2/models/brand.dart';
 import 'package:flutter_http_demo2/screens/brand/brand_update_screen.dart';
 import 'package:flutter_http_demo2/services/brand_service.dart';
-import 'package:flutter_http_demo2/widgets/DrawerWidget.dart';
+import 'package:get/get.dart';
 
 class BrandScreen extends StatefulWidget {
   @override
   _BrandScreenState createState() => _BrandScreenState();
 }
 
-enum Options { update, delete }
+enum Options {update}
 
 class _BrandScreenState extends State<BrandScreen> {
   var brands = <Brand>[];
@@ -21,11 +22,7 @@ class _BrandScreenState extends State<BrandScreen> {
 
   Brand brand=Brand.required(brandName:"default",);
 
-  @override
-  void initState() {
-    getBrandsFromApi();
-    super.initState();
-  }
+  BrandController brandController =Get.put(BrandController());
 
   @override
   Widget build(BuildContext context) {
@@ -40,71 +37,31 @@ class _BrandScreenState extends State<BrandScreen> {
       child: Column(
         children: [
           Expanded(flex:1,child: buildFormField()),
-          Expanded(flex:2,child: buildBrandList()),
+          Expanded(flex:2,child: buildNewBrandListWidget()),
         ],
       ),
     );
   }
 
-  buildBrandList() {
-    return ListView.builder(
-        itemCount: brands.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(brands[index].brandName.toString()),
-            onTap: () {
-              //_showMyDialog();
-            },
-            trailing: buildPopupMenu(brands[index]),
-          );
-        });
-  }
-
-  Future<void>getBrandsFromApi()async {
-   await BrandService.getAll().then((response) {
-      setState(() {
-        Iterable list = jsonDecode(response.body)["data"];
-        this.brands = list.map((brand) => Brand.fromJson(brand)).toList();
-      });
+  buildNewBrandListWidget(){
+    return Obx((){
+      if(brandController.isLoading.value)
+          return Center(child: CircularProgressIndicator(),);
+      else
+        return ListView.builder(
+          itemCount: brandController.brandList.length,
+          itemBuilder: (context,int index){
+            var brands=brandController.brandList;
+            return ListTile(
+              title: Text(brands[index].brandName.toString()),
+              onTap: () {
+              },
+              trailing: buildPopupMenu(brands[index]),
+            );
+          });
     });
   }
-
-  buildAlertDialog() {
-    return AlertDialog(
-      title: Text("Select"),
-      content: Text("Update"),
-      actions: [
-        TextButton(onPressed: () {}, child: Text("Update")),
-      ],
-      elevation: 24.0,
-      backgroundColor: Colors.blue,
-    );
-  }
-
-  Future<void> _showMyDialog() async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Select'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[Text(''),],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Update'),
-              onPressed: () {Navigator.of(context).pop();},
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  buildPopupMenu(Brand brand) {
+    buildPopupMenu(Brand brand) {
     return PopupMenuButton<Options>(
         onSelected: (value) => selectProcess(value, brand),
         itemBuilder: (BuildContext context) => <PopupMenuEntry<Options>>[
@@ -127,7 +84,8 @@ class _BrandScreenState extends State<BrandScreen> {
       padding: EdgeInsets.all(20),
       shrinkWrap: true,
       children: [
-        Form(key: formKey, child: Column(children: [
+        Form(key: formKey, child: Column(
+          children: [
               buildBrandNameField(),
               buildBrandSubmitField(),
             ],

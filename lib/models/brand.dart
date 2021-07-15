@@ -1,4 +1,9 @@
-class Brand{
+import 'dart:convert';
+
+List<Brand> brandFromJson(String str) => List<Brand>.from(json.decode(str).map((x) => Brand.fromJson(x)));
+
+
+class Brand {
   int? brandId;
   String? brandName;
 
@@ -10,7 +15,9 @@ class Brand{
       this.brandName=json["brandName"];
 
     }
-    Map toJson(){
+
+    @override
+    Map<String, dynamic> toJson(){
    var map=<String,dynamic>{
       "brandId":this.brandId,
       "brandName":this.brandName,
