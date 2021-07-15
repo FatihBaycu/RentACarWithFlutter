@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_http_demo2/models/brand.dart';
+import 'package:flutter_http_demo2/screens/brand/brand_update_screen.dart';
 import 'package:flutter_http_demo2/services/brand_service.dart';
 import 'package:flutter_http_demo2/widgets/DrawerWidget.dart';
 
@@ -16,9 +17,9 @@ class _BrandScreenState extends State<BrandScreen> {
   var brands = <Brand>[];
   var formKey = GlobalKey<FormState>();
 
-  Brand brand=Brand.required(
-      brandName:"default",
-  );
+  var brandName=TextEditingController();
+
+  Brand brand=Brand.required(brandName:"default",);
 
   @override
   void initState() {
@@ -71,10 +72,9 @@ class _BrandScreenState extends State<BrandScreen> {
   buildAlertDialog() {
     return AlertDialog(
       title: Text("Select"),
-      content: Text("Update or Delete"),
+      content: Text("Update"),
       actions: [
         TextButton(onPressed: () {}, child: Text("Update")),
-        TextButton(onPressed: () {}, child: Text("Delete")),
       ],
       elevation: 24.0,
       backgroundColor: Colors.blue,
@@ -90,23 +90,13 @@ class _BrandScreenState extends State<BrandScreen> {
           title: Text('Select'),
           content: SingleChildScrollView(
             child: ListBody(
-              children: <Widget>[
-                Text(''),
-              ],
+              children: <Widget>[Text(''),],
             ),
           ),
           actions: <Widget>[
             TextButton(
               child: Text('Update'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text('Delete'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+              onPressed: () {Navigator.of(context).pop();},
             ),
           ],
         );
@@ -122,21 +112,12 @@ class _BrandScreenState extends State<BrandScreen> {
                 child: Text("Güncelle"),
                 value: Options.update,
               ),
-              PopupMenuItem<Options>(
-                child: Text("Sil"),
-                value: Options.delete,
-              ),
             ]);
   }
 
   selectProcess(Options options, Brand brand) async {
     switch (options) {
-      case Options.update:
-        print("Seçili marka için, Güncelleme işlemleri buraya yazılacak");
-        break;
-      case Options.delete:
-        print("Seçili marka için, Silme işlemleri buraya yazılacak");
-        break;
+      case Options.update:Navigator.push(context, MaterialPageRoute(builder: (context)=>BrandUpdateScreen(brand)));break;
       default:
     }
   }
@@ -146,10 +127,7 @@ class _BrandScreenState extends State<BrandScreen> {
       padding: EdgeInsets.all(20),
       shrinkWrap: true,
       children: [
-        Form(
-          key: formKey,
-          child: Column(
-            children: [
+        Form(key: formKey, child: Column(children: [
               buildBrandNameField(),
               buildBrandSubmitField(),
             ],
@@ -161,10 +139,14 @@ class _BrandScreenState extends State<BrandScreen> {
   }
 
   buildBrandNameField() {
-    return TextFormField(
-      decoration: const InputDecoration(
-          hintText: "Enter brand name"
-      ),
+    return TextFormField(decoration: const InputDecoration(hintText: "Enter brand name"),
+      autovalidateMode: AutovalidateMode.always,
+      controller: brandName,
+      validator: (String? value){
+        if(value!=null){
+          if(value.length<2){return "The brand name length must be higher than 2.";}
+        }
+      },
       onSaved:(String? value){brand.brandName=value!;},
     );
   }
@@ -174,13 +156,12 @@ class _BrandScreenState extends State<BrandScreen> {
   buildBrandSubmitField() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: ElevatedButton(
-        child:Text("Ekle"),
+      child: ElevatedButton(child:Text("Ekle"),
         onPressed: (){
-          if(formKey.currentState!.validate()){
-            formKey.currentState!.save();
-            BrandService.brandAdd(this.brand);
-          }
+        if(formKey.currentState!.validate()){
+          formKey.currentState!.save();
+          BrandService.brandAdd(this.brand);
+        }
         },
       ),
     );

@@ -10,7 +10,6 @@ class Brand{
       this.brandName=json["brandName"];
 
     }
-
     Map toJson(){
    var map=<String,dynamic>{
       "brandId":this.brandId,
@@ -20,9 +19,14 @@ class Brand{
     }
 
 
-
   Map<String,dynamic> toJsonForAdd(){
     return{
+      "brandName":this.brandName,
+    };
+  }
+  Map<String,dynamic> toJsonForUpdate(){
+    return{
+      "brandId":this.brandId,
       "brandName":this.brandName,
     };
   }

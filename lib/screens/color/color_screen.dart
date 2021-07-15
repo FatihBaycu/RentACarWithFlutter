@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_http_demo2/models/color.dart';
-import 'package:flutter_http_demo2/screens/color_update_screen.dart';
+import 'package:flutter_http_demo2/screens/color/color_update_screen.dart';
 import 'package:flutter_http_demo2/services/color_service.dart';
 
 class ColorScreen extends StatefulWidget {
@@ -12,6 +12,10 @@ class ColorScreen extends StatefulWidget {
 enum Options { update, delete }
 
 class _ColorScreenState extends State<ColorScreen> {
+
+
+  var colorName=TextEditingController();
+  var colorCode=TextEditingController();
 
   var colors=<Color>[];
   var formKey = GlobalKey<FormState>();
@@ -83,19 +87,29 @@ class _ColorScreenState extends State<ColorScreen> {
 
   buildColorNameField() {
     return TextFormField(
-      decoration: const InputDecoration(
-
-        hintText: "Enter color name"
-      ),
+      autovalidateMode: AutovalidateMode.always,
+      controller: colorName,
+      validator: (String? value){
+        if(value!=null){
+          if(value.length<2){return
+          "The color name length must be higher than 2.";}
+        }
+      },
+      decoration: const InputDecoration(hintText: "Enter color name"),
       onSaved:(String? value){color.colorName=value!;},
     );
   }
 
   buildColorCodeField() {
     return TextFormField(
-      decoration: const InputDecoration(
-          hintText: "Enter color code"
-      ),
+      decoration: const InputDecoration(hintText: "Enter color code"),
+      controller: colorCode,
+      autovalidateMode: AutovalidateMode.always,
+      validator: (String? value){
+        if(value!=null){
+          if(value.length<2){return "The color code length must be higher than 2.";}
+        }
+      },
       onSaved:(String? value){color.colorCode=value!;},
     );
   }
@@ -123,21 +137,15 @@ class _ColorScreenState extends State<ColorScreen> {
             child: Text("Update"),
             value: Options.update,
           ),
-          PopupMenuItem<Options>(
-            child: Text("Delete"),
-            value: Options.delete,
-          ),
         ]);
   }
 
   selectProcess(Options options, Color color) async {
     switch (options) {
       case Options.update:
-        print("Seçili renk için, Silme işlemleri buraya yazılacak");
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>ColorUpdateScreen(color)),);
         break;
-      case Options.delete:
-        print("Seçili renk için, Silme işlemleri buraya yazılacak");
-        break;
+
       default:
     }
   }

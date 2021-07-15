@@ -7,7 +7,7 @@ import 'package:flutter_http_demo2/models/carDetails.dart';
 import 'package:flutter_http_demo2/models/carImage.dart';
 import 'package:flutter_http_demo2/models/user.dart';
 import 'package:flutter_http_demo2/models/color.dart';
-import 'package:flutter_http_demo2/screens/car_detail.dart';
+import 'package:flutter_http_demo2/screens/car/car_detail.dart';
 import 'package:flutter_http_demo2/services/brand_service.dart';
 import 'package:flutter_http_demo2/services/car_service.dart';
 import 'package:flutter_http_demo2/services/color_service.dart';
@@ -21,7 +21,8 @@ class CarListScreen extends StatefulWidget {
 class _CarListScreenState extends State<CarListScreen> {
   var users = <User>[];
   var cars = <Car>[];
-  var carDetails = <CarDetails>[];
+  List carDetails = <CarDetails>[];
+  late List<CarDetails> carDetails2;
   var userWidget = <Widget>[];
   var colors = <Color>[];
   var brands = <Brand>[];
@@ -39,20 +40,17 @@ class _CarListScreenState extends State<CarListScreen> {
     super.initState();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => Navigator.pushNamed(context, "/car-add"),
-      ),
+      floatingActionButton: buildFloatingActionButton(context),
       appBar: AppBar(title: Text("Car List"),),
       body: buildBody(),
       drawer: DrawerWidget(),
     );
   }
+
+  FloatingActionButton buildFloatingActionButton(BuildContext context) => FloatingActionButton(child: Icon(Icons.add),onPressed: () => Navigator.pushNamed(context, "/car-add"),);
 
   Widget buildBody() {
     return Column(
@@ -64,8 +62,8 @@ class _CarListScreenState extends State<CarListScreen> {
               children: [
                 Expanded(flex: 2, child: buildColorsDropdownList()),
                 Expanded(flex: 2, child: buildBrandsDropdownList()),
-                Expanded(flex:1,child:buildSelectFilterButton()),
-                Expanded(flex: 1,child:buildClearFilterButton()),
+                Expanded(flex: 1, child: buildSelectFilterButton()),
+                Expanded(flex: 1, child: buildClearFilterButton()),
               ],
             )),
         Expanded(child: buildCard()),
@@ -163,7 +161,7 @@ class _CarListScreenState extends State<CarListScreen> {
         });
   }
 
-  Future<void> getCarsByColorId(int colorId)async {
+  Future<void> getCarsByColorId(int colorId) async {
     await CarService.getCarDetailsByColorId(colorId).then((response) {
       setState(() {
         Iterable list = json.decode(response.body)["data"];
@@ -173,7 +171,7 @@ class _CarListScreenState extends State<CarListScreen> {
     });
   }
 
-  Future<void>  getCarsByBrandId(int brandId) async{
+  Future<void> getCarsByBrandId(int brandId) async {
     await CarService.getCarDetailsByBrandId(brandId).then((response) {
       setState(() {
         Iterable list = json.decode(response.body)["data"];
@@ -183,7 +181,7 @@ class _CarListScreenState extends State<CarListScreen> {
     });
   }
 
-  Future<void>  getCarsByBrandAndColorId(int brandId, int colorId)async {
+  Future<void> getCarsByBrandAndColorId(int brandId, int colorId) async {
     await CarService.getCarDetailsByBrandAndColorId(brandId, colorId)
         .then((response) {
       setState(() {
@@ -194,8 +192,8 @@ class _CarListScreenState extends State<CarListScreen> {
     });
   }
 
-  Future<void> getCarDetailsFromApi() async{
-   await CarService.getCarDetails().then((response) {
+  Future<void> getCarDetailsFromApi() async {
+    await CarService.getCarDetails().then((response) {
       setState(() {
         Iterable list = json.decode(response.body)["data"];
         this.carDetails =
@@ -204,10 +202,7 @@ class _CarListScreenState extends State<CarListScreen> {
     });
   }
 
-
-
-
-  Future<void>  getColorsFromApi()async {
+  Future<void> getColorsFromApi() async {
     await ColorService.getAll().then((response) {
       setState(() {
         Iterable list = json.decode(response.body)["data"];
@@ -216,7 +211,7 @@ class _CarListScreenState extends State<CarListScreen> {
     });
   }
 
-  Future<void> getBrandsFromApi() async{
+  Future<void> getBrandsFromApi() async {
     await BrandService.getAll().then((response) {
       setState(() {
         Iterable list = json.decode(response.body)["data"];
@@ -225,7 +220,7 @@ class _CarListScreenState extends State<CarListScreen> {
     });
   }
 
-  Future<void> getCarImagesFromApi(CarDetails carDetails)async {
+  Future<void> getCarImagesFromApi(CarDetails carDetails) async {
     await CarService.getCarImagesByCarId(carDetails.carId!).then((response) {
       setState(() {
         Iterable list = json.decode(response.body);
@@ -246,19 +241,15 @@ class _CarListScreenState extends State<CarListScreen> {
       icon: Icon(Icons.search_sharp, color: Colors.blue),
       onPressed: () {
         setState(() {
-          if (_myBrandSelection != null &&
-              _myColorSelection != null) {
-            getCarsByBrandAndColorId(
-                int.parse(this._myBrandSelection),
+          if (_myBrandSelection != null && _myColorSelection != null) {
+            getCarsByBrandAndColorId(int.parse(this._myBrandSelection),
                 int.parse(this._myColorSelection));
-          } else if (_myBrandSelection != null &&
-              _myColorSelection == null) {
-            getCarsByBrandId(
-                int.parse(this._myBrandSelection));
-          } else {
-            getCarsByColorId(
-                int.parse(this._myColorSelection));
+          } else if (_myBrandSelection != null && _myColorSelection == null) {
+            getCarsByBrandId(int.parse(this._myBrandSelection));
+          } else if(this._myColorSelection!=null){
+            getCarsByColorId(int.parse(this._myColorSelection));
           }
+          else{}
         });
       },
     );

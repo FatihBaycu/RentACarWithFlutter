@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_http_demo2/screens/brand_screen.dart';
-import 'package:flutter_http_demo2/screens/car_list_screen.dart';
-import 'package:flutter_http_demo2/screens/color_screen.dart';
+import 'package:flutter_http_demo2/screens/brand/brand_screen.dart';
+import 'package:flutter_http_demo2/screens/car/car_list_screen.dart';
+import 'package:flutter_http_demo2/screens/color/color_screen.dart';
 
 class DrawerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Drawer drawer = Drawer(
       child: ListView(
-
         children: [
           DrawerHeader(
             decoration: BoxDecoration(color:Colors.blue),
