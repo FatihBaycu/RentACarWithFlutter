@@ -96,8 +96,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
         return Card(
           child: Column(
             children: [
-              GestureDetector(onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>CarUpdateScreen(widget.selectedCar!)));}
-                  ,child: buildListTile(Icon(Icons.update,color: Colors.blue,),"Update", "Go",fontSize)),
+              ListTile(leading:Icon(Icons.update,color: Colors.orange,),title:Text("Update"), trailing: Icon(Icons.navigate_next,color: Colors.orangeAccent,),onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>CarUpdateScreen(widget.selectedCar!)));}),
               buildListTile(Icon(Icons.car_repair,color: Colors.blue,),"Model Name", widget.selectedCar!.carName!,fontSize),
               buildListTile(Icon(Icons.card_giftcard,color: Colors.blue,),"Model Name", widget.selectedCar!.description!,fontSize),
               buildListTile(Icon(Icons.point_of_sale_sharp,color: Colors.blue,),"Model Year", widget.selectedCar!.modelYear!.toString(),fontSize),

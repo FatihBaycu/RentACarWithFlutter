@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_http_demo2/controllers/brand_controller.dart';
+import 'package:flutter_http_demo2/controllers/color_controller.dart';
 import 'package:flutter_http_demo2/models/brand.dart';
 import 'package:flutter_http_demo2/models/car.dart';
 import 'package:flutter_http_demo2/models/color.dart';
@@ -7,6 +9,7 @@ import 'package:flutter_http_demo2/services/car_service.dart';
 import 'dart:convert';
 
 import 'package:flutter_http_demo2/services/color_service.dart';
+import 'package:get/get.dart';
 
 
 
@@ -17,8 +20,9 @@ class CarAddScreen extends StatefulWidget {
 
 class _CarAddScreenState extends State<CarAddScreen> {
 
-  var colors = <Color>[];
-  var brands = <Brand>[];
+  BrandController brandController=Get.put(BrandController());
+  ColorController colorController=Get.put(ColorController());
+
   var _myBrandSelection;
   var _myColorSelection;
   var formKey = GlobalKey<FormState>();
@@ -34,8 +38,6 @@ class _CarAddScreenState extends State<CarAddScreen> {
 
   @override
   void initState() {
-    getBrandsFromApi();
-    getColorsFromApi();
     super.initState();
   }
 
@@ -43,7 +45,7 @@ class _CarAddScreenState extends State<CarAddScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Car Add"),
+        title: Text("Add Car"),
       ),
       body: buildForm(),
     );
@@ -94,6 +96,7 @@ class _CarAddScreenState extends State<CarAddScreen> {
 
   buildCarDailyPriceField() {
     return TextFormField(
+      keyboardType: TextInputType.number,
       decoration: const InputDecoration(
         hintText: "Enter car daily price",
       ),
@@ -111,27 +114,20 @@ class _CarAddScreenState extends State<CarAddScreen> {
 
   buildCarFindexPointField() {
     return TextFormField(
-      decoration: const InputDecoration(
-        hintText: "Enter car findex point",
-      ),
+      keyboardType: TextInputType.number,
+      decoration: const InputDecoration(hintText: "Enter car findex point",),
       validator: (String? value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter some text';
-        }
+        if (value == null || value.isEmpty) {return 'Please enter some text';}
         return null;
       },
-      onSaved: (String? value) {
-        car.carFindexPoint = int.parse(value!);
-      },
+      onSaved: (String? value) {car.carFindexPoint = int.parse(value!);},
     );
   }
 
   buildCarDescriptionField() {
     return TextFormField(
       decoration: const InputDecoration(hintText: "Enter car description"),
-      onSaved: (String? value) {
-        car.description = value!;
-      },
+      onSaved: (String? value) { car.description = value!;},
     );
   }
 
@@ -142,54 +138,30 @@ class _CarAddScreenState extends State<CarAddScreen> {
         onPressed: () {
           if (formKey.currentState!.validate()) {
             formKey.currentState!.save();
-            // car.carName="a";
-            // car.brandId=1;
-            // car.colorId=1;
-            // car.dailyPrice=10;
-            // car.carFindexPoint=1;
-            // car.modelYear=1;
-
             CarService.addCar(this.car).then((value) {
-              setState(() {
-                Navigator.pushNamed(context, "/car-list");
-              });
+              setState(() { Navigator.pushNamed(context, "/car-list"); });
             });
           }
         },
-        child: const Text('Araba Ekle'),
+        child: Text('Add Car'),
       ),
     );
   }
 
-  Future<void> getColorsFromApi()async {
-   await ColorService.getAll().then((response) {
-      setState(() {
-        Iterable list = json.decode(response.body)["data"];
-        this.colors = list.map((color) => Color.fromJson(color)).toList();
-      });
-    });
-  }
 
-  Future<void> getBrandsFromApi() async{
-    await BrandService.getAll().then((response) {
-      setState(() {
-        Iterable list = json.decode(response.body)["data"];
-        this.brands = list.map((brand) => Brand.fromJson(brand)).toList();
-      });
-    });
-  }
+
 
   buildBrandsDropdownList() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text("Select car brand",style: TextStyle(fontSize: 16),),
-        new Center(
-          child: new DropdownButton(
+         Center(
+          child:  DropdownButton(
             hint: Text("Brand"),
-            items: brands.map((item) {
-              return new DropdownMenuItem(
-                child: new Text(item.brandName!),
+            items: brandController.brandList.map((item) {
+              return  DropdownMenuItem(
+                child:  Text(item.brandName!),
                 value: item.brandId.toString(),
               );
             }).toList(),
@@ -215,7 +187,7 @@ class _CarAddScreenState extends State<CarAddScreen> {
         new Center(
           child: new DropdownButton(
             hint: Text("Color"),
-            items: colors.map((item) {
+            items: colorController.colorList.map((item) {
               return new DropdownMenuItem(
                 child: new Text(item.colorName.toString()),
                 value: item.colorId.toString(),
@@ -236,6 +208,7 @@ class _CarAddScreenState extends State<CarAddScreen> {
 
   buildCarModelYearField() {
     return TextFormField(
+      keyboardType: TextInputType.number,
       decoration: const InputDecoration(
         hintText: "Enter car model year",
       ),

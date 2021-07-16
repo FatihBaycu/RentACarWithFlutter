@@ -11,8 +11,6 @@ class CarService {
   //static Future getAll() => http.get(Uri.http(GlobalVariables.apiUrl, "cars/getall"));
   static Future getCarDetails() async{return await http.get(Uri.parse(apiUrl+"Cars/getcardetail"));}
 
-  static Future getCarDetails2() async{return await http.get(Uri.parse(apiUrl+"Cars/getcardetail"));}
-
   static Future getCarDetailsByColorId(int colorId)async{return await http.get(Uri.parse(apiUrl+"Cars/getcardetailsbycolor?colorId=$colorId"));}
   static Future getCarDetailsByBrandId(int brandId)async{return await http.get(Uri.parse(apiUrl+"Cars/getcardetailsbybrand?brandId=$brandId"));}
   static Future getCarDetailsByBrandAndColorId(int brandId,int colorId)async{return await  http.get(Uri.parse(apiUrl+"Cars/getcardetailsbybrandandcolor?brandId=$brandId&colorId=$colorId"));}

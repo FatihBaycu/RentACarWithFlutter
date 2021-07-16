@@ -1,15 +1,18 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_http_demo2/controllers/color_controller.dart';
 import 'package:flutter_http_demo2/models/color.dart';
 import 'package:flutter_http_demo2/screens/color/color_update_screen.dart';
 import 'package:flutter_http_demo2/services/color_service.dart';
+import 'package:get/get.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
 class ColorScreen extends StatefulWidget {
   @override
   _ColorScreenState createState() => _ColorScreenState();
 }
-enum Options { update, delete }
+enum Options {update}
 
 class _ColorScreenState extends State<ColorScreen> {
 
@@ -17,17 +20,14 @@ class _ColorScreenState extends State<ColorScreen> {
   var colorName=TextEditingController();
   var colorCode=TextEditingController();
 
-  var colors=<Color>[];
+  ColorController colorController=Get.put(ColorController());
+
   var formKey = GlobalKey<FormState>();
   Color color=Color.required(
     colorName:"default",
     colorCode:"default"
   );
-  @override
-  void initState() {
-    getColorsFromApi();
-    super.initState();
-  }
+
 
 
   @override
@@ -44,25 +44,23 @@ class _ColorScreenState extends State<ColorScreen> {
   }
 
   buildColorList() {
-    return ListView.builder(
-      padding: EdgeInsets.only(left:20,right: 20),
-        itemCount:colors.length,
-        itemBuilder: (context,index){
-          return ListTile(
-            title: Text(colors[index].colorName.toString()),
-            trailing: buildPopupMenu(colors[index]),
-          );
-        });
+    return Obx((){
+      return ListView.builder(
+        padding: EdgeInsets.only(left:20,right: 20),
+          itemCount:colorController.colorList.length,
+          itemBuilder: (context,index){
+          var colors=colorController.colorList;
+            return ListTile(
+              title: Text(colors[index].colorName!),
+              trailing: buildPopupMenu(colors[index]),
+            );
+          }
+    );
+    }
+      );
   }
 
-  getColorsFromApi(){
-    ColorService.getAll().then((response){
-      setState(() {
-        Iterable list=jsonDecode(response.body)["data"];
-        this.colors=list.map((c) => Color.fromJson(c)).toList();
-      });
-    });
-  }
+
 
 
   buildFormField(){

@@ -39,6 +39,7 @@ class _ApiDemoState extends State<ApiDemo> {
   Widget build(BuildContext context) {
 
     return GetMaterialApp(
+      theme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
        routes: {
             "/car-list":(BuildContext context)=>CarListScreen(),

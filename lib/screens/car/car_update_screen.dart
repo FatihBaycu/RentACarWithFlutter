@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_http_demo2/controllers/brand_controller.dart';
+import 'package:flutter_http_demo2/controllers/color_controller.dart';
 import 'package:flutter_http_demo2/models/brand.dart';
 import 'package:flutter_http_demo2/models/color.dart';
 import 'package:flutter_http_demo2/models/car.dart';
@@ -8,6 +10,7 @@ import 'package:flutter_http_demo2/models/carDetails.dart';
 import 'package:flutter_http_demo2/services/brand_service.dart';
 import 'package:flutter_http_demo2/services/car_service.dart';
 import 'package:flutter_http_demo2/services/color_service.dart';
+import 'package:get/get.dart';
 
 class CarUpdateScreen extends StatefulWidget {
   CarDetails carDetails;
@@ -42,11 +45,6 @@ class _CarUpdateScreenState extends State<CarUpdateScreen> {
 
   @override
   void initState() {
-    // myColorSelection=widget.carDetails.colorId;
-    // myBrandSelection=widget.carDetails.brandId;
-    //
-    getColorsFromApi();
-    getBrandsFromApi();
     carId.text=widget.carDetails.carId.toString();
     carName.text=widget.carDetails.carName!;
     brandName.text=widget.carDetails.brandName!;
@@ -62,6 +60,8 @@ class _CarUpdateScreenState extends State<CarUpdateScreen> {
   }
 
 
+  ColorController colorController=Get.put(ColorController());
+  BrandController brandController=Get.put(BrandController());
 
   @override
   Widget build(BuildContext context) {
@@ -171,9 +171,9 @@ class _CarUpdateScreenState extends State<CarUpdateScreen> {
       ),
     ),
     child:DropdownButton(
-      hint: Text("Brands"),
+      hint: Text(widget.carDetails.brandName!,style: TextStyle(fontWeight: FontWeight.bold),),
       menuMaxHeight:250,
-      items: brands.map((item) {
+      items: brandController.brandList.map((item) {
         return  DropdownMenuItem(
           child:  Text(item.brandName!),
           value: item.brandId.toString()
@@ -198,33 +198,31 @@ class _CarUpdateScreenState extends State<CarUpdateScreen> {
       decoration: InputDecoration(labelText: 'Color',border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0),
     ),
     ),
-    child:DropdownButton(
-      menuMaxHeight:250,
-      hint: Text("Colors"),
-      items: colors.map((item) {
-        return DropdownMenuItem(
-          child:  Text(item.colorName!),
-          value: item.colorId.toString(),
-        );
-      }).toList(),
-      onChanged: (newVal) {
-        setState(() {myColorSelection = newVal;});
-        car.colorId=int.parse(myColorSelection);
-      },
-      value: myColorSelection,
-    ),
+    child:Obx(() {
+      return DropdownButton(
+        menuMaxHeight: 250,
+        hint: Text(widget.carDetails.colorName!,
+          style: TextStyle(fontWeight: FontWeight.bold),),
+        items: colorController.colorList.map((item) {
+          return DropdownMenuItem(
+            child: Text(item.colorName!),
+            value: item.colorId.toString(),
+          );
+        }).toList(),
+        onChanged: (newVal) {
+          setState(() {
+            myColorSelection = newVal;
+          });
+          car.colorId = int.parse(myColorSelection);
+        },
+        value: myColorSelection,
+      );
+    }),
       ),
     );
   }
 
-  Future<void> getColorsFromApi() async {
-    await ColorService.getAll().then((response) {
-      setState(() {
-        Iterable list = json.decode(response.body)["data"];
-        this.colors = list.map((color) => Color.fromJson(color)).toList();
-      });
-    });
-  }
+
 
   buildCarSubmitField() {
     return Padding(
@@ -240,15 +238,5 @@ class _CarUpdateScreenState extends State<CarUpdateScreen> {
         },
       ),
     );
-  }
-
-
-  Future<void> getBrandsFromApi() async {
-    await BrandService.getAll().then((response) {
-      setState(() {
-        Iterable list = json.decode(response.body)["data"];
-        this.brands = list.map((brand) => Brand.fromJson(brand)).toList();
-      });
-    });
   }
 }

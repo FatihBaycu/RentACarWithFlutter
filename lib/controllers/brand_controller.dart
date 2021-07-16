@@ -19,11 +19,13 @@ class BrandController extends GetxController{
       isLoading(true);
       await BrandService.getAll().then((response) {
         var result= (jsonDecode(response.body)["data"] as List ).map((e) => Brand.fromJson(e)).toList();
-       if(result!=null){brandList.assignAll(result);}
+       if(result!=null){brandList.addAll(result);}
       });
     }
     finally{isLoading(false);}
    }
+
+
 
 
 
