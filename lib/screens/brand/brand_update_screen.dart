@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_http_demo2/models/brand.dart';
 import 'package:flutter_http_demo2/services/brand_service.dart';
+import 'package:get/get.dart';
 
 class BrandUpdateScreen extends StatefulWidget {
    Brand brand;
@@ -99,7 +100,7 @@ class _BrandUpdateScreenState extends State<BrandUpdateScreen> {
             formKey.currentState!.save();
             widget.brand.brandName=brandName.text;
             widget.brand.brandId=int.parse(brandId.text);
-            BrandService.brandUpdate(widget.brand).then((value) => Navigator.pushReplacementNamed(context, "/brand"));
+            BrandService.brandUpdate(widget.brand).then((value) =>Get.offNamed("/brand"));
           }
         },
       ),

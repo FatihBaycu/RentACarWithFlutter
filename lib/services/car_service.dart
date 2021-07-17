@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_http_demo2/globalVariables.dart';
 import 'package:flutter_http_demo2/models/car.dart';
-import 'package:flutter_http_demo2/models/carDetails.dart';
 import 'package:http/http.dart' as http;
 
 String apiUrl=GlobalVariables.apiUrl;

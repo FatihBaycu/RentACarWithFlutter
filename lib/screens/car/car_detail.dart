@@ -1,10 +1,10 @@
-import 'dart:convert';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_http_demo2/models/carDetails.dart';
 import 'package:flutter_http_demo2/models/carImage.dart';
 import 'package:flutter_http_demo2/screens/car/car_update_screen.dart';
+import 'package:get/get.dart';
+
 
 // ignore: must_be_immutable
 class CarDetailScreen extends StatefulWidget {
@@ -96,7 +96,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
         return Card(
           child: Column(
             children: [
-              ListTile(leading:Icon(Icons.update,color: Colors.orange,),title:Text("Update"), trailing: Icon(Icons.navigate_next,color: Colors.orangeAccent,),onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>CarUpdateScreen(widget.selectedCar!)));}),
+              ListTile(leading:Icon(Icons.update,color: Colors.orange,),title:Text("Update"), trailing: Icon(Icons.navigate_next,color: Colors.orangeAccent,),onTap: (){Get.to(()=>CarUpdateScreen(widget.selectedCar!));}),
               buildListTile(Icon(Icons.car_repair,color: Colors.blue,),"Model Name", widget.selectedCar!.carName!,fontSize),
               buildListTile(Icon(Icons.card_giftcard,color: Colors.blue,),"Model Name", widget.selectedCar!.description!,fontSize),
               buildListTile(Icon(Icons.point_of_sale_sharp,color: Colors.blue,),"Model Year", widget.selectedCar!.modelYear!.toString(),fontSize),

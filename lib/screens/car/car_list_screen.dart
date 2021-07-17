@@ -4,16 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_http_demo2/controllers/brand_controller.dart';
 import 'package:flutter_http_demo2/controllers/car_controller.dart';
 import 'package:flutter_http_demo2/controllers/color_controller.dart';
-import 'package:flutter_http_demo2/models/brand.dart';
-import 'package:flutter_http_demo2/models/car.dart';
+
 import 'package:flutter_http_demo2/models/carDetails.dart';
 import 'package:flutter_http_demo2/models/carImage.dart';
 import 'package:flutter_http_demo2/models/user.dart';
-import 'package:flutter_http_demo2/models/color.dart';
 import 'package:flutter_http_demo2/screens/car/car_detail.dart';
-import 'package:flutter_http_demo2/services/brand_service.dart';
 import 'package:flutter_http_demo2/services/car_service.dart';
-import 'package:flutter_http_demo2/services/color_service.dart';
 import 'package:flutter_http_demo2/widgets/DrawerWidget.dart';
 import 'package:get/get.dart';
 
@@ -60,7 +56,7 @@ class _CarListScreenState extends State<CarListScreen> {
   FloatingActionButton buildFloatingActionButton(BuildContext context) {
     return FloatingActionButton.extended(
       backgroundColor: Colors.black,
-      onPressed: () => Navigator.pushNamed(context, "/car-add"),
+      onPressed: () => Get.toNamed("/car-add"),
       icon: Icon(Icons.add,color: Colors.white,),
       label: Text("Add Car",style: TextStyle(color: Colors.white),),
     );
@@ -160,11 +156,18 @@ class _CarListScreenState extends State<CarListScreen> {
                         "https://10.0.2.2:5001/" + car.imagePath!),
 
                     buildListTile(
-                        Icon(Icons.car_rental,color: Colors.blue[500],),car.carName!,car.brandName!,TextButton(child: Text("Detail"),
+                        Icon(Icons.car_rental,color: Colors.blue[500],),
+                        car.carName!,
+                        car.brandName!,
+                        TextButton(child: Text("Detail"),
                       onPressed: () {setState(() {getCarImagesFromApi(car);});},
                     )),
-                    buildListTile2(Icon(Icons.attach_money,color: Colors.blue[500],),car.dailyPrice!.toString()+" TL",),
-                    ListTile(title: Text(car.modelYear.toString()),leading: Icon(Icons.date_range,color: Colors.blue,),),
+                    buildListTile2(
+                      Icon(Icons.attach_money,color: Colors.blue[500],),
+                      car.dailyPrice!=null?car.dailyPrice!.toString()+" TL":"null",),
+                    ListTile(title:
+                    Text(car.modelYear!=null?car.modelYear!.toString():"null"),
+                      leading: Icon(Icons.date_range,color: Colors.blue,),),
                   ],
                 ),
               ),
@@ -222,8 +225,7 @@ class _CarListScreenState extends State<CarListScreen> {
         Iterable list = json.decode(response.body);
 
         this.carImages =list.map((carImage) => CarImage.fromJson(carImage)).toList();
-
-        Navigator.push(context,MaterialPageRoute(builder: (context) {return CarDetailScreen(carDetails, this.carImages);}),);
+        Get.to(()=>CarDetailScreen(carDetails, this.carImages));
       });
     });
   }

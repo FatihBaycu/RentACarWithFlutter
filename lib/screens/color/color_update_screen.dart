@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_http_demo2/models/color.dart';
 import 'package:flutter_http_demo2/services/color_service.dart';
+import 'package:get/get.dart';
 
 class ColorUpdateScreen extends StatefulWidget {
   Color color;
@@ -19,9 +20,11 @@ class _ColorUpdateScreenState extends State<ColorUpdateScreen> {
 
   @override
   void initState() {
-    colorId.text=widget.color.colorId.toString();
-    colorName.text=widget.color.colorName!;
-    colorCode.text=widget.color.colorCode!;
+    colorId.text=widget.color.colorId!=null?widget.color.colorId.toString():"null";
+    colorName.text=widget.color.colorName!=null?widget.color.colorName.toString():"null";
+    colorCode.text=widget.color.colorCode!=null?widget.color.colorCode.toString():"null";
+    // colorName.text=widget.color.colorName!;
+    // colorCode.text=widget.color.colorCode!;
     super.initState();
   }
 
@@ -102,7 +105,7 @@ class _ColorUpdateScreenState extends State<ColorUpdateScreen> {
             formKey.currentState!.save();
             widget.color.colorName=colorName.text;
             widget.color.colorCode=colorCode.text;
-            ColorService.colorUpdate(widget.color).then((value) => Navigator.pushReplacementNamed(context, "/color"));
+            ColorService.colorUpdate(widget.color).then((value) => Get.offNamed("/color"));
           }
         },
       ),

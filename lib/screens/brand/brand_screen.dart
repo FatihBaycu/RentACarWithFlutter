@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_http_demo2/controllers/brand_controller.dart';
 import 'package:flutter_http_demo2/models/brand.dart';
@@ -74,7 +72,7 @@ class _BrandScreenState extends State<BrandScreen> {
 
   selectProcess(Options options, Brand brand) async {
     switch (options) {
-      case Options.update:Navigator.push(context, MaterialPageRoute(builder: (context)=>BrandUpdateScreen(brand)));break;
+      case Options.update:Get.to(()=>BrandUpdateScreen(brand));break;
       default:
     }
   }

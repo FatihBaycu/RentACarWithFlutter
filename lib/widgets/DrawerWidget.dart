@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_http_demo2/screens/brand/brand_screen.dart';
-import 'package:flutter_http_demo2/screens/car/car_add_screen.dart';
-import 'package:flutter_http_demo2/screens/car/car_list_screen.dart';
-import 'package:flutter_http_demo2/screens/color/color_screen.dart';
+import 'package:get/get.dart';
 
 class DrawerWidget extends StatelessWidget {
   @override
@@ -32,10 +29,10 @@ class DrawerWidget extends StatelessWidget {
           //     ),
           //   ),
           // ),
-          ListTile(title: Text("Home page",style: TextStyle(fontSize: 18),),onTap: (){customRoute(context,CarListScreen());}),
-          ListTile(title: Text("Brands",style: TextStyle(fontSize: 18),),onTap: (){customRoute(context,BrandScreen());},),
-          ListTile(title: Text("Colors",style: TextStyle(fontSize: 18),),onTap: (){customRoute(context,ColorScreen());}),
-          ListTile(title: Text("Add Car",style: TextStyle(fontSize: 18),),onTap: (){customRoute(context,CarAddScreen());},
+          ListTile(title: Text("Home page",style: TextStyle(fontSize: 18),),onTap: (){Get.toNamed("/car-list");}),
+          ListTile(title: Text("Brands",style: TextStyle(fontSize: 18),),onTap: (){Get.toNamed("/brand");},),
+          ListTile(title: Text("Colors",style: TextStyle(fontSize: 18),),onTap: (){Get.toNamed("/color");}),
+          ListTile(title: Text("Add Car",style: TextStyle(fontSize: 18),),onTap: (){Get.toNamed("/car-add");},
           ),
         ],
       ),
@@ -44,7 +41,5 @@ class DrawerWidget extends StatelessWidget {
 
     return drawer;
   }
-  customRoute(BuildContext context, screen) {
-    Navigator.push(context, MaterialPageRoute(builder: (builder) => screen));
-  }
+
 }

@@ -11,12 +11,11 @@ class Brand {
     Brand.required({this.brandName});
     
     Brand.fromJson(Map json){
-      this.brandId=json["brandId"];
-      this.brandName=json["brandName"];
-
+      this.brandName = ["", null].contains(json['brandName']) ? "null" : json['brandName'];
+      this.brandId = ["", null].contains(json['brandId']) ? 0 : json['brandId'];
     }
 
-    @override
+
     Map<String, dynamic> toJson(){
    var map=<String,dynamic>{
       "brandId":this.brandId,

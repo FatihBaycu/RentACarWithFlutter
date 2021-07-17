@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_http_demo2/controllers/color_controller.dart';
 import 'package:flutter_http_demo2/models/color.dart';
@@ -141,7 +139,7 @@ class _ColorScreenState extends State<ColorScreen> {
   selectProcess(Options options, Color color) async {
     switch (options) {
       case Options.update:
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>ColorUpdateScreen(color)),);
+        Get.to(()=>ColorUpdateScreen(color));
         break;
 
       default:

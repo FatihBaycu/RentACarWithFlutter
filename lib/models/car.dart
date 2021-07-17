@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 class Car{
   int? id;
   int? brandId;
@@ -25,17 +27,15 @@ class Car{
     this.carFindexPoint,
     );
 
-  
-    
     Car.fromJson(dynamic json){
-      this.id=int.parse(json["id"].toString());
-      this.brandId=json["brandId"];
-      this.colorId=json["colorId"];
-      this.carName=json["carName"];
-      this.modelYear=json["modelYear"];
-      this.dailyPrice=double.tryParse(["dailyPrice"].toString());
-      this.description=json["description"];
-      this.carFindexPoint=json["carFindexPoint"];
+      this.id = ["", null].contains(json['id']) ? 0 : json['id'];
+      this.brandId = ["", null].contains(json['brandId']) ? "null" : json['brandId'];
+      this.colorId = ["", null].contains(json['colorId']) ? 0 : json['colorId'];
+      this.carName = ["", null].contains(json["carName"]) ? "null" : json['carName'];
+      this.modelYear = ["", null].contains(json['modelYear'].toString()) ? 0 : json['modelYear'];
+      this.dailyPrice = ["", null].contains(json['dailyPrice']) ? 0 : json['dailyPrice'];
+      this.description = ["", null].contains(json['description']) ? "null" : json['description'];
+      this.carFindexPoint = ["", null].contains(json['carFindexPoint']) ? 0 : json['carFindexPoint'];
     }
 
     Map<String,dynamic>  toJson() {

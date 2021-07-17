@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_http_demo2/controllers/brand_controller.dart';
 import 'package:flutter_http_demo2/controllers/color_controller.dart';
-import 'package:flutter_http_demo2/models/brand.dart';
 import 'package:flutter_http_demo2/models/car.dart';
-import 'package:flutter_http_demo2/models/color.dart';
-import 'package:flutter_http_demo2/services/brand_service.dart';
 import 'package:flutter_http_demo2/services/car_service.dart';
-import 'dart:convert';
-
-import 'package:flutter_http_demo2/services/color_service.dart';
 import 'package:get/get.dart';
 
 
@@ -89,7 +83,7 @@ class _CarAddScreenState extends State<CarAddScreen> {
         return null;
       },
       onSaved: (String? value) {
-        car.carName = value!;
+        car.carName=value!;
       },
     );
   }
@@ -139,7 +133,7 @@ class _CarAddScreenState extends State<CarAddScreen> {
           if (formKey.currentState!.validate()) {
             formKey.currentState!.save();
             CarService.addCar(this.car).then((value) {
-              setState(() { Navigator.pushNamed(context, "/car-list"); });
+              setState(() { Get.toNamed("/car-list"); });
             });
           }
         },

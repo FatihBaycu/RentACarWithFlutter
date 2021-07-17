@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_http_demo2/controllers/brand_controller.dart';
 import 'package:flutter_http_demo2/controllers/color_controller.dart';
@@ -7,9 +5,7 @@ import 'package:flutter_http_demo2/models/brand.dart';
 import 'package:flutter_http_demo2/models/color.dart';
 import 'package:flutter_http_demo2/models/car.dart';
 import 'package:flutter_http_demo2/models/carDetails.dart';
-import 'package:flutter_http_demo2/services/brand_service.dart';
 import 'package:flutter_http_demo2/services/car_service.dart';
-import 'package:flutter_http_demo2/services/color_service.dart';
 import 'package:get/get.dart';
 
 class CarUpdateScreen extends StatefulWidget {
@@ -20,8 +16,6 @@ class CarUpdateScreen extends StatefulWidget {
   _CarUpdateScreenState createState() => _CarUpdateScreenState();
 }
 
-
-
 class _CarUpdateScreenState extends State<CarUpdateScreen> {
 
   var colors = <Color>[];
@@ -31,6 +25,7 @@ class _CarUpdateScreenState extends State<CarUpdateScreen> {
   Car car=new Car(0, 0, 0, "", 0, 0, "", 0);
 
   var formKey = GlobalKey<FormState>();
+
   var carId = TextEditingController();
   var carName = TextEditingController();
   var brandName = TextEditingController();
@@ -43,8 +38,19 @@ class _CarUpdateScreenState extends State<CarUpdateScreen> {
   var carFindexPoint = TextEditingController();
   var description = TextEditingController();
 
+  var selectionColorValue;
+  var selectionBrandValue;
   @override
   void initState() {
+    car.id=widget.carDetails.carId!=null?widget.carDetails.carId:0;
+    car.colorId=widget.carDetails.colorId!=null?widget.carDetails.colorId:0;
+    car.brandId=widget.carDetails.brandId!=null?widget.carDetails.brandId:0;
+    car.description=widget.carDetails.description!=null?widget.carDetails.description:"null";
+    car.modelYear=widget.carDetails.modelYear!=null?widget.carDetails.modelYear:0;
+    car.dailyPrice=widget.carDetails.dailyPrice!=null?widget.carDetails.dailyPrice!.toDouble():0;
+    car.carFindexPoint=widget.carDetails.carFindexPoint!=null?widget.carDetails.carFindexPoint:0;
+    car.carName=widget.carDetails.carName!=null?widget.carDetails.carName:"null";
+
     carId.text=widget.carDetails.carId.toString();
     carName.text=widget.carDetails.carName!;
     brandName.text=widget.carDetails.brandName!;
@@ -56,6 +62,11 @@ class _CarUpdateScreenState extends State<CarUpdateScreen> {
     colorId.text=widget.carDetails.colorId!.toString();
     carFindexPoint.text=widget.carDetails.carFindexPoint!.toString();
     description.text=widget.carDetails.description!.toString();
+
+
+    myBrandSelection=widget.carDetails.brandId;
+    myColorSelection=widget.carDetails.colorId;
+
     super.initState();
   }
 
@@ -65,6 +76,7 @@ class _CarUpdateScreenState extends State<CarUpdateScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Car Update"),
@@ -153,17 +165,6 @@ class _CarUpdateScreenState extends State<CarUpdateScreen> {
   }
 
 
-
-  Widget buildTextFormField(TextEditingController controller,String labelText){
-    return TextFormField(
-      controller: controller,
-      autovalidateMode: AutovalidateMode.always,
-      decoration: InputDecoration(labelText:labelText,border: OutlineInputBorder()),
-
-      onSaved:(value){},
-
-    );
-  }
   buildBrandsDropdownList() {
     return Container(
         child: InputDecorator(
@@ -185,9 +186,10 @@ class _CarUpdateScreenState extends State<CarUpdateScreen> {
           car.brandId=int.parse(myBrandSelection);
           print(car.brandId);
           //getCarsByBrandId(int.tryParse(newVal));
+           selectionBrandValue=myBrandSelection;
         });
       },
-      value: myBrandSelection,
+      value: selectionBrandValue,
     ),
     ),
     );
@@ -212,10 +214,11 @@ class _CarUpdateScreenState extends State<CarUpdateScreen> {
         onChanged: (newVal) {
           setState(() {
             myColorSelection = newVal;
+            selectionColorValue=myColorSelection;
           });
           car.colorId = int.parse(myColorSelection);
         },
-        value: myColorSelection,
+        value: selectionColorValue,
       );
     }),
       ),
@@ -229,11 +232,20 @@ class _CarUpdateScreenState extends State<CarUpdateScreen> {
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: ElevatedButton(
         child:Text("Update"),
-        onPressed: (){
+        onPressed: ()  {
+
+
           if(formKey.currentState!.validate()){
             formKey.currentState!.save();
             car.id=widget.carDetails.carId;
-           CarService.updateCar(car).then((value) => Navigator.pushReplacementNamed(context, "/car-list"));
+            car.description=description.text;
+            car.modelYear=int.parse(modelYear.text);
+            car.carFindexPoint=int.parse(carFindexPoint.text);
+            car.carName=carName.text;
+            car.dailyPrice=double.parse(dailyPrice.text);
+             CarService.updateCar(car);
+             Get.toNamed("/car-list");
+
           }
         },
       ),
