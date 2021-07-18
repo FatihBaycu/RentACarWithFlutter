@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_http_demo2/controllers/car_controller.dart';
 import 'package:flutter_http_demo2/models/carDetails.dart';
 import 'package:flutter_http_demo2/models/carImage.dart';
 import 'package:flutter_http_demo2/screens/car/car_update_screen.dart';
@@ -18,10 +19,14 @@ class CarDetailScreen extends StatefulWidget {
 }
 
 class _CarDetailScreenState extends State<CarDetailScreen> {
+
+  CarController carController=Get.put(CarController());
+
   //var carImages = <CarImage>[];
   var baseUrl = "https://10.0.2.2:5001/";
   @override
   void initState() {
+
     //getCarImagesFromApi(widget.selectedCar.carId);
     super.initState();
   }
@@ -54,31 +59,34 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
     );
   }
 
-   CarouselSlider buildCarouselSlider() {
-     return CarouselSlider.builder(
-          itemCount: widget.carImages!.length,
-          itemBuilder: (context, index, realIdx) {
-            var carImage = widget.carImages![index];
-            return
-              Container(
-              margin: EdgeInsets.all(6.0),
-              decoration: BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.circular(8.0),
-                image: DecorationImage(
-                    image: NetworkImage(baseUrl + carImage.imagePath!),
-                    fit: BoxFit.cover),
+
+   Widget buildCarouselSlider() {
+
+            return CarouselSlider.builder(
+              itemCount: widget.carImages!.length,
+              itemBuilder: (context, index, realIdx) {
+                var carImage = widget.carImages![index];
+                return
+                  Container(
+                    margin: EdgeInsets.all(6.0),
+                    decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.circular(8.0),
+                      image: DecorationImage(
+                          image: NetworkImage(baseUrl + carImage.imagePath!),
+                          fit: BoxFit.cover),
+                    ),
+                  );
+              },
+              options: CarouselOptions(
+                height: 180.0,
+                enlargeCenterPage: true,
+                aspectRatio: 16 / 9,
+                viewportFraction: 0.8,
               ),
             );
-          },
-          options: CarouselOptions(
-            height: 180.0,
-            enlargeCenterPage: true,
-            aspectRatio: 16 / 9,
-            viewportFraction: 0.8,
-          ),
-        );
-   }
+          }
+
 
  Widget buildListTile(Icon leadingIcon, String title, String tralling, double fontSize){
     return ListTile(
@@ -97,7 +105,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
           child: Column(
             children: [
               ListTile(leading:Icon(Icons.update,color: Colors.orange,),title:Text("Update"), trailing: Icon(Icons.navigate_next,color: Colors.orangeAccent,),onTap: (){Get.to(()=>CarUpdateScreen(widget.selectedCar!));}),
-              buildListTile(Icon(Icons.car_repair,color: Colors.blue,),"Model Name", widget.selectedCar!.carName!,fontSize),
+              buildListTile(Icon(Icons.car_repair,color: Colors.blue,),"Model Name",widget.selectedCar!.carName! ,fontSize),
               buildListTile(Icon(Icons.card_giftcard,color: Colors.blue,),"Model Name", widget.selectedCar!.description!,fontSize),
               buildListTile(Icon(Icons.point_of_sale_sharp,color: Colors.blue,),"Model Year", widget.selectedCar!.modelYear!.toString(),fontSize),
               buildListTile(Icon(Icons.date_range,color: Colors.blue,),"Daily Price", widget.selectedCar!.dailyPrice!.toString() + r" $",fontSize),
@@ -111,3 +119,4 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
   }
 
 }
+

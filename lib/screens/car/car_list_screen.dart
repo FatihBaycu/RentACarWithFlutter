@@ -10,6 +10,7 @@ import 'package:flutter_http_demo2/models/carImage.dart';
 import 'package:flutter_http_demo2/models/user.dart';
 import 'package:flutter_http_demo2/screens/car/car_detail.dart';
 import 'package:flutter_http_demo2/services/car_service.dart';
+import 'package:flutter_http_demo2/test/view/test_view.dart';
 import 'package:flutter_http_demo2/widgets/DrawerWidget.dart';
 import 'package:get/get.dart';
 
@@ -45,6 +46,7 @@ class _CarListScreenState extends State<CarListScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       floatingActionButton: buildFloatingActionButton(context),
       appBar: AppBar(title: Text("Car List"),),
@@ -82,6 +84,7 @@ class _CarListScreenState extends State<CarListScreen> {
   }
 
 
+
   buildColorsDropdownList() {
     return new Center(
       child: new DropdownButton(
@@ -102,6 +105,8 @@ class _CarListScreenState extends State<CarListScreen> {
       ),
     );
   }
+
+
 
   buildBrandsDropdownList() {
     return new Center(
@@ -143,38 +148,39 @@ class _CarListScreenState extends State<CarListScreen> {
 
 
   Widget buildCard() {
+    return GetBuilder<CarController>(builder: (controller){
+   return ListView.builder(
+      itemCount: controller.carDetailList.length,
+      itemBuilder: (BuildContext context, index) {
+        var car=controller.carDetailList[index];
+        return SizedBox(
+          child: Card(
+            child: Column(
+              children: [
+                Image.network(
+                    "https://10.0.2.2:5001/" + car.imagePath!),
 
-      return ListView.builder(
-          itemCount: carDetails.length,
-          itemBuilder: (BuildContext context, index) {
-            var car=carDetails[index];
-            return SizedBox(
-              child: Card(
-                child: Column(
-                  children: [
-                    Image.network(
-                        "https://10.0.2.2:5001/" + car.imagePath!),
-
-                    buildListTile(
-                        Icon(Icons.car_rental,color: Colors.blue[500],),
-                        car.carName!,
-                        car.brandName!,
-                        TextButton(child: Text("Detail"),
+                buildListTile(
+                    Icon(Icons.car_rental,color: Colors.blue[500],),
+                    car.carName!,
+                    car.brandName!,
+                    TextButton(child: Text("Detail"),
                       onPressed: () {setState(() {getCarImagesFromApi(car);});},
                     )),
-                    buildListTile2(
-                      Icon(Icons.attach_money,color: Colors.blue[500],),
-                      car.dailyPrice!=null?car.dailyPrice!.toString()+" TL":"null",),
-                    ListTile(title:
-                    Text(car.modelYear!=null?car.modelYear!.toString():"null"),
-                      leading: Icon(Icons.date_range,color: Colors.blue,),),
-                  ],
-                ),
-              ),
-            );
-          });
+                buildListTile2(
+                  Icon(Icons.attach_money,color: Colors.blue[500],),
+                  car.dailyPrice!=null?car.dailyPrice!.toString()+" TL":"null",),
+                ListTile(title:
+                Text(car.modelYear!=null?car.modelYear!.toString():"null"),
+                  leading: Icon(Icons.date_range,color: Colors.blue,),),
+              ],
+            ),
+          ),
+        );
+      });
+    });
 
-    }
+  }
 
   Future<void> getCarsByColorId(int colorId) async {
     await CarService.getCarDetailsByColorId(colorId).then((response) {
@@ -220,14 +226,8 @@ class _CarListScreenState extends State<CarListScreen> {
 
 
   Future<void> getCarImagesFromApi(CarDetails carDetails) async {
-    await CarService.getCarImagesByCarId(carDetails.carId!).then((response) {
-      setState(() {
-        Iterable list = json.decode(response.body);
-
-        this.carImages =list.map((carImage) => CarImage.fromJson(carImage)).toList();
-        Get.to(()=>CarDetailScreen(carDetails, this.carImages));
-      });
-    });
+    await carController.getCarImagesByCarId(carDetails.carId!);
+    Get.to(() => CarDetailScreen(carDetails, carController.carImageList));
   }
 
   buildSelectFilterButton() {
@@ -259,4 +259,8 @@ class _CarListScreenState extends State<CarListScreen> {
       },
     );
   }
+
+
+
 }
+
