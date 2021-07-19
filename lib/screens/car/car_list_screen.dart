@@ -1,16 +1,10 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_http_demo2/controllers/brand_controller.dart';
 import 'package:flutter_http_demo2/controllers/car_controller.dart';
 import 'package:flutter_http_demo2/controllers/color_controller.dart';
-
+import 'package:flutter_http_demo2/globalVariables.dart';
 import 'package:flutter_http_demo2/models/carDetails.dart';
-import 'package:flutter_http_demo2/models/carImage.dart';
-import 'package:flutter_http_demo2/models/user.dart';
 import 'package:flutter_http_demo2/screens/car/car_detail.dart';
-import 'package:flutter_http_demo2/services/car_service.dart';
-import 'package:flutter_http_demo2/test/view/test_view.dart';
 import 'package:flutter_http_demo2/widgets/DrawerWidget.dart';
 import 'package:get/get.dart';
 
@@ -24,29 +18,19 @@ class _CarListScreenState extends State<CarListScreen> {
 
   BrandController brandController=Get.put(BrandController());
   ColorController colorController=Get.put(ColorController());
-
-
-
-  var users = <User>[];
-
-  var carImages = <CarImage>[];
-  var carDetails = <CarDetails>[];
+  CarController carController=Get.put(CarController());
 
   var _myBrandSelection;
   var _myColorSelection;
 
 
-  CarController carController=Get.put(CarController());
-
   @override
   void initState() {
-    getCarDetailsFromApi();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       floatingActionButton: buildFloatingActionButton(context),
       appBar: AppBar(title: Text("Car List"),),
@@ -98,7 +82,6 @@ class _CarListScreenState extends State<CarListScreen> {
         onChanged: (newVal) {
           setState(() {
             _myColorSelection = newVal;
-            //getCarsByColorId(int.tryParse(newVal));
           });
         },
         value: _myColorSelection,
@@ -121,7 +104,6 @@ class _CarListScreenState extends State<CarListScreen> {
         onChanged: (newVal) {
           setState(() {
             _myBrandSelection = newVal;
-            //getCarsByBrandId(int.tryParse(newVal));
           });
         },
         value: _myBrandSelection,
@@ -129,101 +111,44 @@ class _CarListScreenState extends State<CarListScreen> {
     );
   }
 
-  Widget buildListTile(Icon leading, String subTitle,String title,tralling){
-    return ListTile(
-      leading: leading,
-      title: Text(title,style: TextStyle(fontWeight: FontWeight.w500)),
-      subtitle: Text(subTitle),
-      trailing: tralling,
-    );
-  }
-
-  Widget buildListTile2(Icon leading,String title){
-    return ListTile(
-      leading: leading,
-      title: Text(title,style: TextStyle(fontWeight: FontWeight.w500)),
-    );
-  }
-
-
-
   Widget buildCard() {
     return GetBuilder<CarController>(builder: (controller){
-   return ListView.builder(
-      itemCount: controller.carDetailList.length,
-      itemBuilder: (BuildContext context, index) {
-        var car=controller.carDetailList[index];
-        return SizedBox(
-          child: Card(
-            child: Column(
-              children: [
-                Image.network(
-                    "https://10.0.2.2:5001/" + car.imagePath!),
+      return Obx((){
+        return ListView.builder(
+            itemCount: controller.carDetailList.length,
+            itemBuilder: (BuildContext context, index) {
+              var car=controller.carDetailList[index];
+              return SizedBox(
+                child: Card(
+                  child: Column(
+                    children: [
+                      Image.network(GlobalVariables.apiUrlBase+car.imagePath!),
 
-                buildListTile(
-                    Icon(Icons.car_rental,color: Colors.blue[500],),
-                    car.carName!,
-                    car.brandName!,
-                    TextButton(child: Text("Detail"),
-                      onPressed: () {setState(() {getCarImagesFromApi(car);});},
-                    )),
-                buildListTile2(
-                  Icon(Icons.attach_money,color: Colors.blue[500],),
-                  car.dailyPrice!=null?car.dailyPrice!.toString()+" TL":"null",),
-                ListTile(title:
-                Text(car.modelYear!=null?car.modelYear!.toString():"null"),
-                  leading: Icon(Icons.date_range,color: Colors.blue,),),
-              ],
-            ),
-          ),
-        );
+                      ListTile(
+                        leading: Icon(Icons.car_rental,color: Colors.blue[500],),
+                        title: Text(car.carName!),
+                        subtitle: Text(car.brandName!),
+                        trailing:TextButton(child: Text("Detail"),onPressed: ()=>getCarImagesFromApi(car),),
+                      ),
+
+                      ListTile(
+                        leading:Icon(Icons.attach_money,color: Colors.blue[500],),
+                        title: Text("${car.dailyPrice} \$"),
+                      ),
+                      ListTile(
+                        title:Text(car.modelYear!.toString()),
+                        leading: Icon(Icons.date_range,color: Colors.blue,),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            });
       });
+
     });
 
   }
-
-  Future<void> getCarsByColorId(int colorId) async {
-    await CarService.getCarDetailsByColorId(colorId).then((response) {
-      setState(() {
-        Iterable list = json.decode(response.body)["data"];
-        this.carDetails =
-            list.map((carDetail) => CarDetails.fromJson(carDetail)).toList();
-      });
-    });
-  }
-
-  Future<void> getCarsByBrandId(int brandId) async {
-    await CarService.getCarDetailsByBrandId(brandId).then((response) {
-      setState(() {
-        Iterable list = json.decode(response.body)["data"];
-        this.carDetails =
-            list.map((carDetail) => CarDetails.fromJson(carDetail)).toList();
-      });
-    });
-  }
-
-  Future<void> getCarsByBrandAndColorId(int brandId, int colorId) async {
-    await CarService.getCarDetailsByBrandAndColorId(brandId, colorId)
-        .then((response) {
-      setState(() {
-        Iterable list = json.decode(response.body)["data"];
-        this.carDetails =
-            list.map((carDetail) => CarDetails.fromJson(carDetail)).toList();
-      });
-    });
-  }
-
-  Future<void> getCarDetailsFromApi() async {
-    await CarService.getCarDetails().then((response) {
-      setState(() {
-        Iterable list = json.decode(response.body)["data"];
-        this.carDetails =
-            list.map((carDetail) => CarDetails.fromJson(carDetail)).toList();
-      });
-    });
-  }
-
-
 
   Future<void> getCarImagesFromApi(CarDetails carDetails) async {
     await carController.getCarImagesByCarId(carDetails.carId!);
@@ -235,9 +160,17 @@ class _CarListScreenState extends State<CarListScreen> {
       icon: Icon(Icons.search_sharp, color: Colors.blue),
       onPressed: () {
         setState(() {
-          if (_myBrandSelection != null && _myColorSelection != null) {getCarsByBrandAndColorId(int.parse(this._myBrandSelection),int.parse(this._myColorSelection));}
-          else if (_myBrandSelection != null && _myColorSelection == null) {getCarsByBrandId(int.parse(this._myBrandSelection));}
-          else if(this._myColorSelection!=null){ getCarsByColorId(int.parse(this._myColorSelection)); }
+          if (_myBrandSelection != null && _myColorSelection != null) {
+            carController.getAllCarDetailsByBrandAndColorId(int.parse(this._myBrandSelection),int.parse(this._myColorSelection));
+          }
+
+          else if (_myBrandSelection != null && _myColorSelection == null) {
+            carController.getAllCarDetailsByBrandId(int.parse(this._myBrandSelection));
+          }
+
+          else if(this._myColorSelection!=null){
+            carController.getAllCarDetailsByColorId(int.parse(this._myColorSelection));
+          }
           else{}
         });
       },
@@ -245,22 +178,15 @@ class _CarListScreenState extends State<CarListScreen> {
   }
 
   buildClearFilterButton() {
-    return IconButton(
-      icon: Icon(
-        Icons.delete,
-        color: Colors.red,
-      ),
+    return IconButton(icon: Icon(Icons.delete,color: Colors.red,),
       onPressed: () {
         setState(() {
           _myBrandSelection = null;
           _myColorSelection = null;
-          getCarDetailsFromApi();
+          carController.getAllCarDetails();
         });
       },
     );
   }
-
-
-
 }
 

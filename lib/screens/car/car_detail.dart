@@ -1,9 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_http_demo2/controllers/car_controller.dart';
+import 'package:flutter_http_demo2/globalVariables.dart';
 import 'package:flutter_http_demo2/models/carDetails.dart';
 import 'package:flutter_http_demo2/models/carImage.dart';
 import 'package:flutter_http_demo2/screens/car/car_update_screen.dart';
+import 'package:flutter_http_demo2/widgets/list_tile_widget.dart';
 import 'package:get/get.dart';
 
 
@@ -21,15 +23,7 @@ class CarDetailScreen extends StatefulWidget {
 class _CarDetailScreenState extends State<CarDetailScreen> {
 
   CarController carController=Get.put(CarController());
-
-  //var carImages = <CarImage>[];
-  var baseUrl = "https://10.0.2.2:5001/";
-  @override
-  void initState() {
-
-    //getCarImagesFromApi(widget.selectedCar.carId);
-    super.initState();
-  }
+  var baseUrl = GlobalVariables.apiUrlBase;
 
   @override
   Widget build(BuildContext context) {
@@ -52,16 +46,13 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
      return  Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: ListView(
-        children: [
-          buildCarouselSlider(),
-        ],
+        children: [buildCarouselSlider(),],
       ),
     );
   }
 
 
    Widget buildCarouselSlider() {
-
             return CarouselSlider.builder(
               itemCount: widget.carImages!.length,
               itemBuilder: (context, index, realIdx) {
@@ -95,6 +86,8 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
       trailing: Text(tralling,style:TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold)),
     );
   }
+
+
 
   Widget buildCardView() {
     double fontSize = 20;
