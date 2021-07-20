@@ -17,6 +17,21 @@ A new Flutter application.
 
 ## Getting Started
 
+**If You Want To Run This Project. **
+- You must install the backend first.
+- backend link=>`https://github.com/FatihBaycu/RentACarProject`
+- After backend integrations (Sql)
+
+- To run in the WepAPI layer, you must run the backend.
+
+- if the backend base url changes, you should change the urls in the lib/GlobalVariables.dart file.
+
+- then to terminal screen
+- $ `flutter pub get`
+next
+- $ `flutter run`
+- You can write a project and run it.
+
 This project is a starting point for a Flutter application.
 
 A few resources to get you started if this is your first Flutter project:
