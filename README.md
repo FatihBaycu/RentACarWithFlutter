@@ -5,6 +5,7 @@ A new Flutter application.
     
  **Upgraded to Flutter 2 and enabled Null Safety.**
 ![newTheme](https://github.com/FatihBaycu/RentACarWithFlutter/blob/main/scrennshots/7.png)
+![image8](https://github.com/FatihBaycu/RentACarWithFlutter/blob/main/scrennshots/8.PNG)
 ![carAdd](https://github.com/FatihBaycu/RentACarWithFlutter/blob/main/scrennshots/1.PNG)
 ![image1](https://github.com/FatihBaycu/RentACarWithFlutter/blob/main/scrennshots/2.PNG)
 ![image2](https://github.com/FatihBaycu/RentACarWithFlutter/blob/main/scrennshots/3.PNG)
