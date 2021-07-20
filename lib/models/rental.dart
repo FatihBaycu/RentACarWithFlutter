@@ -1,29 +1,35 @@
-import 'dart:convert';
-
-class User{
-
+class Rental{
   int? id;
   int? carId;
   int? customerId;
   DateTime? rentDate;
   DateTime? returnDate;
 
+  // Rental.withEmpty();
+  Rental(this.id,this.carId,this.customerId,this.rentDate,this.returnDate);
 
-
-  User(this.id,this.carId,this.customerId,this.rentDate,this.returnDate);
-    
-    User.fromJson(Map json){
-      this.id=json["id"];
-//      id = ["", null].contains(json['user_id']) ? null : json['user_id'];
-
-      this.carId=json["carId"];
-      this.customerId=json["customerId"];
-      this.returnDate=json["returnDate"];
+  Rental.fromJson(Map json){
+      this.id = ["", null].contains(json['id']) ? 0 : json['id'];
+      this.carId = ["", null].contains(json['carId']) ? 0 : json['carId'];
+      this.customerId = ["", null].contains(json['customerId']) ? 0 : json['customerId'];
+      this.rentDate = ["", null].contains(json['rentDate']) ? 0 : json['rentDate'];
+      this.returnDate = ["", null].contains(json['returnDate']) ? 0 : json['returnDate'];
     }
 
     Map toJson(){
     Map rentalJsonFormat={
       "id":this.id,
+      "carId":this.carId,
+      "customerId":this.customerId,
+      "rentDate":this.rentDate,
+      "returnDate":this.returnDate
+    };
+      return rentalJsonFormat;
+    }
+
+    Map
+    toJsonToAdd(){
+    Map rentalJsonFormat={
       "carId":this.carId,
       "customerId":this.customerId,
       "rentDate":this.rentDate,

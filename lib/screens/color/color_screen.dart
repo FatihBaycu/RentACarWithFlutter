@@ -43,7 +43,10 @@ class _ColorScreenState extends State<ColorScreen> {
 
   buildColorList() {
     return Obx((){
-      return ListView.builder(
+      if(colorController.isLoading.value)
+          return Center(child: CircularProgressIndicator());
+      else
+          return ListView.builder(
         padding: EdgeInsets.only(left:20,right: 20),
           itemCount:colorController.colorList.length,
           itemBuilder: (context,index){

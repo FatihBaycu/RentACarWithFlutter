@@ -1,10 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_http_demo2/controllers/car_controller.dart';
+import 'package:flutter_http_demo2/controllers/rental_controller.dart';
 import 'package:flutter_http_demo2/globalVariables.dart';
 import 'package:flutter_http_demo2/models/carDetails.dart';
 import 'package:flutter_http_demo2/models/carImage.dart';
 import 'package:flutter_http_demo2/screens/car/car_update_screen.dart';
+import 'package:flutter_http_demo2/screens/rental/car_rental_screen.dart';
 import 'package:flutter_http_demo2/widgets/list_tile_widget.dart';
 import 'package:get/get.dart';
 
@@ -23,6 +25,7 @@ class CarDetailScreen extends StatefulWidget {
 class _CarDetailScreenState extends State<CarDetailScreen> {
 
   CarController carController=Get.put(CarController());
+  RentalController rentalController=Get.put(RentalController());
   var baseUrl = GlobalVariables.apiUrlBase;
 
   @override
@@ -98,6 +101,13 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
           child: Column(
             children: [
               ListTile(leading:Icon(Icons.update,color: Colors.orange,),title:Text("Update"), trailing: Icon(Icons.navigate_next,color: Colors.orangeAccent,),onTap: (){Get.to(()=>CarUpdateScreen(widget.selectedCar!));}),
+              ListTile(leading:Icon(Icons.car_rental,color: Colors.red,),title:Text("Rent"), trailing: Icon(Icons.navigate_next,color: Colors.red,),onTap: (){
+
+                rentalController.rental().carId=widget.selectedCar!.carId;
+                carController.carDetail(widget.selectedCar);
+                Get.to(()=>CarRentalScreen());
+
+              }),
               buildListTile(Icon(Icons.car_repair,color: Colors.blue,),"Model Name",widget.selectedCar!.carName! ,fontSize),
               buildListTile(Icon(Icons.card_giftcard,color: Colors.blue,),"Model Name", widget.selectedCar!.description!,fontSize),
               buildListTile(Icon(Icons.point_of_sale_sharp,color: Colors.blue,),"Model Year", widget.selectedCar!.modelYear!.toString(),fontSize),

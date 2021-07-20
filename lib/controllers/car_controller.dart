@@ -7,10 +7,11 @@ import 'package:flutter_http_demo2/services/car_service.dart';
 import 'package:get/get.dart';
 
 class CarController extends GetxController {
-  var isLoading = false.obs;
+  var isLoading = true.obs;
   var carList = <Car>[].obs;
   var carDetailList = <CarDetails>[].obs;
   var carImageList = <CarImage>[].obs;
+  var carDetail=CarDetails.withEmpty().obs;
 
   @override
   void onInit() {

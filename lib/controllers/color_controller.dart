@@ -9,12 +9,13 @@ class ColorController extends GetxController{
   var colorList=<Color>[].obs;
 
   @override
-  void onInit() {
-    getAll();
+  Future<void> onInit() async {
+    await getAll();
     super.onInit();
   }
 
-  void getAll() async{
+
+  Future<void> getAll() async{
     try{
       isLoading(true);
       await ColorService.getAll().then((response){

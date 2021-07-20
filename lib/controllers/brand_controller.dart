@@ -9,12 +9,12 @@ class BrandController extends GetxController{
   var brandList=<Brand>[].obs;
 
   @override
-  void onInit() {
-    getAll();
+  Future<void> onInit() async {
+    await getAll();
     super.onInit();
   }
 
-   void getAll()async {
+   Future<void> getAll()async {
     try{
       isLoading(true);
       await BrandService.getAll().then((response) {

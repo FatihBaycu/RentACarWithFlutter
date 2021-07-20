@@ -25,11 +25,6 @@ class _CarListScreenState extends State<CarListScreen> {
 
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: buildFloatingActionButton(context),
@@ -70,13 +65,13 @@ class _CarListScreenState extends State<CarListScreen> {
 
 
   buildColorsDropdownList() {
-    return new Center(
-      child: new DropdownButton(
-        hint: Text("Colors"),
-        items: colorController.colorList.map((item) {
-          return new DropdownMenuItem(
-            child: new Text(item.colorName!),
-            value: item.colorId.toString(),
+    return Center(
+      child: DropdownButton(
+        hint:Text("Colors"),
+        items:colorController.colorList.map((item) {
+          return DropdownMenuItem(
+            child: Text(item.colorName!),
+            value:item.colorId.toString(),
           );
         }).toList(),
         onChanged: (newVal) {
@@ -92,12 +87,12 @@ class _CarListScreenState extends State<CarListScreen> {
 
 
   buildBrandsDropdownList() {
-    return new Center(
-      child: new DropdownButton(
+    return  Center(
+      child:  DropdownButton(
         hint: Text("Brands"),
         items: brandController.brandList.map((item) {
-          return new DropdownMenuItem(
-            child: new Text(item.brandName!),
+          return  DropdownMenuItem(
+            child:  Text(item.brandName!),
             value: item.brandId.toString(),
           );
         }).toList(),
@@ -114,7 +109,10 @@ class _CarListScreenState extends State<CarListScreen> {
   Widget buildCard() {
     return GetBuilder<CarController>(builder: (controller){
       return Obx((){
-        return ListView.builder(
+        if(carController.isLoading.value)
+          return Center(child: CircularProgressIndicator());
+        else
+          return ListView.builder(
             itemCount: controller.carDetailList.length,
             itemBuilder: (BuildContext context, index) {
               var car=controller.carDetailList[index];
@@ -122,8 +120,7 @@ class _CarListScreenState extends State<CarListScreen> {
                 child: Card(
                   child: Column(
                     children: [
-                      Image.network(GlobalVariables.apiUrlBase+car.imagePath!),
-
+                      car.imagePath!=null?Image.network(GlobalVariables.apiUrlBase+car.imagePath!):CircularProgressIndicator(),
                       ListTile(
                         leading: Icon(Icons.car_rental,color: Colors.blue[500],),
                         title: Text(car.carName!),

@@ -11,6 +11,7 @@ class CarDetails {
   int? colorId;
   int? carFindexPoint;
 
+  CarDetails.withEmpty();
 
   CarDetails(
       this.description,

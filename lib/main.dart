@@ -5,6 +5,8 @@ import 'package:flutter_http_demo2/screens/brand/brand_screen.dart';
 import 'package:flutter_http_demo2/screens/car/car_add_screen.dart';
 import 'package:flutter_http_demo2/screens/car/car_list_screen.dart';
 import 'package:flutter_http_demo2/screens/color/color_screen.dart';
+import 'package:flutter_http_demo2/screens/rental/car_rental_screen.dart';
+import 'package:flutter_http_demo2/screens/rental/payment_screen.dart';
 import 'package:get/get.dart';
 
 
@@ -43,7 +45,7 @@ class _ApiDemoState extends State<ApiDemo> {
         GetPage(name: "/car-add", page:()=>CarAddScreen()),
         GetPage(name: "/color", page:()=>ColorScreen()),
         GetPage(name: "/brand", page:()=>BrandScreen()),
-
+        GetPage(name: "/rental", page:()=>CarRentalScreen()),
       ],
       home: CarListScreen(),
     );
