@@ -28,7 +28,6 @@ A new Flutter application.
 
 - then to terminal screen
 - $ `flutter pub get`
-next
 - $ `flutter run`
 - You can write a project and run it.
 
