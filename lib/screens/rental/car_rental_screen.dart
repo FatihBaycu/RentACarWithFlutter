@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_http_demo2/controllers/card_controller.dart';
+import 'package:flutter_http_demo2/controllers/car_controller.dart';
 import 'package:flutter_http_demo2/controllers/rental_controller.dart';
+import 'package:flutter_http_demo2/globalVariables.dart';
 import 'package:flutter_http_demo2/screens/rental/payment_screen.dart';
 import 'package:get/get.dart';
 
@@ -16,6 +17,7 @@ class _CarRentalScreenState extends State<CarRentalScreen> {
   DateTime returnDate = DateTime.now();
 
   RentalController rentalController=Get.put(RentalController());
+  CarController carController=Get.put(CarController());
 
   @override
   Widget build(BuildContext context) {
@@ -28,33 +30,60 @@ class _CarRentalScreenState extends State<CarRentalScreen> {
   }
 
   buildBody() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        ElevatedButton(
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          SizedBox(
+            height: Get.height*0.50,
+            width: Get.width*0.999,
+            child: Container(
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(GlobalVariables.apiUrlBase +carController.carDetail().imagePath!)),
+                  shape: BoxShape.circle,
+                  color: Colors.red),
+            ),
+          ),
+          //ElevatedButton(
+          //     onPressed: () {
+          //       print(rentDate);
+          //       print(returnDate);
+          //     },
+          //     child: Text("Print Dates")),
+          ElevatedButton(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.date_range),
+                Text('Pick a rent date'),
+              ],
+            ),
             onPressed: () {
-              print(rentDate);
-              print(returnDate);
+              showRentDateDialog();
             },
-            child: Text("Print Dates")),
-        ElevatedButton(
-          child: Text('Pick a rent date'),
-          onPressed: () {
-            showRentDateDialog();
-          },
-        ),
-        ElevatedButton(
-          child: Text('Pick a return date'),
-          onPressed: () {
-            showReturnDateDialog();
-          },
-        ),
-        ElevatedButton(
+          ),
+          ElevatedButton(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.date_range),
+                Text('Pick a return date'),
+              ],
+            ),
             onPressed: () {
-              Get.to(() => PaymentScreen());
+              showReturnDateDialog();
             },
-            child: Text("Go to Payment")),
-      ],
+          ),
+          TextButton(
+              onPressed: () {
+                Get.to(() => PaymentScreen());
+              },
+              child: Text("Go to Payment")),
+        ],
+      ),
     );
   }
 
@@ -67,14 +96,21 @@ class _CarRentalScreenState extends State<CarRentalScreen> {
         .then((date) {
       setState(() {
         rentDate = date != null ? date : DateTime.now();
+       // var newDate=DateTime.utc(rentDate.year,rentDate.month,rentDate.day);
         rentalController.rental().rentDate=date;
 
       });
     });
+  }
 
-
+  bool checkReturnDate(DateTime rentDate,DateTime returnDate){
+    if(returnDate.day < rentDate.day  || returnDate.day==rentDate.day)
+      return false;
+    else
+      return true;
 
   }
+
 
   showReturnDateDialog() {
     return showDatePicker(
@@ -85,8 +121,14 @@ class _CarRentalScreenState extends State<CarRentalScreen> {
         .then((date) {
       setState(() {
         returnDate = date != null ? date : DateTime.now();
+        //var newDate=DateTime.utc(returnDate.year,returnDate.month,returnDate.day);
         rentalController.rental().returnDate=date;
       });
     });
   }
+
+
+
+
+
 }

@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+
 class Rental{
   int? id;
   int? carId;
@@ -5,7 +9,7 @@ class Rental{
   DateTime? rentDate;
   DateTime? returnDate;
 
-  // Rental.withEmpty();
+  Rental.withEmpty();
   Rental(this.id,this.carId,this.customerId,this.rentDate,this.returnDate);
 
   Rental.fromJson(Map json){
@@ -27,14 +31,16 @@ class Rental{
       return rentalJsonFormat;
     }
 
-    Map
-    toJsonToAdd(){
-    Map rentalJsonFormat={
-      "carId":this.carId,
-      "customerId":this.customerId,
-      "rentDate":this.rentDate,
-      "returnDate":this.returnDate
-    };
-      return rentalJsonFormat;
+
+    Map<String,dynamic> toJsonToAdd() {
+      return {
+        "carId": this.carId,
+        "customerId": this.customerId,
+        "rentDate": rentDate!.toIso8601String(),
+        "returnDate": returnDate!.toIso8601String(),
+      };
     }
+
+
+
 }

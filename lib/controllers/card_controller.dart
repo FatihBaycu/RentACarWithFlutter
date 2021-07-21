@@ -4,9 +4,9 @@ import 'package:flutter_http_demo2/models/card.dart';
 import 'package:flutter_http_demo2/services/card_service.dart';
 import 'package:get/get.dart';
 
-class CardConroller extends GetxController {
+class CardController extends GetxController {
   var isLoading = true.obs;
-  var cardList = <Card>[].obs;
+  var cardList = <CardModel>[].obs;
 
   @override
   void onInit() {
@@ -19,7 +19,7 @@ class CardConroller extends GetxController {
       await CardService.getCardsByCustomerId(customerId).then((response) {
         isLoading(true);
         var result = (jsonDecode(response.body)["data"] as List)
-            .map((e) => Card.fromJson(e))
+            .map((e) => CardModel.fromJson(e))
             .toList();
         if (result != null) {
           cardList.assignAll(result);
@@ -28,5 +28,9 @@ class CardConroller extends GetxController {
     } finally {
       isLoading(false);
     }
+  }
+
+  addCard(CardModel card)async{
+    await CardService.addCard(card);
   }
 }
