@@ -8,6 +8,8 @@ import 'package:flutter_http_demo2/screens/color/color_screen.dart';
 import 'package:flutter_http_demo2/screens/rental/car_rental_screen.dart';
 import 'package:flutter_http_demo2/screens/rental/my_rentals_screen.dart';
 import 'package:flutter_http_demo2/screens/rental/payment_screen.dart';
+import 'package:flutter_http_demo2/screens/user_login/login_screen.dart';
+import 'package:flutter_http_demo2/test/view/generic_model_view.dart';
 import 'package:get/get.dart';
 
 
@@ -49,7 +51,7 @@ class _ApiDemoState extends State<ApiDemo> {
         GetPage(name: "/rental", page:()=>CarRentalScreen()),
         GetPage(name: "/my-rentals", page:()=>MyRentalsScreen()),
       ],
-      home: CarListScreen(),
+      home: LoginScreen(),
     );
   }
 }

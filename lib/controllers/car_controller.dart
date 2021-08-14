@@ -13,6 +13,10 @@ class CarController extends GetxController {
   var carImageList = <CarImage>[].obs;
   var carDetail=CarDetails.withEmpty().obs;
 
+  String token=authController.token().token.toString();
+
+
+
   @override
   void onInit() {
     getAllCarDetails();
@@ -21,11 +25,13 @@ class CarController extends GetxController {
 
   void getAllCarDetails() async {
     try {
-      await CarService.getCarDetails().then((response) {
+      await CarService.getCarDetails(token).then((response) {
         isLoading(true);
         var result = (jsonDecode(response.body)["data"] as List)
             .map((e) => CarDetails.fromJson(e))
             .toList();
+
+
         if (result != null) {
           carDetailList.assignAll(result);
         }

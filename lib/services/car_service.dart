@@ -1,14 +1,27 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_http_demo2/controllers/auth_controller.dart';
 import 'package:flutter_http_demo2/globalVariables.dart';
 import 'package:flutter_http_demo2/models/car.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 String apiUrl=GlobalVariables.apiUrl;
+AuthController authController=Get.put(AuthController());
+
 class CarService {
-  //static Future getAll() => http.get(Uri.http(GlobalVariables.apiUrl, "cars/getall"));
-  static Future getCarDetails() async{return await http.get(Uri.parse(apiUrl+"Cars/getcardetail"));}
+
+
+
+  static Future getCarDetails(String token) async{
+    return await http.get(
+      Uri.parse(apiUrl+"Cars/getcardetail"),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Authorization':token
+    },
+  );}
   static Future getCarDetailsByCarId(int carId) async{return await http.get(Uri.parse(apiUrl+"Cars/getcardetailsbycar?carId=$carId"));}
 
   static Future getCarDetailsByColorId(int colorId)async{return await http.get(Uri.parse(apiUrl+"Cars/getcardetailsbycolor?colorId=$colorId"));}

@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class Car{
   int? id;
   int? brandId;

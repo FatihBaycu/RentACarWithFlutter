@@ -6,7 +6,9 @@ class User{
   String? passwordHash;
   String? passwordSalt;
   bool? status;
-  
+
+    User.withEmpty();
+
     User(this.id,this.firstName,this.lastName,this.email,this.passwordHash,this.passwordSalt,this.status);
     
     User.fromJson(Map json){
