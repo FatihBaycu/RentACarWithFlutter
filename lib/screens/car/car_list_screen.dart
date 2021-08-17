@@ -16,9 +16,10 @@ class CarListScreen extends StatefulWidget {
 
 class _CarListScreenState extends State<CarListScreen> {
 
-  BrandController brandController=Get.put(BrandController());
-  ColorController colorController=Get.put(ColorController());
+  BrandController brandController=Get.put(BrandController(),permanent: true);
+  ColorController colorController=Get.put(ColorController(),permanent: true);
   CarController carController=Get.put(CarController());
+
 
   var _myBrandSelection;
   var _myColorSelection;
@@ -127,7 +128,6 @@ class _CarListScreenState extends State<CarListScreen> {
                         subtitle: Text(car.brandName!),
                         trailing:TextButton(child: Text("Detail"),onPressed: ()=>getCarImagesFromApi(car),),
                       ),
-
                       ListTile(
                         leading:Icon(Icons.attach_money,color: Colors.blue[500],),
                         title: Text("${car.dailyPrice} \$"),

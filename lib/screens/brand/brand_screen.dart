@@ -47,7 +47,8 @@ class _BrandScreenState extends State<BrandScreen> {
           return Center(child: CircularProgressIndicator(),);
       else
         return ListView.builder(
-          itemCount: brandController.brandList.length,
+            padding: EdgeInsets.only(left:20,right: 20),
+            itemCount: brandController.brandList.length,
           itemBuilder: (context,int index){
             var brands=brandController.brandList;
             return ListTile(
@@ -95,7 +96,8 @@ class _BrandScreenState extends State<BrandScreen> {
   }
 
   buildBrandNameField() {
-    return TextFormField(decoration: const InputDecoration(hintText: "Enter brand name"),
+    return TextFormField(decoration:  InputDecoration(labelText: "Enter brand name", border: OutlineInputBorder(),),
+
       autovalidateMode: AutovalidateMode.always,
       controller: brandName,
       validator: (String? value){

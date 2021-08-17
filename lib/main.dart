@@ -1,15 +1,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_http_demo2/models/color.dart';
 import 'package:flutter_http_demo2/screens/brand/brand_screen.dart';
 import 'package:flutter_http_demo2/screens/car/car_add_screen.dart';
 import 'package:flutter_http_demo2/screens/car/car_list_screen.dart';
 import 'package:flutter_http_demo2/screens/color/color_screen.dart';
 import 'package:flutter_http_demo2/screens/rental/car_rental_screen.dart';
 import 'package:flutter_http_demo2/screens/rental/my_rentals_screen.dart';
-import 'package:flutter_http_demo2/screens/rental/payment_screen.dart';
-import 'package:flutter_http_demo2/screens/user_login/login_screen.dart';
-import 'package:flutter_http_demo2/test/view/generic_model_view.dart';
+import 'package:flutter_http_demo2/screens/user_screens/login_screen.dart';
 import 'package:get/get.dart';
 
 
@@ -35,12 +32,12 @@ class ApiDemo extends StatefulWidget {
 }
 
 class _ApiDemoState extends State<ApiDemo> {
-  Color? color;
-
   @override
   Widget build(BuildContext context) {
 
     return GetMaterialApp(
+
+
       theme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
       getPages: [
@@ -50,8 +47,10 @@ class _ApiDemoState extends State<ApiDemo> {
         GetPage(name: "/brand", page:()=>BrandScreen()),
         GetPage(name: "/rental", page:()=>CarRentalScreen()),
         GetPage(name: "/my-rentals", page:()=>MyRentalsScreen()),
+        GetPage(name: "/login-screen", page:()=>LoginScreen()),
       ],
-      home: LoginScreen(),
+
+      initialRoute: "/login-screen",
     );
   }
 }

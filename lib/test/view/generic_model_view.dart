@@ -21,24 +21,27 @@ E/flutter ( 6811): <asynchronous suspension>
 E/flutter ( 6811):
 * */
 
-  Future<List<ApiResponse<MyModel>>> getAll() async {
-    ApiResponse apiResponse = ApiResponse<MyModel>();
-    var json = apiResponse.toJson();
-    var response = await http.get(Uri.parse('https://run.mocky.io/v3/41fc758a-08a3-4044-8fd8-eab414a651b5'));
-    if (response.statusCode == 200) {
-      var result= (jsonDecode(response.body) as List).map((e) => ApiResponse<MyModel>.fromJson(json, (data) => MyModel.fromJson(data))).toList();
-            print(result.first.message);
-        return result;
-    } else {
-      throw "ERRORR";
-    }
-  }
 
   @override
   void initState() {
     getAll();
     super.initState();
   }
+
+
+  Future<List<ApiResponse<MyModel>>> getAll() async {
+    ApiResponse apiResponse = ApiResponse<MyModel>();
+    var json = apiResponse.toJson();
+    var response = await http.get(Uri.parse('https://run.mocky.io/v3/41fc758a-08a3-4044-8fd8-eab414a651b5'));
+    if (response.statusCode == 200) {
+      var result= (jsonDecode(response.body) as List).map((e) => ApiResponse<MyModel>.fromJson(json, (data) => MyModel.fromJson(data))).toList();
+      print(result);
+        return result;
+    } else {
+      throw "ERRORR";
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {

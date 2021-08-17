@@ -8,6 +8,9 @@ class UserForRegister{
   UserForRegister(this.email, this.password, this.firstName, this.lastName,
       this.companyName);
 
+
+  UserForRegister.withEmpty();
+
   UserForRegister.fromJson(Map json){
     this.email=json["email"];
     this.password=json["password"];

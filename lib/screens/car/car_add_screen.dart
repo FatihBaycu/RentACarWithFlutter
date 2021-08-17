@@ -17,30 +17,25 @@ class _CarAddScreenState extends State<CarAddScreen> {
   BrandController brandController=Get.put(BrandController());
   ColorController colorController=Get.put(ColorController());
 
+
+  var carName = TextEditingController();
+  var modelYear = TextEditingController();
+  var dailyPrice = TextEditingController();
+  var brandId = TextEditingController();
+  var colorId = TextEditingController();
+  var carFindexPoint = TextEditingController();
+  var description = TextEditingController();
+
+
   var _myBrandSelection;
   var _myColorSelection;
   var formKey = GlobalKey<FormState>();
-  Car car = Car.required(
-      colorId: 1,
-      brandId: 1,
-      modelYear: 2012,
-      carFindexPoint: 80,
-      carName: "A",
-      dailyPrice: 201,
-      description: "b"
-  );
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  Car car = Car.empty();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Add Car"),
-      ),
+      appBar: AppBar( title: Text("Add Car"),),
       body: buildForm(),
     );
   }
@@ -54,16 +49,18 @@ class _CarAddScreenState extends State<CarAddScreen> {
             children: <Widget>[
           Form(
             key: formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Wrap(
+              runSpacing: 20,
               children: <Widget>[
                 buildColorsDropdownList(),
                 buildBrandsDropdownList(),
-                buidCarNameField(),
-                buildCarModelYearField(),
-                buildCarDailyPriceField(),
-                buildCarFindexPointField(),
-                buildCarDescriptionField(),
+
+                buidTextFormField(carName,"Car Name"),
+                buidTextFormField(modelYear,"Model Year"),
+                buidTextFormField(dailyPrice,"Daily Price"),
+                buidTextFormField(carFindexPoint,"Car Findex Point"),
+                buidTextFormField(description,"Description"),
+
                 buildCarSaveButton(),
               ],
             ),
@@ -71,70 +68,41 @@ class _CarAddScreenState extends State<CarAddScreen> {
         ]));
   }
 
-  buidCarNameField() {
+
+  buidTextFormField(TextEditingController controller,String labelText) {
     return TextFormField(
-      decoration: const InputDecoration(
-        hintText: "Enter car name year",
+      controller: controller,
+      decoration:  InputDecoration(
+        labelText: labelText,
+        border: OutlineInputBorder(),
       ),
       validator: (String? value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter some text';
-        }
+        if (value == null || value.isEmpty) { return 'Please enter some text';}
         return null;
-      },
-      onSaved: (String? value) {
-        car.carName=value!;
       },
     );
   }
 
-  buildCarDailyPriceField() {
-    return TextFormField(
-      keyboardType: TextInputType.number,
-      decoration: const InputDecoration(
-        hintText: "Enter car daily price",
-      ),
-      validator: (String? value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter some text';
-        }
-        return null;
-      },
-      onSaved: (String ?value) {
-        car.dailyPrice = double.parse(value!);
-      },
-    );
-  }
-
-  buildCarFindexPointField() {
-    return TextFormField(
-      keyboardType: TextInputType.number,
-      decoration: const InputDecoration(hintText: "Enter car findex point",),
-      validator: (String? value) {
-        if (value == null || value.isEmpty) {return 'Please enter some text';}
-        return null;
-      },
-      onSaved: (String? value) {car.carFindexPoint = int.parse(value!);},
-    );
-  }
-
-  buildCarDescriptionField() {
-    return TextFormField(
-      decoration: const InputDecoration(hintText: "Enter car description"),
-      onSaved: (String? value) { car.description = value!;},
-    );
-  }
 
   buildCarSaveButton() {
      return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: ElevatedButton(
         onPressed: () {
-          if (formKey.currentState!.validate()) {
+          if(formKey.currentState!.validate()){
             formKey.currentState!.save();
-            CarService.addCar(this.car).then((value) {
-              setState(() { Get.toNamed("/car-list"); });
-            });
+
+            car.description=description.text;
+            car.modelYear=int.parse(modelYear.text);
+            car.carFindexPoint=int.parse(carFindexPoint.text);
+            car.carName=carName.text;
+            car.colorId=int.parse(_myColorSelection);
+            car.brandId=int.parse(_myBrandSelection);
+            car.dailyPrice=double.parse(dailyPrice.text);
+
+           CarService.addCar(car);
+           Get.offAllNamed("/car-list");
+
           }
         },
         child: Text('Add Car'),
@@ -144,79 +112,59 @@ class _CarAddScreenState extends State<CarAddScreen> {
 
 
 
-
   buildBrandsDropdownList() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text("Select car brand",style: TextStyle(fontSize: 16),),
-         Center(
-          child:  DropdownButton(
-            hint: Text("Brand"),
-            items: brandController.brandList.map((item) {
-              return  DropdownMenuItem(
-                child:  Text(item.brandName!),
-                value: item.brandId.toString(),
-              );
-            }).toList(),
-            onChanged: (newVal) {
-              setState(() {
-                this.car.brandId=int.parse(newVal.toString());
-                _myBrandSelection = newVal;
-              });
-            },
-            value:_myBrandSelection,
-          ),
+    return Container(
+      child: InputDecorator(
+        decoration: InputDecoration(labelText: 'Brands',border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0),
         ),
-      ],
+        ),
+        child: DropdownButton(
+          menuMaxHeight: Get.height/2,
+          hint: Text("Brand"),
+          items: brandController.brandList.map((item) {
+            return  DropdownMenuItem(
+              child:  Text(item.brandName!),
+              value: item.brandId.toString(),
+            );
+          }).toList(),
+          onChanged: (newVal) {
+            setState(() {
+              this.car.brandId=int.parse(newVal.toString());
+              _myBrandSelection = newVal;
+            });
+          },
+          value:_myBrandSelection,
+        ),
+      ),
     );
   }
 
 
   buildColorsDropdownList() {
-    return Row(
-      mainAxisAlignment:  MainAxisAlignment.spaceBetween,
-      children: [
-        Text("Select car color",style: TextStyle(fontSize: 16,),),
-        new Center(
-          child: new DropdownButton(
-            hint: Text("Color"),
-            items: colorController.colorList.map((item) {
-              return new DropdownMenuItem(
-                child: new Text(item.colorName.toString()),
-                value: item.colorId.toString(),
-              );
-            }).toList(),
-            onChanged: (newVal) {
-              setState(() {
-                this.car.colorId=int.parse(newVal.toString());
-                _myColorSelection = newVal;
-              });
-            },
-            value: _myColorSelection,
-          ),
-        ),
-      ],
-    );
-  }
-
-  buildCarModelYearField() {
-    return TextFormField(
-      keyboardType: TextInputType.number,
-      decoration: const InputDecoration(
-        hintText: "Enter car model year",
+    return Container(
+        child: InputDecorator(
+        decoration: InputDecoration(labelText: 'Colors',border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0),
+    ),
+    ),
+    child:  DropdownButton(
+      menuMaxHeight: Get.height/2,
+        hint: Text("Color"),
+        items: colorController.colorList.map((item) {
+          return  DropdownMenuItem(
+            child:  Text(item.colorName.toString()),
+            value: item.colorId.toString(),
+          );
+        }).toList(),
+        onChanged: (newVal) {
+          setState(() {
+            this.car.colorId=int.parse(newVal.toString());
+            _myColorSelection = newVal;
+          });
+        },
+        value: _myColorSelection,
       ),
-      validator: (String? value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter some text';
-        }
-        return null;
-      },
-      onSaved: (String? value) {
-        car.modelYear = int.parse(value!);
-      },
+    )
     );
   }
-
 
 }

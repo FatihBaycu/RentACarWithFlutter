@@ -109,7 +109,7 @@ class _CarDetailScreenState extends State<CarDetailScreen> {
 
               }),
               buildListTile(Icon(Icons.car_repair,color: Colors.blue,),"Model Name",widget.selectedCar!.carName! ,fontSize),
-              buildListTile(Icon(Icons.card_giftcard,color: Colors.blue,),"Model Name", widget.selectedCar!.description!,fontSize),
+              buildListTile(Icon(Icons.card_giftcard,color: Colors.blue,),"Description", widget.selectedCar!.description!,fontSize),
               buildListTile(Icon(Icons.point_of_sale_sharp,color: Colors.blue,),"Model Year", widget.selectedCar!.modelYear!.toString(),fontSize),
               buildListTile(Icon(Icons.date_range,color: Colors.blue,),"Daily Price", widget.selectedCar!.dailyPrice!.toString() + r" $",fontSize),
               buildListTile(Icon(Icons.color_lens,color: Colors.blue,),"Color Name", widget.selectedCar!.colorName!,fontSize),

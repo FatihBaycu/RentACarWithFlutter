@@ -34,8 +34,8 @@ class _ColorScreenState extends State<ColorScreen> {
       appBar: AppBar(title:Text("Colors")),
       body: Column(
         children: [
-          Expanded(flex:2,child: buildFormField()),
-          Expanded(flex:3,child: buildColorList()),
+          Expanded(flex:1,child: buildFormField()),
+          Expanded(flex:2,child: buildColorList()),
         ],
       ),
     );
@@ -58,10 +58,8 @@ class _ColorScreenState extends State<ColorScreen> {
           }
     );
     }
-      );
+  );
   }
-
-
 
 
   buildFormField(){
@@ -86,6 +84,7 @@ class _ColorScreenState extends State<ColorScreen> {
 
   buildColorNameField() {
     return TextFormField(
+
       autovalidateMode: AutovalidateMode.always,
       controller: colorName,
       validator: (String? value){
@@ -94,14 +93,14 @@ class _ColorScreenState extends State<ColorScreen> {
           "The color name length must be higher than 2.";}
         }
       },
-      decoration: const InputDecoration(hintText: "Enter color name"),
+      decoration:  InputDecoration(labelText: "Enter color name", border: OutlineInputBorder(),),
       onSaved:(String? value){color.colorName=value!;},
     );
   }
 
   buildColorCodeField() {
     return TextFormField(
-      decoration: const InputDecoration(hintText: "Enter color code"),
+      decoration:  InputDecoration(labelText: "Enter color code", border: OutlineInputBorder(),),
       controller: colorCode,
       autovalidateMode: AutovalidateMode.always,
       validator: (String? value){

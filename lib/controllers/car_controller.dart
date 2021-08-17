@@ -15,12 +15,30 @@ class CarController extends GetxController {
 
   String token=authController.token().token.toString();
 
+  CarService carService=CarService();
 
 
   @override
   void onInit() {
     getAllCarDetails();
     super.onInit();
+  }
+
+  void getAllCarDetails2() async {
+    try {
+      await carService.getCarDetails2(token: token,).then((response) {
+        isLoading(true);
+        var result = (jsonDecode(response.body)["data"] as List)
+            .map((e) => CarDetails.fromJson(e))
+            .toList();
+        if (result != null) {
+          carDetailList.assignAll(result);
+
+        }
+      });
+    } finally {
+      isLoading(false);
+    }
   }
 
   void getAllCarDetails() async {
@@ -30,8 +48,6 @@ class CarController extends GetxController {
         var result = (jsonDecode(response.body)["data"] as List)
             .map((e) => CarDetails.fromJson(e))
             .toList();
-
-
         if (result != null) {
           carDetailList.assignAll(result);
         }

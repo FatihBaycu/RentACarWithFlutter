@@ -5,12 +5,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_http_demo2/controllers/car_controller.dart';
 import 'package:flutter_http_demo2/controllers/card_controller.dart';
 import 'package:flutter_http_demo2/controllers/rental_controller.dart';
+import 'package:flutter_http_demo2/controllers/user_controller.dart';
 import 'package:flutter_http_demo2/core/text_input/custom_input_formatter.dart';
 import 'package:flutter_http_demo2/globalVariables.dart';
 import 'package:flutter_http_demo2/models/card.dart';
 import 'package:flutter_http_demo2/models/rental.dart';
-import 'package:flutter_http_demo2/screens/car/car_list_screen.dart';
-import 'package:flutter_http_demo2/services/rental_service.dart';
+import 'package:flutter_http_demo2/models/users/user_detail.dart';
+
 import 'package:get/get.dart';
 
 class PaymentScreen extends StatefulWidget {
@@ -25,9 +26,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
   CardController cardController = Get.put(CardController());
   CarController carController = Get.put(CarController());
   RentalController rentalController = Get.put(RentalController());
+  UserController userController = Get.put(UserController(),permanent: true);
 
   CardModel cardModel=CardModel();
   Rental rental=Rental.withEmpty();
+  UserDetail userDetail=UserDetail.withEmpty();
 
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -39,20 +42,19 @@ class _PaymentScreenState extends State<PaymentScreen> {
   var cardCvv = TextEditingController();
   var cardType = TextEditingController();
 
-  Timer? timer;
   @override
   void initState() {
-    cardController.getCardsByCustomerId(2);
+    userDetail=userController.user();
+
+    cardController.getCardsByCustomerId(userDetail.customerId!);
     rental=rentalController.rental();
-    rental.customerId=2;
+    rental.customerId=userDetail.customerId;
 
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Payment"),
@@ -124,7 +126,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     cardModel.cardCvv=cardCvv.text;
     cardModel.cardValidDate=cardValidDate.text;
     cardModel.cardOnName=cardOnName.text;
-    cardModel.customerId=2;
+    cardModel.customerId=userDetail.customerId;
 
   }
 
@@ -230,10 +232,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 children: [
                   Text("BRAND: ${carController.carDetail().brandName}"),
                   Text("MODEL: ${carController.carDetail().carName}"),
-                  Text(
-                      "RENT DATE: ${buildDateFormat(rentalController.rental().rentDate!)}"),
-                  Text(
-                      "RETURN DATE: ${buildDateFormat(rentalController.rental().returnDate!)}"),
+                  Text("RENT DATE: ${buildDateFormat(rentalController.rental().rentDate!)}"),
+                  Text("RETURN DATE: ${buildDateFormat(rentalController.rental().returnDate!)}"),
                   Text("TOTAL DAY: ${totalDay == 0 ? 1 : totalDay}"),
                   Text("TOTAL PRICE: $totalPrice \$"),
                 ],

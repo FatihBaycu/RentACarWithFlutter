@@ -1,10 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_http_demo2/controllers/user_controller.dart';
-
-
+import 'package:flutter_http_demo2/controllers/auth_controller.dart';
 import 'package:flutter_http_demo2/models/users/user_for_login.dart';
+import 'package:flutter_http_demo2/screens/user_screens/register_screen.dart';
 import 'package:flutter_http_demo2/services/auth_service.dart';
 import 'package:get/get.dart';
 
@@ -23,13 +20,15 @@ class _LoginScreenState extends State<LoginScreen> {
   var password=TextEditingController();
 
 
-  AuthService authService=Get.put(AuthService());
+  AuthService authService=new AuthService();
+
+  AuthController authController=Get.put(AuthController(),permanent: true);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Login Screen"),),
-      body: buildBody(),
+    appBar: AppBar(title: Text("Login Screen"),),
+    body: buildBody(),
     );
   }
 
@@ -100,20 +99,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 },
               ),
             ),
-            GestureDetector(
-              onTap: (){print("Yardım Seçildi.");},
-              child: Padding(
-                padding: EdgeInsets.all(screenHeight / 30),
-                child: Text("Help ?",style: TextStyle(fontWeight: FontWeight.bold),),
-              ),
-            )
+        ElevatedButton(
+            style: ButtonStyle(backgroundColor:MaterialStateProperty.all(Colors.red)),
+            onPressed: (){Get.to(RegisterScreen());},
+            child: Text("Register")),
           ],
         ),
       ),
     );
   }
-
-
   }
+
+
 
 

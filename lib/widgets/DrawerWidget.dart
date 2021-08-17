@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_http_demo2/controllers/user_controller.dart';
+import 'package:flutter_http_demo2/screens/user_screens/login_screen.dart';
 import 'package:get/get.dart';
 
 class DrawerWidget extends StatelessWidget {
 
-  UserController userController=Get.put(UserController());
+  UserController userController = Get.put(UserController(),permanent: true);
 
 
   @override
@@ -21,7 +22,9 @@ class DrawerWidget extends StatelessWidget {
               CircleAvatar(
                 child: IconButton(
                  icon:Icon(Icons.logout,color: Colors.red),
-                  onPressed: () {},
+                  onPressed: () {
+                   Get.offAll(()=>LoginScreen());
+                  },
                 ),
                 backgroundColor: Colors.white,
               ),

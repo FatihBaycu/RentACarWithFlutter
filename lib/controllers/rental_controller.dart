@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:flutter_http_demo2/controllers/user_controller.dart';
 import 'package:flutter_http_demo2/models/rental.dart';
 import 'package:flutter_http_demo2/models/rental_details.dart';
+import 'package:flutter_http_demo2/models/users/user_detail.dart';
 import 'package:flutter_http_demo2/services/rental_service.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -13,10 +15,11 @@ class RentalController extends GetxController {
   var rentalDetail=<RentalDetails>[].obs;
   var isLoading=true.obs;
 
+  UserController userController = Get.put(UserController(),permanent: true);
 
   @override
   void onInit() {
-    getRentalsByCustomerId(2);
+    getRentalsByCustomerId(userController.user().customerId!);
     super.onInit();
   }
 

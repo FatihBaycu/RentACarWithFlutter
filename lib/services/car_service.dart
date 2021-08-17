@@ -14,6 +14,21 @@ class CarService {
 
 
 
+  Future genericHttGet(String path,String token)async{
+
+    return await http.get(
+      Uri.parse(path),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization':token
+      },
+    );
+  }
+
+
+
+   Future getCarDetails2({String? token,int? param1,int? param2,String? param3}) async{return await genericHttGet("${apiUrl}Cars/getcardetail",token!);}
+
   static Future getCarDetails(String token) async{
     return await http.get(
       Uri.parse(apiUrl+"Cars/getcardetail"),
@@ -22,6 +37,23 @@ class CarService {
       'Authorization':token
     },
   );}
+
+
+
+
+  //
+  // static Future getCarDetailsByCarId(int carId) async{
+  //
+  //   return genericHttGet()
+  //
+  //   return await http.get(Uri.parse(apiUrl+"Cars/getcardetailsbycar?carId=$carId"));
+  // }
+  //
+  //
+
+
+
+
   static Future getCarDetailsByCarId(int carId) async{return await http.get(Uri.parse(apiUrl+"Cars/getcardetailsbycar?carId=$carId"));}
 
   static Future getCarDetailsByColorId(int colorId)async{return await http.get(Uri.parse(apiUrl+"Cars/getcardetailsbycolor?colorId=$colorId"));}

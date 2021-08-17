@@ -73,14 +73,10 @@ class _CarRentalScreenState extends State<CarRentalScreen> {
                 Text('Pick a return date'),
               ],
             ),
-            onPressed: () {
-              showReturnDateDialog();
-            },
+            onPressed: () {showReturnDateDialog();},
           ),
           TextButton(
-              onPressed: () {
-                Get.to(() => PaymentScreen());
-              },
+              onPressed: () { Get.to(() => PaymentScreen());},
               child: Text("Go to Payment")),
         ],
       ),
