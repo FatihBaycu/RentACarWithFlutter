@@ -34,10 +34,7 @@ class ApiDemo extends StatefulWidget {
 class _ApiDemoState extends State<ApiDemo> {
   @override
   Widget build(BuildContext context) {
-
     return GetMaterialApp(
-
-
       theme: ThemeData.dark(),
       debugShowCheckedModeBanner: false,
       getPages: [

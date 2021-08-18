@@ -77,7 +77,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           labelStyle: TextStyle(color: Colors.white)),
       validator: (val) => val!.isEmpty ? "Cannot be empty" : null,
       obscureText: obsureText == null ? false : true,
-      autovalidateMode: AutovalidateMode.always,
+     autovalidateMode: AutovalidateMode.always,
     );
   }
 }

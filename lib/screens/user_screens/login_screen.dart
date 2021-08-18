@@ -4,6 +4,7 @@ import 'package:flutter_http_demo2/models/users/user_for_login.dart';
 import 'package:flutter_http_demo2/screens/user_screens/register_screen.dart';
 import 'package:flutter_http_demo2/services/auth_service.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -24,6 +25,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
   AuthController authController=Get.put(AuthController(),permanent: true);
 
+
+  @override
+  void initState() {
+  //  createInstance();
+    fillBlanks();
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,9 +42,32 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+
+  Future createInstance()async{
+    var sp= await SharedPreferences.getInstance();
+    sp.setString("email","fatih.baycu@gmail.com");
+    sp.setString("password","123456789");
+  }
+
+
+  Future fillBlanks()async{
+    var sp= await SharedPreferences.getInstance();
+    email.text=sp.get("email").toString();
+    password.text=sp.get("password").toString();
+  }
+
+  editInstance()async{
+    var sp= await SharedPreferences.getInstance();
+    sp.setString("email",email.text);
+    sp.setString("password",password.text);
+  }
+
   buildBody() {
-    email.text="string@string.com";
-    password.text="string";
+
+
+    //
+    // email.text="string@string.com";
+    // password.text="string";
 
 
     return Center(
@@ -50,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 width: screenWidth *0.9,
                 height: screenHeight *0.3,
                 child: Image.network(
-                    "https://www.nascarsrental.com/images/haber/sanliurfa-rent-a-car-5f6882138e96e.jpg"),
+                    "https://www.madeirarentcar.com/assets/homebanner/5cb748963fd74.png"),
               ),
             ),
             Padding(
@@ -95,6 +128,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   UserForLogin userForLogin=new UserForLogin("fatih.baycu@gmail.com", "123456789");
                     userForLogin.email=email.text;
                     userForLogin.password=password.text;
+                    editInstance();
+
                   authService.login(userForLogin);
                 },
               ),
