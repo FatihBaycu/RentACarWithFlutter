@@ -1,32 +1,22 @@
-import 'dart:convert';
-
-import 'package:flutter/material.dart';
+import 'package:flutter_http_demo2/controllers/auth_controller.dart';
+import 'package:flutter_http_demo2/core/services/HttpGenericService.dart';
 import 'package:flutter_http_demo2/models/rental.dart';
-import 'package:http/http.dart' as http;
+import 'package:get/get.dart';
 
 import '../globalVariables.dart';
 
 var apiUrl=GlobalVariables.apiUrl;
-
-
-
-
+AuthController authController=Get.put(AuthController());
 
 class RentalService{
 
+  HttpGenericService httpGenericService=new HttpGenericService();
 
+  var token=authController.token().token.toString();
 
-  static Future getRentalsByCarId(int carId) async{return await http.get(Uri.parse(apiUrl+"Rentals/getrentalsbycarid?carId=$carId"));}
-  static Future getRentalsByCustomerId(int customerId) async{return await http.get(Uri.parse(apiUrl+"Rentals/getrentalsbycustomer?customerId=$customerId"));}
+   Future getRentalsByCarId(int carId) async{return await httpGenericService.genericHttGet(apiUrl+"Rentals/getrentalsbycarid?carId=$carId");}
 
-  static Future addRental(Rental rental)async{
-    debugPrint(rental.toJson().toString());
-    return await http.post(
-        Uri.parse(apiUrl+"rentals/addrental"),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(rental.toJsonToAdd()));
+   Future getRentalsByCustomerId(int customerId) async{return await httpGenericService.genericHttGet(apiUrl+"Rentals/getrentalsbycustomer?customerId=$customerId");}
 
-  }
+   Future addRental(Rental rental)async{return httpGenericService.generateHttpPost(rental.toJsonToAdd(), apiUrl+"rentals/addrental");}
 }

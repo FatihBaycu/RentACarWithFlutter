@@ -15,7 +15,7 @@ class Color{
     Map colorJsonFormat={
       "colorId":this.colorId,
       "colorName":this.colorName,
-      "colorCode":this.colorCode,
+      "colorCode":this.colorCode
     };
       return colorJsonFormat;
     }
@@ -24,7 +24,7 @@ class Color{
   Map<String,dynamic> toJsonForAdd(){
     return{
       "colorName":this.colorName,
-      "colorCode":this.colorCode,
+      "colorCode":this.colorCode
     };
   }
 

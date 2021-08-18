@@ -94,13 +94,13 @@ class _BrandUpdateScreenState extends State<BrandUpdateScreen> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: ElevatedButton(
-        child:Text("Ekle"),
+        child:Text("Update"),
         onPressed: (){
           if(formKey.currentState!.validate()){
             formKey.currentState!.save();
             widget.brand.brandName=brandName.text;
             widget.brand.brandId=int.parse(brandId.text);
-            BrandService.brandUpdate(widget.brand).then((value) =>Get.offNamed("/brand"));
+            BrandService().brandUpdate(widget.brand).then((value) =>Get.offNamed("/brand"));
           }
         },
       ),

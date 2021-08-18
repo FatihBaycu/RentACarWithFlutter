@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_http_demo2/controllers/brand_controller.dart';
 import 'package:flutter_http_demo2/controllers/color_controller.dart';
+import 'package:flutter_http_demo2/core/ResponseService.dart';
 import 'package:flutter_http_demo2/models/car.dart';
 import 'package:flutter_http_demo2/services/car_service.dart';
 import 'package:get/get.dart';
@@ -100,8 +101,7 @@ class _CarAddScreenState extends State<CarAddScreen> {
             car.brandId=int.parse(_myBrandSelection);
             car.dailyPrice=double.parse(dailyPrice.text);
 
-           CarService.addCar(car);
-           Get.offAllNamed("/car-list");
+           CarService().addCar(car).then((response) =>Get.offAllNamed("/car-list")!.then((value) => ResponseSnackbarService.generateResponse(response)));
 
           }
         },

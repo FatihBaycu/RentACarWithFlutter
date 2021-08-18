@@ -6,6 +6,8 @@ var apiUrl=GlobalVariables.apiUrl;
 
 class UserService{
 
+
+
   static Future getUserByEmail(String email)async{
     return await http.get(Uri.parse(apiUrl+"Customers/getcustomerbyemail?email=$email"));
   }

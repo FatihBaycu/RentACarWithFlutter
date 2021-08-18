@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_http_demo2/core/ResponseService.dart';
 import 'package:flutter_http_demo2/models/color.dart';
+import 'package:flutter_http_demo2/screens/car/car_list_screen.dart';
 import 'package:flutter_http_demo2/services/color_service.dart';
 import 'package:get/get.dart';
 
@@ -17,6 +21,7 @@ class _ColorUpdateScreenState extends State<ColorUpdateScreen> {
   var colorCode=TextEditingController();
   var colorId=TextEditingController();
 
+  var snackBar = SnackBar(content: Text("success.toString()+message"));
 
   @override
   void initState() {
@@ -30,6 +35,9 @@ class _ColorUpdateScreenState extends State<ColorUpdateScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+
+
     return Scaffold(
       appBar: AppBar(title: Text("${widget.color.colorName} Rengi"),),
       body: SingleChildScrollView(
@@ -99,13 +107,14 @@ class _ColorUpdateScreenState extends State<ColorUpdateScreen> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: ElevatedButton(
-        child:Text("Ekle"),
+        child:Text("Update"),
         onPressed: (){
           if(formKey.currentState!.validate()){
             formKey.currentState!.save();
             widget.color.colorName=colorName.text;
             widget.color.colorCode=colorCode.text;
-            ColorService.colorUpdate(widget.color).then((value) => Get.offNamed("/color"));
+
+            ColorService().colorUpdate(widget.color);
           }
         },
       ),

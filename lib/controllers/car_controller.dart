@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter_http_demo2/models/car.dart';
 import 'package:flutter_http_demo2/models/carDetails.dart';
 import 'package:flutter_http_demo2/models/carImage.dart';
+import 'package:flutter_http_demo2/services/auth_service.dart';
 import 'package:flutter_http_demo2/services/car_service.dart';
 import 'package:get/get.dart';
 
@@ -13,10 +14,8 @@ class CarController extends GetxController {
   var carImageList = <CarImage>[].obs;
   var carDetail=CarDetails.withEmpty().obs;
 
-  String token=authController.token().token.toString();
 
   CarService carService=CarService();
-
 
   @override
   void onInit() {
@@ -26,7 +25,7 @@ class CarController extends GetxController {
 
   void getAllCarDetails2() async {
     try {
-      await carService.getCarDetails2(token: token,).then((response) {
+      await carService.getCarDetails().then((response) {
         isLoading(true);
         var result = (jsonDecode(response.body)["data"] as List)
             .map((e) => CarDetails.fromJson(e))
@@ -43,7 +42,7 @@ class CarController extends GetxController {
 
   void getAllCarDetails() async {
     try {
-      await CarService.getCarDetails(token).then((response) {
+      await carService.getCarDetails().then((response) {
         isLoading(true);
         var result = (jsonDecode(response.body)["data"] as List)
             .map((e) => CarDetails.fromJson(e))
@@ -59,7 +58,7 @@ class CarController extends GetxController {
 
   Future<void> getAllCarDetailsByColorId(int colorId) async {
     try {
-      await CarService.getCarDetailsByColorId(colorId).then((response) {
+      await carService.getCarDetailsByColorId(colorId).then((response) {
         isLoading(true);
         var result = (jsonDecode(response.body)["data"] as List)
             .map((e) => CarDetails.fromJson(e))
@@ -75,7 +74,7 @@ class CarController extends GetxController {
 
   void getAllCarDetailsByBrandId(int brandId) async {
     try {
-      await CarService.getCarDetailsByBrandId(brandId).then((response) {
+      await carService.getCarDetailsByBrandId(brandId).then((response) {
         isLoading(true);
         var result = (jsonDecode(response.body)["data"] as List)
             .map((e) => CarDetails.fromJson(e))
@@ -91,7 +90,7 @@ class CarController extends GetxController {
 
   void getAllCarDetailsByBrandAndColorId(int brandId, int colorId) async {
     try {
-      await CarService.getCarDetailsByBrandAndColorId(brandId, colorId)
+      await carService.getCarDetailsByBrandAndColorId(brandId, colorId)
           .then((response) {
         isLoading(true);
         var result = (jsonDecode(response.body)["data"] as List)
@@ -108,7 +107,7 @@ class CarController extends GetxController {
 
   Future<void> getCarImagesByCarId(int carId) async {
     try {
-      await CarService.getCarImagesByCarId(carId).then((response) {
+      await carService.getCarImagesByCarId(carId).then((response) {
         isLoading(true);
         var result = (jsonDecode(response.body)["data"] as List)
             .map((e) => CarImage.fromJson(e))

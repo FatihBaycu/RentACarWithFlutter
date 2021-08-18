@@ -243,7 +243,7 @@ class _CarUpdateScreenState extends State<CarUpdateScreen> {
             car.carFindexPoint=int.parse(carFindexPoint.text);
             car.carName=carName.text;
             car.dailyPrice=double.parse(dailyPrice.text);
-             CarService.updateCar(car);
+             CarService().updateCar(car);
              Get.toNamed("/car-list");
 
           }

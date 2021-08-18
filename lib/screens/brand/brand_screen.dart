@@ -114,11 +114,11 @@ class _BrandScreenState extends State<BrandScreen> {
   buildBrandSubmitField() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: ElevatedButton(child:Text("Ekle"),
+      child: ElevatedButton(child:Text("Add"),
         onPressed: (){
         if(formKey.currentState!.validate()){
           formKey.currentState!.save();
-          BrandService.brandAdd(this.brand);
+          BrandService().brandAdd(this.brand);
         }
         },
       ),

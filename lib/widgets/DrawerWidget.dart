@@ -14,7 +14,7 @@ class DrawerWidget extends StatelessWidget {
       child: ListView(
         children: [
           UserAccountsDrawerHeader(
-            accountName: Obx(()=>Text(userController.user().firstName!)),
+            accountName: Obx(()=>Text("${userController.user().firstName!.capitalizeFirst} ${userController.user().lastName!.capitalizeFirst}")),
             accountEmail: Obx(()=>Text(userController.user().email!)),
             currentAccountPicture: Image.asset("assets/user_photos/profilePhoto.jpg"),
 

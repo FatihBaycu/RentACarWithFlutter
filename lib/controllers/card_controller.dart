@@ -8,6 +8,9 @@ class CardController extends GetxController {
   var isLoading = true.obs;
   var cardList = <CardModel>[].obs;
 
+  CardService cardService=new CardService();
+
+
   @override
   void onInit() {
     getCardsByCustomerId(2);
@@ -16,7 +19,7 @@ class CardController extends GetxController {
 
   void getCardsByCustomerId(int customerId) async {
     try {
-      await CardService.getCardsByCustomerId(customerId).then((response) {
+      await cardService.getCardsByCustomerId(customerId).then((response) {
         isLoading(true);
         var result = (jsonDecode(response.body)["data"] as List)
             .map((e) => CardModel.fromJson(e))
@@ -31,6 +34,6 @@ class CardController extends GetxController {
   }
 
   addCard(CardModel card)async{
-    await CardService.addCard(card);
+    await cardService.addCard(card);
   }
 }

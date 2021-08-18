@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_http_demo2/controllers/color_controller.dart';
+import 'package:flutter_http_demo2/core/ResponseService.dart';
 import 'package:flutter_http_demo2/models/color.dart';
+import 'package:flutter_http_demo2/screens/car/car_list_screen.dart';
 import 'package:flutter_http_demo2/screens/color/color_update_screen.dart';
 import 'package:flutter_http_demo2/services/color_service.dart';
 import 'package:get/get.dart';
@@ -112,15 +116,27 @@ class _ColorScreenState extends State<ColorScreen> {
     );
   }
 
+  generateResponse(dynamic param){ return jsonDecode(param);}
+
+  clearFilelds(){
+    colorName.text="";
+    colorCode.text="";
+  }
+
+
   buildColorSubmitField() {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 16.0),
           child: ElevatedButton(
-             child:Text("Ekle"),
+             child:Text("Add"),
             onPressed: (){
               if(formKey.currentState!.validate()){
                 formKey.currentState!.save();
-                ColorService.colorAdd(this.color);
+                ColorService().colorAdd(this.color).then((response){
+                  ResponseSnackbarService.generateResponse(response);
+                  Get.to(CarListScreen());
+                  clearFilelds();
+                });
               }
             },
           ),

@@ -8,6 +8,9 @@ class ColorController extends GetxController{
   var isLoading=true.obs;
   var colorList=<Color>[].obs;
 
+
+  ColorService colorService=new ColorService();
+
   @override
   Future<void> onInit() async {
     await getAll();
@@ -18,7 +21,7 @@ class ColorController extends GetxController{
   Future<void> getAll() async{
     try{
       isLoading(true);
-      await ColorService.getAll().then((response){
+      await colorService.getAll().then((response){
         var result=(jsonDecode(response.body)["data"] as List).map((e) => Color.fromJson(e)).toList();
         if(result!=null){colorList.assignAll(result);}
       } );
