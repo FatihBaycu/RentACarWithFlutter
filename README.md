@@ -4,8 +4,9 @@ A new Flutter application.
     Frontend Side of project Rent a Car on Flutter
     
  **Upgraded to Flutter 2 and enabled Null Safety.**
-![newTheme](https://github.com/FatihBaycu/RentACarWithFlutter/blob/main/scrennshots/7.png)
-![newPhoto](https://github.com/FatihBaycu/RentACarWithFlutter/blob/main/scrennshots/9.png)
+![newTheme](https://github.com/FatihBaycu/RentACarWithFlutter/blob/main/scrennshots/1ss.png)
+![newPhoto](https://github.com/FatihBaycu/RentACarWithFlutter/blob/main/scrennshots/2ss.png)
+![newPhoto](https://github.com/FatihBaycu/RentACarWithFlutter/blob/main/scrennshots/3ss.png)
 
 ## Getting Started
 
