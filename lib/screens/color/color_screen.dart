@@ -25,93 +25,85 @@ class _ColorScreenState extends State<ColorScreen> {
   ColorController colorController=Get.put(ColorController());
 
   var formKey = GlobalKey<FormState>();
-  Color color=Color.required(
-    colorName:"default",
-    colorCode:"default"
-  );
+  Color color=Color.required(colorName:"default",colorCode:"default");
 
-
-
-  @override
+    @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title:Text("Colors")),
-      body: Column(
-        children: [
-          Expanded(flex:1,child: buildFormField()),
-          Expanded(flex:2,child: buildColorList()),
-        ],
+      appBar: AppBar(title:Text("colors".tr)),
+  body:Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+            children: [
+              buildFormField(),
+              buildColorList(),
+            ],
+          ),
+        ),
       ),
-    );
+      );
   }
 
-  buildColorList() {
+Widget buildColorList() {
     return Obx((){
       if(colorController.isLoading.value)
           return Center(child: CircularProgressIndicator());
       else
-          return ListView.builder(
-        padding: EdgeInsets.only(left:20,right: 20),
-          itemCount:colorController.colorList.length,
-          itemBuilder: (context,index){
-          var colors=colorController.colorList;
-            return ListTile(
-              title: Text(colors[index].colorName!),
-              trailing: buildPopupMenu(colors[index]),
-            );
-          }
-    );
+          return SingleChildScrollView(
+            child: ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                scrollDirection: Axis.vertical,
+                padding: EdgeInsets.only(left:20,right: 20),
+            itemCount:colorController.colorList.length,
+            itemBuilder: (context,index){
+            var colors=colorController.colorList;
+              return ListTile(
+                title: Text(colors[index].colorName!),
+                trailing: buildPopupMenu(colors[index]),
+              );
+            }
+    ),
+          );
     }
   );
   }
 
 
   buildFormField(){
-  return ListView(
-    padding: EdgeInsets.all(20),
-    shrinkWrap: true,
-    children: [
-      Form(
-          key: formKey,
-          child: Column(
-            children: [
-              buildColorNameField(),
-              buildColorCodeField(),
-              buildColorSubmitField(),
-            ],
-          ),
+  return Form(
+      key: formKey,
+      child: Column(
+        children: [
+          buildColorNameField(),
+          buildColorCodeField(),
+          buildColorSubmitField(),
+        ],
       ),
-    ],
   );
 
   }
 
   buildColorNameField() {
     return TextFormField(
-
       autovalidateMode: AutovalidateMode.always,
       controller: colorName,
       validator: (String? value){
-        if(value!=null){
-          if(value.length<2){return
-          "The color name length must be higher than 2.";}
-        }
-      },
-      decoration:  InputDecoration(labelText: "Enter color name", border: OutlineInputBorder(),),
+        if(value!=null){ if(value.length<2){return "lengthGreaterThanTwo".tr;}}},
+      decoration:  InputDecoration(labelText: "colorName".tr, border: OutlineInputBorder(),),
       onSaved:(String? value){color.colorName=value!;},
     );
   }
 
   buildColorCodeField() {
     return TextFormField(
-      decoration:  InputDecoration(labelText: "Enter color code", border: OutlineInputBorder(),),
+      decoration:  InputDecoration(labelText: "colorCode".tr, border: OutlineInputBorder(),),
       controller: colorCode,
       autovalidateMode: AutovalidateMode.always,
       validator: (String? value){
-        if(value!=null){
-          if(value.length<2){return "The color code length must be higher than 2.";}
-        }
-      },
+        if(value!=null){ if(value.length<2){return "lengthGreaterThanTwo".tr;}  } },
       onSaved:(String? value){color.colorCode=value!;},
     );
   }
@@ -128,7 +120,7 @@ class _ColorScreenState extends State<ColorScreen> {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 16.0),
           child: ElevatedButton(
-             child:Text("Add"),
+             child:Text("add".tr),
             onPressed: (){
               if(formKey.currentState!.validate()){
                 formKey.currentState!.save();
@@ -148,7 +140,7 @@ class _ColorScreenState extends State<ColorScreen> {
         onSelected: (value) => selectProcess(value, color),
         itemBuilder: (BuildContext context) => <PopupMenuEntry<Options>>[
           PopupMenuItem<Options>(
-            child: Text("Update"),
+            child: Text("update".tr),
             value: Options.update,
           ),
         ]);
@@ -159,7 +151,6 @@ class _ColorScreenState extends State<ColorScreen> {
       case Options.update:
         Get.to(()=>ColorUpdateScreen(color));
         break;
-
       default:
     }
   }

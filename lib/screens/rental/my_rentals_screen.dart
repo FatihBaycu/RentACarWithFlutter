@@ -12,12 +12,12 @@ class MyRentalsScreen extends StatefulWidget {
 
 class _MyRentalsScreenState extends State<MyRentalsScreen> {
 
-  RentalController rentalController=Get.put(RentalController());
+  RentalController rentalController=Get.put(RentalController(),permanent: true);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("My Rentals"),),
+      appBar: AppBar(title: Text("myRentals".tr),),
       body: buildBody(),
     );
   }
@@ -41,8 +41,8 @@ class _MyRentalsScreenState extends State<MyRentalsScreen> {
               title: Text(rentalDetails.carName!),
               subtitle: Text(rentalDetails.brandName!),
               trailing: Column(children: [
-                Text("RENT: "+rentalDetails.rentDate!),
-                Text("RETURN: "+rentalDetails.returnDate!),
+                Text("rentalsRent".tr+rentalDetails.rentDate!),
+                Text("rentalsReturn".tr+rentalDetails.returnDate!),
               ],),
             );
           });

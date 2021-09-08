@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_http_demo2/controllers/auth_controller.dart';
+import 'package:flutter_http_demo2/controllers/user_controller.dart';
 import 'package:flutter_http_demo2/models/users/user_for_login.dart';
 import 'package:flutter_http_demo2/screens/user_screens/register_screen.dart';
 import 'package:flutter_http_demo2/services/auth_service.dart';
@@ -24,11 +25,21 @@ class _LoginScreenState extends State<LoginScreen> {
   AuthService authService=new AuthService();
 
   AuthController authController=Get.put(AuthController(),permanent: true);
+  UserController userController=Get.put(UserController(),permanent: true);
 
 
   @override
   void initState() {
-  //  createInstance();
+    // var sp= await SharedPreferences.getInstance();
+    //
+    // UserForLogin userForLogin =new UserForLogin.withEmpty();
+    // userForLogin.email=sp.getString("email");
+    // userForLogin.password=sp.getString("password");
+    //
+    //  authService.login(userForLogin);
+
+
+    //  createInstance();
     fillBlanks();
     super.initState();
   }
@@ -37,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    appBar: AppBar(title: Text("Login Screen"),),
+    appBar: AppBar(title: Text("loginScreen".tr),),
     body: buildBody(),
     );
   }
@@ -63,13 +74,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   buildBody() {
-
-
-    //
-    // email.text="string@string.com";
-    // password.text="string";
-
-
     return Center(
       child: SingleChildScrollView(
         child: Column(
@@ -82,8 +86,9 @@ class _LoginScreenState extends State<LoginScreen> {
               child: SizedBox(
                 width: screenWidth *0.9,
                 height: screenHeight *0.3,
-                child: Image.network(
-                    "https://www.madeirarentcar.com/assets/homebanner/5cb748963fd74.png"),
+                child: 
+                Image.asset("assets/carsImage.png"),
+                //Text("projectName".tr),
               ),
             ),
             Padding(
@@ -91,8 +96,8 @@ class _LoginScreenState extends State<LoginScreen> {
               child: TextFormField(
                 controller: email,
                 decoration: InputDecoration(
-                  labelText: "Email",
-                    hintText: "Email",
+                  labelText: "email".tr,
+                    hintText: "email".tr,
                     filled: true,
                     fillColor: Colors.red,
                     border: OutlineInputBorder(
@@ -106,8 +111,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 controller: password,
                 obscureText: true,
                 decoration: InputDecoration(
-                    hintText: "Password",
-                    labelText: "Password",
+                    hintText: "password".tr,
+                    labelText: "password".tr,
                     filled: true,
                     fillColor: Colors.red,
                     border: OutlineInputBorder(
@@ -118,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
               padding: EdgeInsets.all(screenHeight / 30),
               child: TextButton(
                 child: Text(
-                  "Login",
+                  "login".tr,
                   style: TextStyle(color: Colors.white),
                 ),
                 style: ButtonStyle(
@@ -137,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ElevatedButton(
             style: ButtonStyle(backgroundColor:MaterialStateProperty.all(Colors.red)),
             onPressed: (){Get.to(RegisterScreen());},
-            child: Text("Register")),
+            child: Text("register".tr)),
           ],
         ),
       ),

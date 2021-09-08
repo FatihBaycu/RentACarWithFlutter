@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter_http_demo2/models/car.dart';
 import 'package:flutter_http_demo2/models/carDetails.dart';
 import 'package:flutter_http_demo2/models/carImage.dart';
-import 'package:flutter_http_demo2/services/auth_service.dart';
 import 'package:flutter_http_demo2/services/car_service.dart';
 import 'package:get/get.dart';
 

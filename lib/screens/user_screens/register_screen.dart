@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:flutter_http_demo2/models/users/user_for_register.dart';
 import 'package:flutter_http_demo2/services/auth_service.dart';
 
@@ -23,7 +24,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Register"),
+        title: Text("register".tr),
       ),
       body: buildBody(),
     );
@@ -39,14 +40,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: Wrap(
             runSpacing: 20,
             children: [
-              buildTextFormField(firstName, "First Name"),
-              buildTextFormField(lastName, "Last Name"),
-              buildTextFormField(email, "Email"),
-              buildTextFormField(password, "Password", obsureText: true),
-              buildTextFormField(companyName, "Company Name"),
+              buildTextFormField(firstName, "firstName".tr),
+              buildTextFormField(lastName,  "lastName".tr),
+              buildTextFormField(email, "email".tr),
+              buildTextFormField(password, "password".tr, obsureText: true),
+              buildTextFormField(companyName, "companyName".tr),
               Center(
                   child: ElevatedButton(
-                child: Text("Register"),
+                child: Text("register".tr),
                 onPressed: () {
                   userForRegister.firstName = firstName.text;
                   userForRegister.lastName = lastName.text;
@@ -75,7 +76,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           border: OutlineInputBorder(),
           labelText: labelText,
           labelStyle: TextStyle(color: Colors.white)),
-      validator: (val) => val!.isEmpty ? "Cannot be empty" : null,
+      validator: (val) => val!.isEmpty ? "cannotBeEmpty".tr : null,
       obscureText: obsureText == null ? false : true,
      autovalidateMode: AutovalidateMode.always,
     );

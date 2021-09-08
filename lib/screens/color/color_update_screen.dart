@@ -1,9 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_http_demo2/core/ResponseService.dart';
 import 'package:flutter_http_demo2/models/color.dart';
-import 'package:flutter_http_demo2/screens/car/car_list_screen.dart';
 import 'package:flutter_http_demo2/services/color_service.dart';
 import 'package:get/get.dart';
 
@@ -39,7 +35,7 @@ class _ColorUpdateScreenState extends State<ColorUpdateScreen> {
 
 
     return Scaffold(
-      appBar: AppBar(title: Text("${widget.color.colorName} Rengi"),),
+      appBar: AppBar(title: Text("${widget.color.colorName} "+'color'.tr),),
       body: SingleChildScrollView(
         child: Center(
           child: buildFormField(),
@@ -72,31 +68,31 @@ class _ColorUpdateScreenState extends State<ColorUpdateScreen> {
 
   buildColorIdField() {
     return TextFormField(
-      decoration: InputDecoration(hintText: "Enter color Id",border: OutlineInputBorder(),labelText: "Color Id"),
+      decoration: InputDecoration(hintText: "colorId".tr,border: OutlineInputBorder(),labelText: "colorId".tr),
       controller: colorId,
       readOnly: true,
       validator: (val){
-        if(val!.isEmpty){return "color id cannot be empty";}
+        if(val!.isEmpty){return "cannotBeEmpty".tr;}
         else {return null;}
       },
     );
   }
   buildColorNameField() {
     return TextFormField(
-      decoration: InputDecoration(hintText: "Enter color name",border: OutlineInputBorder(),labelText: "Color Name"),
+      decoration: InputDecoration(hintText: "colorName".tr,border: OutlineInputBorder(),labelText: "colorName".tr),
       controller: colorName,
       validator: (val){
-        if(val!.isEmpty){return "color name cannot be empty";}
+        if(val!.isEmpty){return "cannotBeEmpty".tr;}
         else {return null;}
       },
       onSaved:(String? value){widget.color.colorName=value!;},
     );
   } buildColorCodeField() {
     return TextFormField(
-      decoration: InputDecoration(hintText: "Enter color code",border: OutlineInputBorder(),labelText: "Color Code"),
+      decoration: InputDecoration(hintText: "colorCode".tr,border: OutlineInputBorder(),labelText: "colorCode".tr),
       controller: colorCode,
       validator: (val){
-        if(val!.isEmpty){return "color code cannot be empty";}
+        if(val!.isEmpty){return "cannotBeEmpty".tr;}
         else {return null;}
       },
       onSaved:(String? value){widget.color.colorCode=value!;},
@@ -107,7 +103,7 @@ class _ColorUpdateScreenState extends State<ColorUpdateScreen> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: ElevatedButton(
-        child:Text("Update"),
+        child:Text("update".tr),
         onPressed: (){
           if(formKey.currentState!.validate()){
             formKey.currentState!.save();

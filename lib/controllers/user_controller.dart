@@ -15,7 +15,6 @@ class UserController extends GetxController{
         isLoading(true);
         var result = (jsonDecode(response.body)["data"]);
         var userResponse=UserDetail.fromJson(result);
-
         if (result != null) { user(userResponse);}
         else{
           Get.snackbar("a", response.body);

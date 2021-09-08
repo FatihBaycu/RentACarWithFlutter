@@ -7,6 +7,7 @@ class UserDetail {
   String? email;
   bool? status;
   int? customerFindexPoint;
+  String? picturePath;
 
   UserDetail.withEmpty();
 
@@ -18,7 +19,8 @@ class UserDetail {
       this.lastName, 
       this.email, 
       this.status, 
-      this.customerFindexPoint});
+      this.customerFindexPoint,
+      this.picturePath});
 
   UserDetail.fromJson(dynamic json) {
     customerId = json["customerId"];
@@ -29,6 +31,7 @@ class UserDetail {
     email = json["email"];
     status = json["status"];
     customerFindexPoint = json["customerFindexPoint"];
+    picturePath = json["picturePath"];
   }
 
   Map<String, dynamic> toJson() {
@@ -41,7 +44,9 @@ class UserDetail {
     map["email"] = email;
     map["status"] = status;
     map["customerFindexPoint"] = customerFindexPoint;
+    map["picturePath"] = picturePath;
     return map;
   }
+
 
 }

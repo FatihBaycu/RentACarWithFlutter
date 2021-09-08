@@ -79,7 +79,7 @@ class _CarUpdateScreenState extends State<CarUpdateScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Car Update"),
+        title: Text("carUpdate".tr),
       ),
       body: buildBody(),
     );
@@ -98,18 +98,18 @@ class _CarUpdateScreenState extends State<CarUpdateScreen> {
                  TextFormField(controller: carId,autovalidateMode: AutovalidateMode.always,
                   readOnly: true,
                   decoration: InputDecoration(border: OutlineInputBorder(),labelText: "Car Id"),
-                  validator: (value){if(value!=null){}else{ return "Cannot be empty.";}},
+                  validator: (value){if(value!=null){}else{ return "cannotBeEmpty".tr;}},
                 onChanged: (value)=>car.id=int.parse(value)
                 ),
 
 
                 TextFormField(
-                  decoration: InputDecoration(hintText: "Enter Description",border: OutlineInputBorder(),labelText: "Descrition"),
+                  decoration: InputDecoration(hintText: "description".tr,border: OutlineInputBorder(),labelText: "description".tr),
                   controller: description,
                   autovalidateMode: AutovalidateMode.always,
                   validator: (val){
-                    if(val!.isEmpty){return "Description cannot be empty";}
-                    else if(val.length<=2){return "Description length must be greater than two";}
+                    if(val!.isEmpty){return "cannotBeEmpty".tr;}
+                    else if(val.length<=2){return "lengthGreaterThanTwo".tr;}
                     else {return null;}
                   },
                   onSaved:(value){car.description=value!;},
@@ -118,18 +118,18 @@ class _CarUpdateScreenState extends State<CarUpdateScreen> {
                 TextFormField(
                     controller: carName,
                     autovalidateMode: AutovalidateMode.always,
-                    decoration: InputDecoration(border: OutlineInputBorder(),labelText: "Car Name"),
+                    decoration: InputDecoration(border: OutlineInputBorder(),labelText: "carName".tr),
                     validator: (val){
-                      if(val!.isEmpty){return "Description cannot be empty";}
+                    if(val!.isEmpty){return "cannotBeEmpty".tr;}
                       else {return null;}
                     },
                 onChanged: (value)=>car.carName=value
                 ),
                 TextFormField(controller: modelYear,autovalidateMode: AutovalidateMode.always,
                     keyboardType: TextInputType.number,
-                    decoration: InputDecoration(border: OutlineInputBorder(),labelText: "Model Year"),
+                    decoration: InputDecoration(border: OutlineInputBorder(),labelText: "modelYear".tr),
                     validator: (val){
-                      if(val!.isEmpty){return "Model Year cannot be empty";}
+                    if(val!.isEmpty){return "cannotBeEmpty".tr;}
                       else {return null;}
                     },onChanged: (value)=>car.modelYear=int.parse(value)
                 ),
@@ -138,19 +138,19 @@ class _CarUpdateScreenState extends State<CarUpdateScreen> {
                 buildBrandsDropdownList(),
                 TextFormField(controller: dailyPrice,autovalidateMode: AutovalidateMode.always,
                     keyboardType: TextInputType.number,
-                    decoration: InputDecoration(border: OutlineInputBorder(),labelText: "Daily Price"),
+                    decoration: InputDecoration(border: OutlineInputBorder(),labelText: "dailyPrice".tr),
                     validator: (val){
-                      if(val!.isEmpty){return "Daily Price cannot be empty";}
-                      else if(val.length<=1){return "Daily Price length must be greater than 0";}
+                    if(val!.isEmpty){return "cannotBeEmpty".tr;}
+                      else if(val.length<=1){return "dailyPriceError".tr;}
                       else {return null;}
                     },                onChanged: (value)=>car.dailyPrice=double.parse(value)
                 ),
 
                 TextFormField(controller: carFindexPoint,autovalidateMode: AutovalidateMode.always,
                   keyboardType: TextInputType.number,
-                    decoration: InputDecoration(border: OutlineInputBorder(),labelText: "Car Findex Point"),
+                    decoration: InputDecoration(border: OutlineInputBorder(),labelText: "findexPoint".tr),
                     validator: (val){
-                      if(val!.isEmpty){return "Car Findex Point cannot be empty";}
+                    if(val!.isEmpty){return "cannotBeEmpty".tr;}
                       else {return null;}
                     },
                 onChanged: (value){car.carFindexPoint=int.parse(value);
@@ -168,7 +168,7 @@ class _CarUpdateScreenState extends State<CarUpdateScreen> {
   buildBrandsDropdownList() {
     return Container(
         child: InputDecorator(
-          decoration: InputDecoration(labelText: 'Brands',border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0),
+          decoration: InputDecoration(labelText: "brand".tr,border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0),
       ),
     ),
     child:DropdownButton(
@@ -197,7 +197,7 @@ class _CarUpdateScreenState extends State<CarUpdateScreen> {
   buildColorsDropdownList() {
     return  Container(
       child: InputDecorator(
-      decoration: InputDecoration(labelText: 'Color',border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0),
+      decoration: InputDecoration(labelText: "color".tr,border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0),
     ),
     ),
     child:Obx(() {
@@ -231,7 +231,7 @@ class _CarUpdateScreenState extends State<CarUpdateScreen> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: ElevatedButton(
-        child:Text("Update"),
+        child:Text("update".tr),
         onPressed: ()  {
 
 

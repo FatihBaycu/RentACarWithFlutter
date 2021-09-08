@@ -2,6 +2,7 @@ class UserForLogin {
   String? email;
   String? password;
 
+  UserForLogin.withEmpty();
   UserForLogin(this.email, this.password);
 
   UserForLogin.fromJson(Map json){

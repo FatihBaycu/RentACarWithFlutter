@@ -10,17 +10,19 @@ class BrandScreen extends StatefulWidget {
   _BrandScreenState createState() => _BrandScreenState();
 }
 
-enum Options {update}
+enum Options { update }
 
 class _BrandScreenState extends State<BrandScreen> {
   var brands = <Brand>[];
   var formKey = GlobalKey<FormState>();
 
-  var brandName=TextEditingController();
+  var brandName = TextEditingController();
 
-  Brand brand=Brand.required(brandName:"default",);
+  Brand brand = Brand.required(
+    brandName: "default",
+  );
 
-  BrandController brandController =Get.put(BrandController());
+  BrandController brandController = Get.put(BrandController());
 
   @override
   Widget build(BuildContext context) {
@@ -31,41 +33,53 @@ class _BrandScreenState extends State<BrandScreen> {
   }
 
   buildBody() {
-    return Container(
-      child: Column(
-        children: [
-          Expanded(flex:1,child: buildFormField()),
-          Expanded(flex:2,child: buildNewBrandListWidget()),
-        ],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+            children: [
+              buildFormField(),
+              buildNewBrandListWidget(),
+            ],
+          ),
+        ),
       ),
     );
   }
 
-  buildNewBrandListWidget(){
-    return Obx((){
-      if(brandController.isLoading.value)
-          return Center(child: CircularProgressIndicator(),);
+  buildNewBrandListWidget() {
+    return Obx(() {
+      if (brandController.isLoading.value)
+        return Center(
+          child: CircularProgressIndicator(),
+        );
       else
-        return ListView.builder(
-            padding: EdgeInsets.only(left:20,right: 20),
-            itemCount: brandController.brandList.length,
-          itemBuilder: (context,int index){
-            var brands=brandController.brandList;
-            return ListTile(
-              title: Text(brands[index].brandName.toString()),
-              onTap: () {
-              },
-              trailing: buildPopupMenu(brands[index]),
-            );
-          });
+        return SingleChildScrollView(
+          child: ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              padding: EdgeInsets.only(left: 20, right: 20),
+              itemCount: brandController.brandList.length,
+              itemBuilder: (context, int index) {
+                var brands = brandController.brandList;
+                return ListTile(
+                  title: Text(brands[index].brandName.toString()),
+                  onTap: () {},
+                  trailing: buildPopupMenu(brands[index]),
+                );
+              }),
+        );
     });
   }
-    buildPopupMenu(Brand brand) {
+
+  buildPopupMenu(Brand brand) {
     return PopupMenuButton<Options>(
         onSelected: (value) => selectProcess(value, brand),
         itemBuilder: (BuildContext context) => <PopupMenuEntry<Options>>[
               PopupMenuItem<Options>(
-                child: Text("Güncelle"),
+                child: Text("update".tr),
                 value: Options.update,
               ),
             ]);
@@ -73,57 +87,59 @@ class _BrandScreenState extends State<BrandScreen> {
 
   selectProcess(Options options, Brand brand) async {
     switch (options) {
-      case Options.update:Get.to(()=>BrandUpdateScreen(brand));break;
+      case Options.update:
+        Get.to(() => BrandUpdateScreen(brand));
+        break;
       default:
     }
   }
 
-  buildFormField(){
-    return ListView(
-      padding: EdgeInsets.all(20),
-      shrinkWrap: true,
-      children: [
-        Form(key: formKey, child: Column(
-          children: [
-              buildBrandNameField(),
-              buildBrandSubmitField(),
-            ],
-          ),
-        ),
-      ],
+  buildFormField() {
+    return Form(
+      key: formKey,
+      child: Column(
+        children: [
+          buildBrandNameField(),
+          buildBrandSubmitField(),
+        ],
+      ),
     );
-
   }
 
   buildBrandNameField() {
-    return TextFormField(decoration:  InputDecoration(labelText: "Enter brand name", border: OutlineInputBorder(),),
-
+    return TextFormField(
+      decoration: InputDecoration(
+        labelText: "enterBrandName".tr,
+        border: OutlineInputBorder(),
+      ),
       autovalidateMode: AutovalidateMode.always,
       controller: brandName,
-      validator: (String? value){
-        if(value!=null){
-          if(value.length<2){return "The brand name length must be higher than 2.";}
+      validator: (String? value) {
+        if (value != null) {
+          if (value.length < 2) {
+            return "brandNameErrorLength".tr;
+          }
         }
       },
-      onSaved:(String? value){brand.brandName=value!;},
+      onSaved: (String? value) {
+        brand.brandName = value!;
+      },
     );
   }
-
 
 
   buildBrandSubmitField() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: ElevatedButton(child:Text("Add"),
-        onPressed: (){
-        if(formKey.currentState!.validate()){
-          formKey.currentState!.save();
-          BrandService().brandAdd(this.brand);
-        }
+      child: ElevatedButton(
+        child: Text('add'.tr),
+        onPressed: () {
+          if (formKey.currentState!.validate()) {
+            formKey.currentState!.save();
+            BrandService().brandAdd(this.brand);
+          }
         },
       ),
     );
   }
-
-
 }

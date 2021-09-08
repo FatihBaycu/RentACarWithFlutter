@@ -29,7 +29,7 @@ class _BrandUpdateScreenState extends State<BrandUpdateScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("${widget.brand.brandName} Marka sı "),),
+      appBar: AppBar(title: Text("${widget.brand.brandName} "+'brand'.tr),),
       body: SingleChildScrollView(
         child: Center(
            child: buildFormField(),
@@ -63,11 +63,11 @@ class _BrandUpdateScreenState extends State<BrandUpdateScreen> {
   }
   buildBrandIdField() {
     return TextFormField(
-      decoration: const InputDecoration(hintText: "Enter brand name",border: OutlineInputBorder()),
+      decoration: InputDecoration(hintText: "enterBrandName".tr,border: OutlineInputBorder()),
       controller: brandId,
       readOnly: true,
       validator: (val){
-        if(val!.isEmpty){return "brand name cannot be empty";}
+        if(val!.isEmpty){return "brandNameErrorEmpty".tr;}
         else {return null;}
       },
       onSaved:(String? value){widget.brand.brandName=value!;},
@@ -76,10 +76,10 @@ class _BrandUpdateScreenState extends State<BrandUpdateScreen> {
 
   buildBrandNameField() {
     return TextFormField(
-      decoration: InputDecoration(hintText: "Enter brand name",border: OutlineInputBorder(),labelText: "Brand Name"),
+      decoration: InputDecoration(hintText: "enterBrandName".tr,border: OutlineInputBorder(),labelText: "brandName".tr),
       controller: brandName,
       validator: (val){
-              if(val!.isEmpty){return "brand name cannot be empty";}
+              if(val!.isEmpty){return "brandNameErrorEmpty".tr;}
               else {return null;}
         },
       onSaved:(String? value){widget.brand.brandName=value!;},
@@ -94,7 +94,7 @@ class _BrandUpdateScreenState extends State<BrandUpdateScreen> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: ElevatedButton(
-        child:Text("Update"),
+        child:Text("update".tr),
         onPressed: (){
           if(formKey.currentState!.validate()){
             formKey.currentState!.save();

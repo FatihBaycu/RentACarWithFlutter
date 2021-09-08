@@ -36,7 +36,7 @@ class _CarAddScreenState extends State<CarAddScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar( title: Text("Add Car"),),
+      appBar: AppBar(title: Text("addCar".tr),),
       body: buildForm(),
     );
   }
@@ -56,11 +56,11 @@ class _CarAddScreenState extends State<CarAddScreen> {
                 buildColorsDropdownList(),
                 buildBrandsDropdownList(),
 
-                buidTextFormField(carName,"Car Name"),
-                buidTextFormField(modelYear,"Model Year"),
-                buidTextFormField(dailyPrice,"Daily Price"),
-                buidTextFormField(carFindexPoint,"Car Findex Point"),
-                buidTextFormField(description,"Description"),
+                buidTextFormField(carName,"carName".tr),
+                buidTextFormField(modelYear,"modelYear".tr),
+                buidTextFormField(dailyPrice,"dailyPrice".tr),
+                buidTextFormField(carFindexPoint,"carFindexPoint".tr),
+                buidTextFormField(description,"description".tr),
 
                 buildCarSaveButton(),
               ],
@@ -78,7 +78,7 @@ class _CarAddScreenState extends State<CarAddScreen> {
         border: OutlineInputBorder(),
       ),
       validator: (String? value) {
-        if (value == null || value.isEmpty) { return 'Please enter some text';}
+        if (value == null || value.isEmpty) { return "pleaseSomeText".tr;}
         return null;
       },
     );
@@ -105,7 +105,7 @@ class _CarAddScreenState extends State<CarAddScreen> {
 
           }
         },
-        child: Text('Add Car'),
+        child: Text("addCar".tr),
       ),
     );
   }
@@ -115,12 +115,12 @@ class _CarAddScreenState extends State<CarAddScreen> {
   buildBrandsDropdownList() {
     return Container(
       child: InputDecorator(
-        decoration: InputDecoration(labelText: 'Brands',border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0),
+        decoration: InputDecoration(labelText: "brands".tr,border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0),
         ),
         ),
         child: DropdownButton(
           menuMaxHeight: Get.height/2,
-          hint: Text("Brand"),
+          hint: Text("brand".tr),
           items: brandController.brandList.map((item) {
             return  DropdownMenuItem(
               child:  Text(item.brandName!),
@@ -143,12 +143,12 @@ class _CarAddScreenState extends State<CarAddScreen> {
   buildColorsDropdownList() {
     return Container(
         child: InputDecorator(
-        decoration: InputDecoration(labelText: 'Colors',border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0),
+        decoration: InputDecoration(labelText: "colors".tr,border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0),
     ),
     ),
     child:  DropdownButton(
       menuMaxHeight: Get.height/2,
-        hint: Text("Color"),
+        hint: Text("Color".tr),
         items: colorController.colorList.map((item) {
           return  DropdownMenuItem(
             child:  Text(item.colorName.toString()),

@@ -16,69 +16,71 @@ class _CarRentalScreenState extends State<CarRentalScreen> {
   DateTime rentDate = DateTime.now();
   DateTime returnDate = DateTime.now();
 
-  RentalController rentalController=Get.put(RentalController());
-  CarController carController=Get.put(CarController());
+  RentalController rentalController=Get.put(RentalController(),permanent: true);
+  CarController carController=Get.put(CarController(),permanent: true);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Rent"),
+        title: Text("rent".tr),
       ),
       body: buildBody(),
     );
   }
 
   buildBody() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          SizedBox(
-            height: Get.height*0.50,
-            width: Get.width*0.999,
-            child: Container(
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(GlobalVariables.apiUrlBase +carController.carDetail().imagePath!)),
-                  shape: BoxShape.circle,
-                  color: Colors.red),
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            SizedBox(
+              height: Get.height*0.50,
+              width: Get.width*0.999,
+              child: Container(
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(GlobalVariables.apiUrlBase +carController.carDetail().imagePath!)),
+                    shape: BoxShape.circle,
+                    color: Colors.red),
+              ),
             ),
-          ),
-          //ElevatedButton(
-          //     onPressed: () {
-          //       print(rentDate);
-          //       print(returnDate);
-          //     },
-          //     child: Text("Print Dates")),
-          ElevatedButton(
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.date_range),
-                Text('Pick a rent date'),
-              ],
+            //ElevatedButton(
+            //     onPressed: () {
+            //       print(rentDate);
+            //       print(returnDate);
+            //     },
+            //     child: Text("Print Dates")),
+            ElevatedButton(
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.date_range),
+                  Text("pickRentDate".tr),
+                ],
+              ),
+              onPressed: () {
+                showRentDateDialog();
+              },
             ),
-            onPressed: () {
-              showRentDateDialog();
-            },
-          ),
-          ElevatedButton(
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.date_range),
-                Text('Pick a return date'),
-              ],
+            ElevatedButton(
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.date_range),
+                  Text("pickReturnDate".tr),
+                ],
+              ),
+              onPressed: () {showReturnDateDialog();},
             ),
-            onPressed: () {showReturnDateDialog();},
-          ),
-          TextButton(
-              onPressed: () { Get.to(() => PaymentScreen());},
-              child: Text("Go to Payment")),
-        ],
+            TextButton(
+                onPressed: () { Get.to(() => PaymentScreen());},
+                child: Text("goToPayment".tr)),
+          ],
+        ),
       ),
     );
   }

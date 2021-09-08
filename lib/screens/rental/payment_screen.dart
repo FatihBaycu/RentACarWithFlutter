@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_http_demo2/controllers/car_controller.dart';
@@ -23,9 +21,9 @@ class PaymentScreen extends StatefulWidget {
 
 class _PaymentScreenState extends State<PaymentScreen> {
 
-  CardController cardController = Get.put(CardController());
-  CarController carController = Get.put(CarController());
-  RentalController rentalController = Get.put(RentalController());
+  CardController cardController = Get.put(CardController(),permanent: true);
+  CarController carController = Get.put(CarController(),permanent: true);
+  RentalController rentalController = Get.put(RentalController(),permanent: true);
   UserController userController = Get.put(UserController(),permanent: true);
 
   CardModel cardModel=CardModel();
@@ -57,7 +55,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Payment"),
+        title: Text("payment".tr),
       ),
       body: buildBody(),
     );
@@ -140,7 +138,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
               controller: cardOnName,
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
-                  border: OutlineInputBorder(), hintText: "Card on Name"),
+                  border: OutlineInputBorder(), hintText: "cardOnName".tr),
             ),
             TextFormField(
               controller: cardNumber,
@@ -150,30 +148,30 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 CustomInputFormatter(),
               ],
               decoration: InputDecoration(
-                  border: OutlineInputBorder(), hintText: "Card Number"),
+                  border: OutlineInputBorder(), hintText: "cardNumber".tr),
             ),
             TextFormField(
               controller: cardValidDate,
               keyboardType: TextInputType.datetime,
               decoration: InputDecoration(
-                  border: OutlineInputBorder(), hintText: "Card Valid Date"),
+                  border: OutlineInputBorder(), hintText: "cardValidDate".tr),
             ),
             TextFormField(
               maxLength: 3,
               controller: cardCvv,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                  border: OutlineInputBorder(), hintText: "Card CVV"),
+                  border: OutlineInputBorder(), hintText: "cardCVV".tr),
             ),
             TextFormField(
               controller: cardType,
               decoration: InputDecoration(
-                  border: OutlineInputBorder(), hintText: "Card Type"),
+                  border: OutlineInputBorder(), hintText: "cardType".tr),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text("Save Card"),
+                Text("saveCard".tr),
                 Switch(
                   value: switchControl,
                   activeTrackColor: Colors.white,
@@ -196,10 +194,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         onPressed: () {
                           if(switchControl){saveCard();cardController.addCard(cardModel);}
                           rentalController.addRental(rental)
-                              .then((value) => Get.snackbar("Success", "Car Rented.",duration: Duration(seconds: 3)))
-                              .then((value) => Get.offAllNamed("/car-list"));
+                              .then((value) => Get.snackbar("success".tr, "carRented".tr,duration: Duration(seconds: 3)))
+                              .then((value) => Get.offNamed("/car-list"));
                         },
-                        child: Text("PAY")))
+                        child: Text("pay".tr)))
               ],
             ),
           ],
@@ -230,12 +228,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text("BRAND: ${carController.carDetail().brandName}"),
-                  Text("MODEL: ${carController.carDetail().carName}"),
-                  Text("RENT DATE: ${buildDateFormat(rentalController.rental().rentDate!)}"),
-                  Text("RETURN DATE: ${buildDateFormat(rentalController.rental().returnDate!)}"),
-                  Text("TOTAL DAY: ${totalDay == 0 ? 1 : totalDay}"),
-                  Text("TOTAL PRICE: $totalPrice \$"),
+                  Text("paymentBrand".tr +carController.carDetail().brandName!),
+                  Text("paymentModel".tr+carController.carDetail().carName!),
+                  Text("paymentRentDate".tr+ buildDateFormat(rentalController.rental().rentDate!)),
+                  Text("paymentReturnDate".tr+buildDateFormat(rentalController.rental().returnDate!)),
+                  Text("paymentTotalDay".tr+"${totalDay == 0 ? 1 : totalDay}"),
+                  Text("paymentTotalPrice".tr+ totalPrice.toString()),
                 ],
               ),
             ],
