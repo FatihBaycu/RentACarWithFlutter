@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_http_demo2/controllers/rental_controller.dart';
 import 'package:flutter_http_demo2/globalVariables.dart';
@@ -24,8 +25,9 @@ class _MyRentalsScreenState extends State<MyRentalsScreen> {
 
   buildBody() {
     return Obx((){
+      rentalController.tryMethod();
       return ListView.builder(
-          itemCount:rentalController.rentalDetail.length ,
+          itemCount:rentalController.rentalDetail.length,
           itemBuilder: (context,index){
             var rentalDetails=rentalController.rentalDetail[index];
             late String userAvatarUrl=GlobalVariables.apiUrlBase+rentalDetails.imagePath!;
@@ -51,3 +53,5 @@ class _MyRentalsScreenState extends State<MyRentalsScreen> {
 
   }
 }
+
+

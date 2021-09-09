@@ -3,8 +3,6 @@ import 'package:flutter_http_demo2/controllers/auth_controller.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-import '../ResponseService.dart';
-
 AuthController authController = Get.put(AuthController());
 
 class HttpGenericService {

@@ -22,7 +22,7 @@ class _BrandScreenState extends State<BrandScreen> {
     brandName: "default",
   );
 
-  BrandController brandController = Get.put(BrandController());
+  //BrandController brandController = Get.put(BrandController());
 
   @override
   Widget build(BuildContext context) {
@@ -50,20 +50,17 @@ class _BrandScreenState extends State<BrandScreen> {
   }
 
   buildNewBrandListWidget() {
-    return Obx(() {
-      if (brandController.isLoading.value)
-        return Center(
-          child: CircularProgressIndicator(),
-        );
-      else
-        return SingleChildScrollView(
+    return GetX<BrandController>(
+      init: BrandController(),
+      builder: (_brandController){
+     return SingleChildScrollView(
           child: ListView.builder(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               padding: EdgeInsets.only(left: 20, right: 20),
-              itemCount: brandController.brandList.length,
+              itemCount: _brandController.brandList.length,
               itemBuilder: (context, int index) {
-                var brands = brandController.brandList;
+                var brands = _brandController.brandList;
                 return ListTile(
                   title: Text(brands[index].brandName.toString()),
                   onTap: () {},
@@ -73,6 +70,9 @@ class _BrandScreenState extends State<BrandScreen> {
         );
     });
   }
+
+   
+  
 
   buildPopupMenu(Brand brand) {
     return PopupMenuButton<Options>(
@@ -137,6 +137,7 @@ class _BrandScreenState extends State<BrandScreen> {
           if (formKey.currentState!.validate()) {
             formKey.currentState!.save();
             BrandService().brandAdd(this.brand);
+            BrandController().getAll().then((value) => Get.toNamed("/car-list"));
           }
         },
       ),

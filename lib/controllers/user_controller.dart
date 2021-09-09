@@ -14,6 +14,7 @@ class UserController extends GetxController{
       await UserService.getUserByEmail(email).then((response) {
         isLoading(true);
         var result = (jsonDecode(response.body)["data"]);
+        print(response.body);
         var userResponse=UserDetail.fromJson(result);
         if (result != null) { user(userResponse);}
         else{

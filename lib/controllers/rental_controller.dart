@@ -20,6 +20,11 @@ class RentalController extends GetxController {
     super.onInit();
   }
 
+
+    void tryMethod(){ 
+      print("Çalışyor TRYMETHOD");
+      getRentalsByCustomerId(userController.user().customerId!);}
+
   void getRentalsByCustomerId(int customerId) async {
     try {
       await RentalService().getRentalsByCustomerId(customerId).then((response) {
@@ -27,16 +32,11 @@ class RentalController extends GetxController {
         var result = (jsonDecode(response.body)["data"] as List)
             .map((e) => RentalDetails.fromJson(e))
             .toList();
-        if (result != null) {
-          rentalDetail.assignAll(result);
-        }
+        if (result != null) { rentalDetail.assignAll(result);}
       });
-    } finally {
-      isLoading(false);
-    }
+    } finally { isLoading(false);}
   }
 
-  Future<void>addRental(Rental rental)async {
-    await RentalService().addRental(rental);
-  }
+  Future<void>addRental(Rental rental)async {await RentalService().addRental(rental);}
+
 }

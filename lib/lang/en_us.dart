@@ -64,12 +64,12 @@
         "CarRented":"Car Rented",
         "pay":"Pay",
 
-        "paymentBrand":"Brand",
-        "paymentModel":"Model",
-        "paymentRentDate":"Rent Date",
-        "paymentReturnDate":"Return Date",
-        "paymentTotalDay":"Total Day",
-        "paymentTotalPrice":"Total Price",
+        "paymentBrand":"Brand :",
+        "paymentModel":"Model :",
+        "paymentRentDate":"Rent Date :",
+        "paymentReturnDate":"Return Date :",
+        "paymentTotalDay":"Total Day :",
+        "paymentTotalPrice":"Total Price :",
         
         //Login
         "loginScreen":"Login Screen",

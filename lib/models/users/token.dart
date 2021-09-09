@@ -1,7 +1,7 @@
 class Token {
   String? token;
   String? expiration;
-  Token.withEmpty() {}
+  Token.withEmpty();
   Token({
       this.token, 
       this.expiration});

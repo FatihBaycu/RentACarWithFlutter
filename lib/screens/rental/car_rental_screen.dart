@@ -16,8 +16,7 @@ class _CarRentalScreenState extends State<CarRentalScreen> {
   DateTime rentDate = DateTime.now();
   DateTime returnDate = DateTime.now();
 
-  RentalController rentalController=Get.put(RentalController(),permanent: true);
-  CarController carController=Get.put(CarController(),permanent: true);
+  RentalController rentalController = Get.put(RentalController(), permanent: true);
 
   @override
   Widget build(BuildContext context) {
@@ -36,18 +35,36 @@ class _CarRentalScreenState extends State<CarRentalScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            SizedBox(
-              height: Get.height*0.50,
-              width: Get.width*0.999,
+            GetBuilder<CarController>(
+              init: CarController(),
+              builder: (carController) => SizedBox(
+              height: Get.height * 0.50,
+              width: Get.width * 0.999,
               child: Container(
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: NetworkImage(GlobalVariables.apiUrlBase +carController.carDetail().imagePath!)),
+                        image: NetworkImage(GlobalVariables.apiUrlBase +
+                            carController.carDetail().imagePath!)),
                     shape: BoxShape.circle,
                     color: Colors.red),
               ),
+            )
             ),
+
+            // SizedBox(
+            //   height: Get.height * 0.50,
+            //   width: Get.width * 0.999,
+            //   child: Container(
+            //     decoration: BoxDecoration(
+            //         image: DecorationImage(
+            //             fit: BoxFit.cover,
+            //             image: NetworkImage(GlobalVariables.apiUrlBase +
+            //                 carController.carDetail().imagePath!)),
+            //         shape: BoxShape.circle,
+            //         color: Colors.red),
+            //   ),
+            // ),
             //ElevatedButton(
             //     onPressed: () {
             //       print(rentDate);
@@ -74,10 +91,14 @@ class _CarRentalScreenState extends State<CarRentalScreen> {
                   Text("pickReturnDate".tr),
                 ],
               ),
-              onPressed: () {showReturnDateDialog();},
+              onPressed: () {
+                showReturnDateDialog();
+              },
             ),
             TextButton(
-                onPressed: () { Get.to(() => PaymentScreen());},
+                onPressed: () {
+                  Get.to(() => PaymentScreen());
+                },
                 child: Text("goToPayment".tr)),
           ],
         ),
@@ -94,21 +115,18 @@ class _CarRentalScreenState extends State<CarRentalScreen> {
         .then((date) {
       setState(() {
         rentDate = date != null ? date : DateTime.now();
-       // var newDate=DateTime.utc(rentDate.year,rentDate.month,rentDate.day);
-        rentalController.rental().rentDate=date;
-
+        // var newDate=DateTime.utc(rentDate.year,rentDate.month,rentDate.day);
+        rentalController.rental().rentDate = date;
       });
     });
   }
 
-  bool checkReturnDate(DateTime rentDate,DateTime returnDate){
-    if(returnDate.day < rentDate.day  || returnDate.day==rentDate.day)
+  bool checkReturnDate(DateTime rentDate, DateTime returnDate) {
+    if (returnDate.day < rentDate.day || returnDate.day == rentDate.day)
       return false;
     else
       return true;
-
   }
-
 
   showReturnDateDialog() {
     return showDatePicker(
@@ -120,13 +138,8 @@ class _CarRentalScreenState extends State<CarRentalScreen> {
       setState(() {
         returnDate = date != null ? date : DateTime.now();
         //var newDate=DateTime.utc(returnDate.year,returnDate.month,returnDate.day);
-        rentalController.rental().returnDate=date;
+        rentalController.rental().returnDate = date;
       });
     });
   }
-
-
-
-
-
 }

@@ -15,8 +15,6 @@ class CarListScreen extends StatefulWidget {
 }
 
 class _CarListScreenState extends State<CarListScreen> {
-  BrandController brandController = Get.put(BrandController(), permanent: true);
-  ColorController colorController = Get.put(ColorController(), permanent: true);
   CarController carController = Get.put(CarController());
 
   var _myBrandSelection;
@@ -26,16 +24,16 @@ class _CarListScreenState extends State<CarListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: buildFloatingActionButton(context),
-      appBar: AppBar(title: Text("carList".tr),
-    
+      appBar: AppBar(
+        title: Text("carList".tr),
       ),
       body: LayoutBuilder(
-          builder:(BuildContext context,BoxConstraints boxCons){
-        if(boxCons.maxWidth<600)
-       return  buildBody();
+          builder: (BuildContext context, BoxConstraints boxCons) {
+        if (boxCons.maxWidth < 600)
+          return buildBody();
         else
           return buildBodyForTablet();
-      } ),
+      }),
       drawer: DrawerWidget(),
     );
   }
@@ -69,13 +67,10 @@ class _CarListScreenState extends State<CarListScreen> {
                 Expanded(flex: 1, child: buildClearFilterButton()),
               ],
             )),
-
         Expanded(child: buildCard()),
-        // Expanded(child: buildCard()),
       ],
     );
   }
-
 
   Widget buildBodyForTablet() {
     return Column(
@@ -91,49 +86,53 @@ class _CarListScreenState extends State<CarListScreen> {
                 Expanded(flex: 1, child: buildClearFilterButton()),
               ],
             )),
-
         Expanded(child: buildCardForTablet()),
-        // Expanded(child: buildCard()),
       ],
     );
   }
 
   buildColorsDropdownList() {
-    return Center(
-      child: DropdownButton(
-        hint: Text("colors".tr),
-        items: colorController.colorList.map((item) {
-          return DropdownMenuItem(
-            child: Text(item.colorName!),
-            value: item.colorId.toString(),
-          );
-        }).toList(),
-        onChanged: (newVal) {
-          setState(() {
-            _myColorSelection = newVal;
-          });
-        },
-        value: _myColorSelection,
+    return GetX<ColorController>(
+      init: ColorController(),
+      builder: (_colorController) => Center(
+        child: DropdownButton(
+          hint: Text("colors".tr),
+          items: _colorController.colorList.map((item) {
+            return DropdownMenuItem(
+              child: Text(item.colorName!),
+              value: item.colorId.toString(),
+            );
+          }).toList(),
+          onChanged: (newVal) {
+            setState(() {
+              _myColorSelection = newVal;
+            });
+          },
+          value: _myColorSelection,
+        ),
       ),
     );
   }
 
   buildBrandsDropdownList() {
-    return Center(
-      child: DropdownButton(
-        hint: Text("brands".tr),
-        items: brandController.brandList.map((item) {
-          return DropdownMenuItem(
-            child: Text(item.brandName!),
-            value: item.brandId.toString(),
-          );
-        }).toList(),
-        onChanged: (newVal) {
-          setState(() {
-            _myBrandSelection = newVal;
-          });
-        },
-        value: _myBrandSelection,
+    return GetX<BrandController>(
+      init: BrandController(),
+      builder: (_brandController) => Center(
+        child: DropdownButton(
+          hint: Text("brands".tr),
+          items: _brandController.brandList.map((item) {
+            return DropdownMenuItem(
+              child: Text(item.brandName!),
+              value: item.brandId.toString(),
+            );
+          }).toList(),
+          onChanged: (newVal) {
+            setState(() {
+              _myBrandSelection = newVal;
+            });
+          },
+          value: _myBrandSelection,
+        ),
       ),
     );
   }
@@ -141,8 +140,8 @@ class _CarListScreenState extends State<CarListScreen> {
   Widget buildCard() {
     return GetBuilder<CarController>(builder: (controller) {
       return Obx(() {
-        if (carController.isLoading.value)
-           return Center(child: CircularProgressIndicator());
+        if (controller.isLoading.value)
+          return Center(child: CircularProgressIndicator());
         else
           return ListView.builder(
               itemCount: controller.carDetailList.length,
@@ -156,12 +155,13 @@ class _CarListScreenState extends State<CarListScreen> {
                         car.imagePath != null
                             ? Image.network(
                                 GlobalVariables.apiUrlBase + car.imagePath!)
-                            :  Shimmer.fromColors(
-                          baseColor: Colors.grey[300]!,
-                          highlightColor: Colors.white,
-                          child:
-                          Expanded(child: CircularProgressIndicator()), //Your custom layout comes here...
-                        ),
+                            : Shimmer.fromColors(
+                                baseColor: Colors.grey[300]!,
+                                highlightColor: Colors.white,
+                                child: Expanded(
+                                    child:
+                                        CircularProgressIndicator()), //Your custom layout comes here...
+                              ),
                         ListTile(
                           leading: Icon(
                             Icons.car_rental,
@@ -200,16 +200,15 @@ class _CarListScreenState extends State<CarListScreen> {
   Widget buildCardForTablet() {
     return GetBuilder<CarController>(builder: (controller) {
       return Obx(() {
-        if (carController.isLoading.value)
-           return Center(child: CircularProgressIndicator());
+        if (controller.isLoading.value)
+          return Center(child: CircularProgressIndicator());
         else
           return GridView.builder(
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 500,
-              childAspectRatio: 3/2,
-              crossAxisSpacing: 20,
-              mainAxisSpacing:20
-            ),
+              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 500,
+                  childAspectRatio: 3 / 2,
+                  crossAxisSpacing: 20,
+                  mainAxisSpacing: 20),
               itemCount: controller.carDetailList.length,
               itemBuilder: (BuildContext context, index) {
                 var car = controller.carDetailList[index];
@@ -219,25 +218,27 @@ class _CarListScreenState extends State<CarListScreen> {
                       children: [
                         car.imagePath != null
                             ? Expanded(
-                              child: GestureDetector(
-                                onTap: ()=>getCarImagesFromApi(car),
-                                child: Image.network(
-                                    GlobalVariables.apiUrlBase + car.imagePath!),
+                                child: GestureDetector(
+                                  onTap: () => getCarImagesFromApi(car),
+                                  child: Image.network(
+                                      GlobalVariables.apiUrlBase +
+                                          car.imagePath!),
+                                ),
+                              )
+                            : Shimmer.fromColors(
+                                baseColor: Colors.grey[300]!,
+                                highlightColor: Colors.white,
+                                child: Expanded(
+                                    child:
+                                        CircularProgressIndicator()), //Your custom layout comes here...
                               ),
-                            )
-                            :  Shimmer.fromColors(
-                          baseColor: Colors.grey[300]!,
-                          highlightColor: Colors.white,
-                          child:
-                          Expanded(child: CircularProgressIndicator()), //Your custom layout comes here...
-                        ),
                         ListTile(
                           leading: Icon(
                             Icons.car_rental,
                             color: Colors.blue[500],
                           ),
                           title: Text(car.carName!),
-                            onTap: ()=>getCarImagesFromApi(car),
+                          onTap: () => getCarImagesFromApi(car),
                           subtitle: Text(car.brandName!),
                           trailing: Text("${car.dailyPrice} \$"),
                         ),

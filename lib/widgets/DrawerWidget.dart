@@ -4,7 +4,6 @@ import 'package:flutter_http_demo2/screens/user_screens/login_screen.dart';
 import 'package:flutter_http_demo2/services/localization_service.dart';
 import 'package:get/get.dart';
 
-import '../globalVariables.dart';
 
 // ignore: must_be_immutable
 class DrawerWidget extends StatefulWidget {

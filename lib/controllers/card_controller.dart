@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_http_demo2/controllers/user_controller.dart';
 import 'package:flutter_http_demo2/models/card.dart';
 import 'package:flutter_http_demo2/services/card_service.dart';
 import 'package:get/get.dart';
@@ -9,11 +10,11 @@ class CardController extends GetxController {
   var cardList = <CardModel>[].obs;
 
   CardService cardService=new CardService();
-
+  UserController userController=Get.put(UserController());
 
   @override
   void onInit() {
-    getCardsByCustomerId(2);
+    getCardsByCustomerId(userController.user().customerId!);
     super.onInit();
   }
 

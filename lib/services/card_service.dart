@@ -1,6 +1,6 @@
 import 'package:flutter_http_demo2/core/services/HttpGenericService.dart';
 import 'package:flutter_http_demo2/globalVariables.dart';
-import 'package:flutter_http_demo2/models/card.dart' hide C;
+import 'package:flutter_http_demo2/models/card.dart';
 
 var apiUrl=GlobalVariables.apiUrl;
 

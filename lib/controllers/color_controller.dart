@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 
 class ColorController extends GetxController{
   var isLoading=true.obs;
-  var colorList=<Color>[].obs;
+  var colorList=<Color>[Color(1, "Kırmızı", "#FFF000")].obs;
 
 
   ColorService colorService=new ColorService();
@@ -18,7 +18,7 @@ class ColorController extends GetxController{
   }
 
 
-  Future<void> getAll() async{
+   Future<void> getAll() async{
     try{
       isLoading(true);
       await colorService.getAll().then((response){

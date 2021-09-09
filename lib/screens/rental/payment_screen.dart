@@ -22,7 +22,6 @@ class PaymentScreen extends StatefulWidget {
 class _PaymentScreenState extends State<PaymentScreen> {
 
   CardController cardController = Get.put(CardController(),permanent: true);
-  CarController carController = Get.put(CarController(),permanent: true);
   RentalController rentalController = Get.put(RentalController(),permanent: true);
   UserController userController = Get.put(UserController(),permanent: true);
 
@@ -125,7 +124,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
     cardModel.cardValidDate=cardValidDate.text;
     cardModel.cardOnName=cardOnName.text;
     cardModel.customerId=userDetail.customerId;
-
   }
 
   Form buildForm() {
@@ -212,11 +210,17 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   buildCarInfo() {
-    int totalDay = rentalController.rental().returnDate!.day -
+   
+
+      return GetX<CarController>(
+        init: CarController(),
+        builder: (_carController){
+
+ int totalDay = rentalController.rental().returnDate!.day -
         rentalController.rental().rentDate!.day;
     int? totalPrice = totalDay == 0
-        ? carController.carDetail().dailyPrice
-        : totalDay * carController.carDetail().dailyPrice!;
+        ? _carController.carDetail().dailyPrice
+        : totalDay * _carController.carDetail().dailyPrice!;
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -228,8 +232,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text("paymentBrand".tr +carController.carDetail().brandName!),
-                  Text("paymentModel".tr+carController.carDetail().carName!),
+                  Text("paymentBrand".tr +_carController.carDetail().brandName!),
+                  Text("paymentModel".tr+_carController.carDetail().carName!),
                   Text("paymentRentDate".tr+ buildDateFormat(rentalController.rental().rentDate!)),
                   Text("paymentReturnDate".tr+buildDateFormat(rentalController.rental().returnDate!)),
                   Text("paymentTotalDay".tr+"${totalDay == 0 ? 1 : totalDay}"),
@@ -246,7 +250,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     image: DecorationImage(
                         fit: BoxFit.cover,
                         image: NetworkImage(GlobalVariables.apiUrlBase +
-                            carController.carDetail().imagePath!)),
+                            _carController.carDetail().imagePath!)),
                     shape: BoxShape.circle,
                     color: Colors.red),
                 height: 200,
@@ -257,5 +261,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
         ],
       ),
     );
+        },
+
+      );
+
+
   }
 }
