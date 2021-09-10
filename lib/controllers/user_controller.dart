@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter_http_demo2/models/users/user_detail.dart';
 import 'package:flutter_http_demo2/services/user_service.dart';
 import 'package:get/get.dart';

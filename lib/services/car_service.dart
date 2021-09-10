@@ -22,7 +22,7 @@ class CarService {
 
    Future addCar(Car car)async{return httpGenericService.generateHttpPost(car.toJsonForAdd(),apiUrl+"cars/addcar"); }
 
-   Future updateCar(Car car)async{return httpGenericService.generateHttpPut(car.toJson(),apiUrl+"cars/updatecar"); }
+   Future updateCar(Car car)async{return httpGenericService.generateHttpPost(car.toJson(),apiUrl+"cars/updatecar"); }
 
 }
 

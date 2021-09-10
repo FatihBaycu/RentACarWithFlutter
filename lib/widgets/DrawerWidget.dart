@@ -48,7 +48,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           ListTile(title: Text("homePage".tr, style: TextStyle(fontSize: 18),),onTap: (){Get.toNamed("/car-list");}),
           ListTile(title: Text("brands".tr,    style: TextStyle(fontSize: 18),),onTap: (){Get.toNamed("/brand");},),
           ListTile(title: Text("colors".tr,    style: TextStyle(fontSize: 18),),onTap: (){Get.toNamed("/color");}),
-          ListTile(title: Text("addCar".tr,   style: TextStyle(fontSize: 18),),onTap: (){Get.toNamed("/car-add");},),
+          ListTile(title: Text("addCar".tr,     style: TextStyle(fontSize: 18),),onTap: (){Get.toNamed("/car-add");},),
           ListTile(title: Text("myRentals".tr,   style: TextStyle(fontSize: 18),),onTap: (){Get.toNamed("/my-rentals");},),
          
          Padding(
@@ -57,14 +57,16 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 icon: Icon(Icons.arrow_drop_down),
                 value: selectedLang,
                 items: LocalizationService.langs.map((String lang) {
-                  return DropdownMenuItem(value: lang, child: Text(lang));
+                  return DropdownMenuItem(
+                    value: lang, 
+                    child: Text(lang));
                 }).toList(),
-                onChanged: (String? value) {
-                  // updates dropdown selected value
-                  setState(() => selectedLang = value!);
-                  // gets language and changes the locale
+                 onChanged: (String? value) {
+                  setState((){
+                    selectedLang = value!;
+                  });
                   LocalizationService().changeLocale(value!);
-                    Get.snackbar("language".tr, selectedLang,animationDuration: Duration(seconds: 0),duration: Duration(seconds:2));
+                  Get.snackbar("language".tr, selectedLang,animationDuration: Duration(seconds: 0),duration: Duration(seconds:2));
                 },
               ),
          ),

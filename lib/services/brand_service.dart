@@ -14,6 +14,6 @@ class BrandService{
 
      Future brandAdd(Brand brand) async { return await httpGenericService.generateHttpPost(brand.toJsonForAdd(), apiUrl + "brands/addbrand");}
 
-     Future brandUpdate(Brand brand) async {return await httpGenericService.generateHttpPut(brand.toJson(), apiUrl + "brands/updatebrand");}
+     Future brandUpdate(Brand brand) async {return await httpGenericService.generateHttpPost(brand.toJson(), apiUrl + "brands/updatebrand");}
 
 }

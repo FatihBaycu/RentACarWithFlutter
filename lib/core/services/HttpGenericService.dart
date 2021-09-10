@@ -3,12 +3,13 @@ import 'package:flutter_http_demo2/controllers/auth_controller.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-AuthController authController = Get.put(AuthController());
+AuthController authController = Get.put(AuthController(),permanent: true);
 
 class HttpGenericService {
-  var getToken = "Bearer " + authController.token().token.toString();
+  var getToken =authController.token().token.toString();
 
   genericHttGet(String path) async {
+    //print(getToken);
     var response = await http.get(
       Uri.parse(path),
       headers: <String, String>{

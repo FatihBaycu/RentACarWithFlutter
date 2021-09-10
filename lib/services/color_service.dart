@@ -10,7 +10,7 @@ class ColorService{
 
      Future getAll()async => await httpGenericService.genericHttGet(apiUrl+"colors/getall");
      Future colorAdd(Color color)async{ return httpGenericService.generateHttpPost(color.toJsonForAdd(), apiUrl+"colors/addcolor");}
-     Future colorUpdate(Color color)async{ return httpGenericService.generateHttpPut(color.toJson(), apiUrl+"colors/updatecolor");}
+     Future colorUpdate(Color color)async{ return httpGenericService.generateHttpPost(color.toJson(), apiUrl+"colors/updatecolor");}
 
 
     }
