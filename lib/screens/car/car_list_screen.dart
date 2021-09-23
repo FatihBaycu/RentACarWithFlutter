@@ -20,13 +20,13 @@ class _CarListScreenState extends State<CarListScreen> {
   var _myBrandSelection;
   var _myColorSelection;
 
+  bool isSearching=false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: buildFloatingActionButton(context),
-      appBar: AppBar(
-        title: Text("carList".tr),
-      ),
+      appBar:myAppBar(),
       body: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints boxCons) {
         if (boxCons.maxWidth < 600)
@@ -52,6 +52,28 @@ class _CarListScreenState extends State<CarListScreen> {
       ),
     );
   }
+
+    AppBar myAppBar(){
+    return AppBar(
+      title:
+      isSearching
+          ?
+      TextField(
+        decoration: InputDecoration(hintText: "search".tr),
+        onChanged: (searchingWord){carController.getAllCarDetailsBySearch(searchingWord);})
+          :
+      Text("carList".tr),
+      actions: [
+        isSearching
+            ?
+        IconButton(icon: Icon(Icons.cancel),onPressed: ()=>setState(()=>isSearching=false))
+        :
+        IconButton(icon: Icon(Icons.search),onPressed: ()=>setState(() =>isSearching=true))
+      ],
+    );
+  }
+
+
 
   Widget buildBody() {
     return Column(

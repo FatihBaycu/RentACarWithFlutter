@@ -119,4 +119,22 @@ class CarController extends GetxController {
       isLoading(false);
     }
   }
+
+
+  void getAllCarDetailsBySearch(String searchingWord) async {
+    try {
+      await carService.getCarDetails().then((response) {
+        isLoading(true);
+        var result = (jsonDecode(response.body)["data"] as List)
+            .map((e) => CarDetails.fromJson(e)).where((element) => element.carName!.toLowerCase().contains(searchingWord.toLowerCase()))
+            .toList();
+        if (result != null) {
+          carDetailList.assignAll(result);
+        }
+      });
+    } finally {
+      isLoading(false);
+    }
+  }
+
 }
